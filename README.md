@@ -29,11 +29,20 @@ For each of the notebooks below, you have two options: if you view the notebook 
 
 ### Notebook 3
 
-**Political alignment and outlook**: This notebook ...
+**Political alignment and outlook**: This notebook explores the relationship between political alignment and three survey questions related to "outlook".  It use a pivot table to compute the mean of the response variable, grouped by political alignment and time.
 
 * [Click here to read Notebook 3 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb)
 
 * [Click here to run Notebook 3 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb)
+
+
+### Notebook 4
+
+**Political alignment and other beliefs**: This notebook explores the relationship between political alignment and other attitudes and beliefs.  It is a template for a do-it-yourself, choose-your-own-adventure mini-project, where you have the chance to explore a variable in the GSS dataset and report the results.
+
+* [Click here to read Notebook 4 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
+
+* [Click here to run Notebook 4 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
 
 
 
