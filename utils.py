@@ -19,8 +19,6 @@ class FixedWidthVariables(object):
         names: list of string variable names
         """
         self.variables = variables
-
-        # note: by default, subtract 1 from colspecs
         self.colspecs = variables[['start', 'end']] - index_base
 
         # convert colspecs to a list of pair of int
@@ -299,6 +297,7 @@ def values(series):
     """
     return series.value_counts().sort_index()
 
+
 def count_by_year(gss, varname):
     """Groups by category and year and counts.
 
@@ -446,3 +445,28 @@ def anchor_legend(x, y):
     y: axis coordinate
     """
     plt.legend(bbox_to_anchor=(x, y), loc='upper left', ncol=1)
+    
+def resample_rows_weighted(df, weights):
+    """Resamples a DataFrame using probabilities proportional to given column.
+
+    df: DataFrame
+    weights: sequence of weights
+
+    returns: DataFrame
+    """
+    return df.sample(n=len(df), replace=True, weights=weights)
+
+def resample_by_year(df, column):
+    """Resample rows within each year.
+
+    df: DataFrame
+    column: string name of weight variable
+
+    returns DataFrame
+    """
+    grouped = df.groupby('year')
+    samples = [resample_rows_weighted(group, column)
+               for _, group in grouped]
+    sample = pd.concat(samples, ignore_index=True)
+    return sample
+
