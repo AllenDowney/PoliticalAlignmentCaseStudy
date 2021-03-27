@@ -7,6 +7,24 @@ If you are working through [the *Elements of Data Science* curriculum](https://a
 This material is a work in progress, so your feedback is welcome.  The best way to provide that feedback is to [click here and create an issue in this GitHub repository](https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/issues).
 
 
+## Videos and Slides
+
+I presented this case study for [PyData Global 2020](https://global.pydata.org/talks/363).
+
+Here are the [slides I presented](https://docs.google.com/presentation/d/e/2PACX-1vSqifcdVGQmMoLDNlmbnugZ58jieItA_weGEF9oRsQCAa6iICLmehevGRzINYVv0tCGqcSTvuIQOSJo/pub)
+
+And here are the videos:
+
+* [Part 1](https://www.youtube.com/watch?v=6Bg7v5EGiWY)
+
+* [Part 2](https://www.youtube.com/watch?v=y8A3bKjpJe4)
+
+* [Part 3](https://www.youtube.com/watch?v=vfuXyXXSNtM)
+
+* [Part 4](https://www.youtube.com/watch?v=XFPi-AUiJSo)
+
+
+
 ## The notebooks
 
 For each of the notebooks below, you have two options: if you view the notebook on NBViewer, you can read it, but you can't run the code.  If you run the notebook on Colab, you'll be able to run the code, do the exercises, and save your modified version of the notebook in a Google Drive (if you have one).
