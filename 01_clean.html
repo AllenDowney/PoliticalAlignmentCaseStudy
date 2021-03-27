@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Political Alignment Case Study &#8212; Political Alignment Case Study</title>
+    <title>Cleaning and Validation &#8212; Political Alignment Case Study</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,7 +54,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Political Alignment Case Study" href="02_polviews.html" />
+    <link rel="next" title="Exploring Distributions" href="02_polviews.html" />
     <link rel="prev" title="Political Alignment Case Study" href="index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -93,22 +93,22 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Political Alignment Case Study
+   Cleaning and Validation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_polviews.html">
-   Political Alignment Case Study
+   Exploring Distributions
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03_outlook.html">
-   Political Alignment Case Study
+   Political Alignment and Outlook
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04_worldview.html">
-   Political Alignment Case Study
+   Political Alignment and Other Views
   </a>
  </li>
 </ul>
@@ -259,13 +259,12 @@
         
               <div>
                 
-  <div class="section" id="political-alignment-case-study">
-<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">¶</a></h1>
-<p>Allen Downey</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a></p>
+  <div class="section" id="cleaning-and-validation">
+<h1>Cleaning and Validation<a class="headerlink" href="#cleaning-and-validation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>This is the first in a series of notebooks that make up a case study in exploratory data analysis.</p>
+<p>This is the first in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
+This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.</p>
 <p>In this notebook, we</p>
 <ol class="simple">
 <li><p>Read data from the General Social Survey (GSS),</p></li>
@@ -274,7 +273,7 @@
 <li><p>Generate “resampled” datasets that correct for deliberate oversampling in the dataset, and</p></li>
 <li><p>Store the resampled data in a binary format (HDF5) that makes it easier to work with in the notebooks that follow this one.</p></li>
 </ol>
-<p>The following cell loads the packages we need.  If everything works, there should be no error messages.</p>
+<p>The following cell loads the packages we need.  If you have everything installed, there should be no error messages.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -288,307 +287,88 @@
 </div>
 <div class="section" id="reading-the-data">
 <h2>Reading the data<a class="headerlink" href="#reading-the-data" title="Permalink to this headline">¶</a></h2>
-<p>The data we’ll use is from the General Social Survey (GSS).  Using the <a class="reference external" href="https://gssdataexplorer.norc.org/projects/52787">GSS Data Explorer</a>, I selected a subset of the variables in the GSS and made it available along with this notebook.</p>
+<p>The data we’ll use is from the General Social Survey (GSS).  Using the <a class="reference external" href="https://gssdataexplorer.norc.org/projects/52787">GSS Data Explorer</a>, I selected a subset of the variables in the GSS and made it available along with this notebook.
+The following cell downloads this extract.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data file</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;gss_eda.tar.gz&#39;</span><span class="p">):</span>
-    <span class="o">!</span>wget https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/master/gss_eda.tar.gz
-    <span class="o">!</span>tar -xzf gss_eda.tar.gz
+<span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;raw/master/gss_eda.tar.gz&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>In general, Pandas can read data in most standard formats, including CSV, Excel, Stata, and SPSS.</p>
-<p>Unfortunately, the current version of Pandas cannot read the data generated by GSS.</p>
-<p>As a workaround, I wrote functions to read the Stata dictionary file and use the information there to read the Stata data file using <code class="docutils literal notranslate"><span class="pre">pd.read_fwf</span></code>, which reads fixed-width files.</p>
-<p>The follow function reads the dictionary file and returns a Pandas DataFrame.</p>
+<p>The data is in a gzipped tar file that contains two files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GSS.dat</span></code> contains the actual data, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GSS.dct</span></code> is the “dictionary file” that describes the contents of the data file.</p></li>
+</ul>
+<p>The dictionary file is in Stata format, so we’ll use the <code class="docutils literal notranslate"><span class="pre">statadict</span></code> library to read it.  The following cell installs it if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
-
-<span class="k">def</span> <span class="nf">read_stata_dict</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Reads a Stata dictionary file.</span>
-
-<span class="sd">    fp: open file pointer</span>
-<span class="sd">    options: dict of options passed to open()</span>
-
-<span class="sd">    returns: DataFrame</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">type_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">byte</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
-                    <span class="n">double</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-
-    <span class="n">var_info</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;_column\(([^)]*)\)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="n">vtype</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fstring</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">vtype</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">):</span>
-            <span class="n">vtype</span> <span class="o">=</span> <span class="nb">str</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vtype</span> <span class="o">=</span> <span class="n">type_map</span><span class="p">[</span><span class="n">vtype</span><span class="p">]</span>
-        <span class="n">long_desc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-        <span class="n">var_info</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">vtype</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fstring</span><span class="p">,</span> <span class="n">long_desc</span><span class="p">))</span>
-
-    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;fstring&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">var_info</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
-
-    <span class="c1"># fill in the end column by shifting the start column</span>
-    <span class="c1"># NOTE: choose a large number for the end of the last column</span>
-    <span class="n">variables</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">variables</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">statadict</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">!</span>pip install statadict
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now we can read the dictionary file, <code class="docutils literal notranslate"><span class="pre">GSS.dct</span></code>; the result is a DataFrame with information about the variables in the dataset.</p>
+<p>We can use the Python module <code class="docutils literal notranslate"><span class="pre">tarfile</span></code> to read extract the dictionary file, and <code class="docutils literal notranslate"><span class="pre">statadict</span></code> to read and parse it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;GSS.dct&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="n">read_stata_dict</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">from</span> <span class="nn">statadict</span> <span class="kn">import</span> <span class="n">parse_stata_dict</span>
 
-<span class="n">variables</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.tar.gz&#39;</span>
+<span class="n">dict_file</span><span class="o">=</span><span class="s1">&#39;GSS.dct&#39;</span>
+<span class="n">data_file</span><span class="o">=</span><span class="s1">&#39;GSS.dat&#39;</span>
+
+<span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">dict_file</span><span class="p">)</span>
+    <span class="n">stata_dict</span> <span class="o">=</span> <span class="n">parse_stata_dict</span><span class="p">(</span><span class="n">dict_file</span><span class="p">)</span>
+        
+<span class="n">stata_dict</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>start</th>
-      <th>type</th>
-      <th>name</th>
-      <th>fstring</th>
-      <th>desc</th>
-      <th>end</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>164</th>
-      <td>3281</td>
-      <td>&lt;class 'float'&gt;</td>
-      <td>avoidbuy</td>
-      <td>%20f</td>
-      <td>Boycotted products for pol reasons</td>
-      <td>3301</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>3301</td>
-      <td>&lt;class 'float'&gt;</td>
-      <td>income</td>
-      <td>%20f</td>
-      <td>Total family income</td>
-      <td>3321</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>3321</td>
-      <td>&lt;class 'float'&gt;</td>
-      <td>rincome</td>
-      <td>%20f</td>
-      <td>Respondents income</td>
-      <td>3341</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>3341</td>
-      <td>&lt;class 'float'&gt;</td>
-      <td>realrinc</td>
-      <td>%20f</td>
-      <td>Rs income in constant $</td>
-      <td>3361</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>3361</td>
-      <td>&lt;class 'float'&gt;</td>
-      <td>china</td>
-      <td>%20f</td>
-      <td>Liking for china</td>
-      <td>100000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>We are going to use <code class="docutils literal notranslate"><span class="pre">pd.read_fwf</span></code> to read the data file, so we have to get the variable information into the required format.</p>
-<p>I’ll extract the “column specifications”, <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colspecs</span> <span class="o">=</span> <span class="n">variables</span><span class="p">[[</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]]</span>
-<span class="n">colspecs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>start</th>
-      <th>end</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>21</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>21</td>
-      <td>41</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>41</td>
-      <td>61</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>61</td>
-      <td>81</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>81</td>
-      <td>101</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colspecs</span> <span class="o">=</span> <span class="n">variables</span><span class="p">[[</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]]</span>
-<span class="n">colspecs</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>start</th>
-      <th>end</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>164</th>
-      <td>3281</td>
-      <td>3301</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>3301</td>
-      <td>3321</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>3321</td>
-      <td>3341</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>3341</td>
-      <td>3361</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>3361</td>
-      <td>100000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>And the names of the variables.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="n">variables</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-<span class="n">names</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       year
-1        id_
-2     agewed
-3    divorce
-4       sibs
-Name: name, dtype: object
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;statadict.base.StataDict at 0x7f8431ae4b50&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now we can use <code class="docutils literal notranslate"><span class="pre">pd.read_fwf</span></code> to read the data file <code class="docutils literal notranslate"><span class="pre">GSS.dat</span></code>.</p>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">StataDict</span></code> object that contains the names of the columns in the data file and the column specifications, which indicate where each column is in the file.
+We can pass these values to <code class="docutils literal notranslate"><span class="pre">read_fwf</span></code>, which is a Pandas function that reads <a class="reference external" href="https://en.wikipedia.org/wiki/Flat-file_database">fixed width files</a>, which is what <code class="docutils literal notranslate"><span class="pre">GSS.dat</span></code> is.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;GSS.dat&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">extractfile</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>  
     <span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span>
-                      <span class="n">colspecs</span><span class="o">=</span><span class="n">colspecs</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                      <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">stata_dict</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+                      <span class="n">colspecs</span><span class="o">=</span><span class="n">stata_dict</span><span class="o">.</span><span class="n">colspecs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>We can use <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">head</span></code> to see what the dataset looks like.</p>
+<p>The column names in the data file are in all caps.
+I’ll convert them to lower case because I think it makes the code look better.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">head</span></code> to see what the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> looks like.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">gss</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -768,10 +548,6 @@ Name: name, dtype: object
 </div></div></div>
 </div>
 <p>This dataset has 64814 rows, one for each respondent, and 166 columns, one for each variable.</p>
-<p>To read this dataset, we had to download an “archive file” and use <code class="docutils literal notranslate"><span class="pre">tar</span></code> to unpack the archive.</p>
-<p>I had to write a function to read the dictionary file; then we could process the results and use Pandas to read the data file.</p>
-<p>Sometimes you get lucky and loading data is easier than this; sometimes you are unlucky and it’s harder.</p>
-<p>It can take time and persistence to get a dataset ready to work with.  Online resources can help you figure out the details.</p>
 </div>
 <div class="section" id="validation">
 <h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
@@ -781,9 +557,10 @@ Name: name, dtype: object
 <ol class="simple">
 <li><p>We need to check the <strong>integrity</strong> of the dataset; that is, whether the data were corrupted or changed during transmission, storage, or conversion from one format to another.</p></li>
 <li><p>We need to check our <strong>interpretation</strong> of the data; for example, whether the numbers used to encode the data mean what we think they mean.</p></li>
-<li><p>We will also keep an eye out for data, or patterns, that might indicate problems with the survey process and the recording of the data.  For example, in a different dataset I worked with, I found a surprising number of respondents whose height was supposedly 62 centimeters.  After investigating, I concluded that they were probably 6 feet, 2 inches, and their heights were recorded incorrectly.</p></li>
+<li><p>We will also keep an eye out for <strong>invalid</strong> data; for example, missing data might be represented using special codes, or there might be patterns in the data that indicate problems with the survey process and the recording of the data.</p></li>
 </ol>
-<p>Validating data can be a tedious process, but it is important.  If you interpret data incorrectly and publish invalid results, you will be embarrassed in the best case, and in the worst case you might do serious harm.  See <a class="reference external" href="https://www.vox.com/future-perfect/2019/6/4/18650969/married-women-miserable-fake-paul-dolan-happiness">this article</a> for a recent example.</p>
+<p>In a different dataset I worked with, I found a surprising number of respondents whose height was supposedly 62 centimeters.  After investigating, I concluded that they were probably 6 feet, 2 inches, and their heights were recorded incorrectly.</p>
+<p>Validating data can be a tedious process, but it is important.  If you interpret data incorrectly and publish invalid results, you will be embarrassed in the best case, and in the worst case you might do real harm.  See <a class="reference external" href="https://www.vox.com/future-perfect/2019/6/4/18650969/married-women-miserable-fake-paul-dolan-happiness">this article</a> for a recent example.</p>
 <p>However, I don’t expect you to validate every variable in this dataset.  Instead, I will demonstrate the process, and then ask you to validate one additional variable as an exercise.</p>
 <p>The first variable we’ll validate is called <code class="docutils literal notranslate"><span class="pre">polviews</span></code>.  It records responses to the following question:</p>
 <blockquote>
@@ -1217,7 +994,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;fear&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;nataidy&#39;
 </pre></div>
 </div>
 </div>
@@ -1287,24 +1064,13 @@ Name: polviews, dtype: int64
 <li><p>The compression level, which controls how hard the algorithm works to compress the file.</p></li>
 </ul>
 <p>So this file contains a single key, <code class="docutils literal notranslate"><span class="pre">gss</span></code>, which maps to the DataFrame with the original GSS data.</p>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">w</span></code> says that if the file already exists, we should overwrite it.</p>
 <p>With compression level <code class="docutils literal notranslate"><span class="pre">3</span></code>, it reduces the size of the file by a factor of 10.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if the file already exists, remove it</span>
-
-<span class="kn">import</span> <span class="nn">os</span>
-
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;gss_eda.hdf5&#39;</span><span class="p">):</span>
-    <span class="o">!</span>rm gss_eda.hdf5
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save the original</span>
 
-<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eda.hdf5&#39;</span><span class="p">,</span> <span class="s1">&#39;gss&#39;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eda.hdf5&#39;</span><span class="p">,</span> <span class="s1">&#39;gss&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1316,7 +1082,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 6939829 Aug  5 09:58 gss_eda.hdf5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 6939829 Mar 26 16:42 gss_eda.hdf5
 </pre></div>
 </div>
 </div>
@@ -1355,7 +1121,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 20717513 Aug  5 09:58 gss_eda.3.hdf5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 20717513 Mar 26 16:42 gss_eda.3.hdf5
 </pre></div>
 </div>
 </div>
@@ -1390,7 +1156,7 @@ Name: polviews, dtype: int64
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="index.html" title="previous page">Political Alignment Case Study</a>
-    <a class='right-next' id="next-link" href="02_polviews.html" title="next page">Political Alignment Case Study</a>
+    <a class='right-next' id="next-link" href="02_polviews.html" title="next page">Exploring Distributions</a>
 
         </div>
         

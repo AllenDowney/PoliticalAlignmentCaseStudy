@@ -45,3 +45,8 @@ For each of the notebooks below, you have two options: if you view the notebook 
 * [Click here to read Notebook 4 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
 
 * [Click here to run Notebook 4 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
+
+
+Copyright 2020 Allen B. Downey
+
+License: [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)

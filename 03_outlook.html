@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Political Alignment Case Study &#8212; Political Alignment Case Study</title>
+    <title>Political Alignment and Outlook &#8212; Political Alignment Case Study</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,8 +54,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Political Alignment Case Study" href="04_worldview.html" />
-    <link rel="prev" title="Political Alignment Case Study" href="02_polviews.html" />
+    <link rel="next" title="Political Alignment and Other Views" href="04_worldview.html" />
+    <link rel="prev" title="Exploring Distributions" href="02_polviews.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -93,22 +93,22 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="01_clean.html">
-   Political Alignment Case Study
+   Cleaning and Validation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_polviews.html">
-   Political Alignment Case Study
+   Exploring Distributions
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Political Alignment Case Study
+   Political Alignment and Outlook
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04_worldview.html">
-   Political Alignment Case Study
+   Political Alignment and Other Views
   </a>
  </li>
 </ul>
@@ -218,11 +218,6 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#loading-the-data">
    Loading the data
   </a>
@@ -279,13 +274,12 @@
         
               <div>
                 
-  <div class="section" id="political-alignment-case-study">
-<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">¶</a></h1>
-<p>Allen Downey</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a></p>
+  <div class="section" id="political-alignment-and-outlook">
+<h1>Political Alignment and Outlook<a class="headerlink" href="#political-alignment-and-outlook" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>This is the third in a series of notebooks that make up a case study in exploratory data analysis.</p>
+<p>This is the third in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
+This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.</p>
 <p>In this notebook, we explore the relationship between political alignment and variables related to “outlook”, like:</p>
 <ul class="simple">
 <li><p>happy: Taken all together, how would you say things are these days–would you say that you are very happy, pretty happy, or not too happy?</p></li>
@@ -301,9 +295,6 @@
 <li><p>We’ll use the Pandas function <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.pivot_table.html"><code class="docutils literal notranslate"><span class="pre">pivot</span> <span class="pre">table</span></code></a> to compute the average response within each group as a function of time.</p></li>
 <li><p>And we’ll use resampling to see whether the features we see in the figures might be due to randomness, or whether they are likely to reflect actual changes in the works.</p></li>
 </ol>
-</div>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
 <p>If everything we need is installed, the following cell should run without error.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -334,14 +325,22 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decorate the current axes.</span>
+<span class="sd">    </span>
 <span class="sd">    Call decorate with keyword arguments like</span>
 <span class="sd">    decorate(title=&#39;Title&#39;,</span>
 <span class="sd">             xlabel=&#39;x&#39;,</span>
 <span class="sd">             ylabel=&#39;y&#39;)</span>
+<span class="sd">             </span>
 <span class="sd">    The keyword arguments can be any of the axis properties</span>
 <span class="sd">    https://matplotlib.org/api/axes_api.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -403,17 +402,21 @@
 </div>
 <div class="section" id="loading-the-data">
 <h2>Loading the data<a class="headerlink" href="#loading-the-data" title="Permalink to this headline">¶</a></h2>
-<p>In the first notebook, we downloaded GSS data, loaded and cleaned it, resampled it to correct for stratified sampling, and then saved the data in an HDF5 file, which is much faster to load.  In this and the following notebooks, we’ll download the HDF5 file and load it.</p>
-<p>The following cell downloads the file.</p>
+<p>In the first notebook, we downloaded GSS data, loaded and cleaned it, resampled it to correct for stratified sampling, and then saved the data in an HDF5 file, which is much faster to load.  Now we’ll download the HDF5 file and load it.</p>
+<p>The following cell downloads the file if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data file</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">datafile</span><span class="p">):</span>
-    <span class="o">!</span>wget https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/master/gss_eda.3.hdf5
+<span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;raw/master/gss_eda.3.hdf5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -421,7 +424,8 @@
 <p>Now I’ll load one of the resampled DataFrames.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
+<span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
 <span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
@@ -435,7 +439,7 @@
 </div>
 <div class="section" id="are-people-fair">
 <h2>Are people fair?<a class="headerlink" href="#are-people-fair" title="Permalink to this headline">¶</a></h2>
-<p>Low let’s explore relationships between political alignment (conversative, liberal) and “outlook”, which means the way people perceive the world.  Specifically, we’ll look at their responses to questions about</p>
+<p>Low let’s explore relationships between political alignment (conservative, moderate, or liberal) and “outlook”, which means the way people perceive the world.  Specifically, we’ll look at their responses to questions about</p>
 <ol class="simple">
 <li><p>Whether people generally try to be fair.</p></li>
 <li><p>Whether people can generally be trusted.</p></li>
@@ -485,7 +489,7 @@ Name: fair, dtype: int64
 <p>To count the number of people who chose option 2, “people try to be fair”, I’ll use a dictionary to recode option 2 as <code class="docutils literal notranslate"><span class="pre">1</span></code> and the other options as <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_fair</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_fair</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -494,7 +498,7 @@ Name: fair, dtype: int64
 <p>We can use <code class="docutils literal notranslate"><span class="pre">replace</span></code> to recode the values and store the result as a new column in the DataFrame.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s1">&#39;fair2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s1">&#39;happy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_fair</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s1">&#39;fair2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s1">&#39;fair&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_fair</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -507,8 +511,8 @@ Name: fair, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0     6973
-1.0    53103
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0    18190
+1.0    22806
 Name: fair2, dtype: int64
 </pre></div>
 </div>
@@ -549,7 +553,7 @@ Name: fair2, dtype: int64
 <img alt="_images/03_outlook_31_0.png" src="_images/03_outlook_31_0.png" />
 </div>
 </div>
-<p>Sadly, it looks like faith in humanity has been in decline, at least by this measure.</p>
+<p>Sadly, it looks like faith in humanity has declined, at least by this measure.</p>
 <p>Let’s see what this trend looks like if we group the respondents by political alignment.</p>
 </div>
 <div class="section" id="political-views-on-a-3-point-scale">
@@ -623,9 +627,9 @@ Name: polviews3, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>polviews3
-Conservative    0.899530
-Liberal         0.877782
-Moderate        0.887497
+Conservative    0.582789
+Liberal         0.553916
+Moderate        0.542407
 Name: fair2, dtype: float32
 </pre></div>
 </div>
@@ -697,34 +701,34 @@ Name: fair2, dtype: float32
   </thead>
   <tbody>
     <tr>
-      <th>1974</th>
-      <td>0.860789</td>
-      <td>0.857466</td>
-      <td>0.894052</td>
-    </tr>
-    <tr>
       <th>1975</th>
-      <td>0.821516</td>
-      <td>0.896861</td>
-      <td>0.888889</td>
+      <td>0.625616</td>
+      <td>0.617117</td>
+      <td>0.647280</td>
     </tr>
     <tr>
       <th>1976</th>
-      <td>0.915367</td>
-      <td>0.881188</td>
-      <td>0.890071</td>
-    </tr>
-    <tr>
-      <th>1977</th>
-      <td>0.868597</td>
-      <td>0.893519</td>
-      <td>0.905724</td>
+      <td>0.631696</td>
+      <td>0.571782</td>
+      <td>0.612100</td>
     </tr>
     <tr>
       <th>1978</th>
-      <td>0.945032</td>
-      <td>0.898551</td>
-      <td>0.929982</td>
+      <td>0.694915</td>
+      <td>0.659420</td>
+      <td>0.665455</td>
+    </tr>
+    <tr>
+      <th>1980</th>
+      <td>0.600000</td>
+      <td>0.554945</td>
+      <td>0.640264</td>
+    </tr>
+    <tr>
+      <th>1983</th>
+      <td>0.572438</td>
+      <td>0.585366</td>
+      <td>0.463492</td>
     </tr>
   </tbody>
 </table>
@@ -772,8 +776,6 @@ Name: fair2, dtype: float32
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Fraction saying yes&#39;</span><span class="p">,</span>
          <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">2020</span><span class="p">],</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Would most people try to be fair?&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -812,8 +814,6 @@ Name: fair2, dtype: float32
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Fraction saying yes&#39;</span><span class="p">,</span>
          <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">2020</span><span class="p">],</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Would most people try to be fair?&#39;</span><span class="p">)</span>
-    
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -878,8 +878,8 @@ Name: fair2, dtype: float32
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="02_polviews.html" title="previous page">Political Alignment Case Study</a>
-    <a class='right-next' id="next-link" href="04_worldview.html" title="next page">Political Alignment Case Study</a>
+    <a class='left-prev' id="prev-link" href="02_polviews.html" title="previous page">Exploring Distributions</a>
+    <a class='right-next' id="next-link" href="04_worldview.html" title="next page">Political Alignment and Other Views</a>
 
         </div>
         

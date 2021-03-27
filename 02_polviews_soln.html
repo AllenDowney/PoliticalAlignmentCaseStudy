@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Political Alignment Case Study &#8212; Political Alignment Case Study</title>
+    <title>Exploring Distributions &#8212; Political Alignment Case Study</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -91,22 +91,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="01_clean.html">
-   Political Alignment Case Study
+   Cleaning and Validation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_polviews.html">
-   Political Alignment Case Study
+   Exploring Distributions
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03_outlook.html">
-   Political Alignment Case Study
+   Political Alignment and Outlook
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04_worldview.html">
-   Political Alignment Case Study
+   Political Alignment and Other Views
   </a>
  </li>
 </ul>
@@ -216,11 +216,6 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#loading-the-data">
    Loading the data
   </a>
@@ -274,13 +269,15 @@
         
               <div>
                 
-  <div class="section" id="political-alignment-case-study">
-<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">¶</a></h1>
-<p>Allen Downey</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a></p>
+  <div class="section" id="exploring-distributions">
+<h1>Exploring Distributions<a class="headerlink" href="#exploring-distributions" title="Permalink to this headline">¶</a></h1>
+<p>Political Alignment Case Study</p>
+<p>Copyright 2020 Allen B. Downey</p>
+<p>License: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>This is the second in a series of notebooks that make up a case study in exploratory data analysis.</p>
+<p>This is the second in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
+This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.</p>
 <p>In this notebook, we:</p>
 <ol class="simple">
 <li><p>Look at responses to the variable <code class="docutils literal notranslate"><span class="pre">polviews</span></code>, which represent political alignment on a 7-point scale from liberal to conservative.</p></li>
@@ -291,19 +288,12 @@
 <li><p>Plot the results using a custom color palette.</p></li>
 </ol>
 <p>As an exercise, you will look at changes in political party affiliation over the same period.</p>
-</div>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
-<p>If you are running this notebook in Colab, the following cell downloads the <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> library.</p>
-<p>If you are running in another environment, you will need to install it yourself.</p>
+<p>The following cell installs the <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> library if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If we&#39;re running in Colab, set up the environment</span>
-
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">IN_COLAB</span> <span class="o">=</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
-
-<span class="k">if</span> <span class="n">IN_COLAB</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="o">!</span>pip install empiricaldist
 </pre></div>
 </div>
@@ -327,14 +317,22 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decorate the current axes.</span>
+<span class="sd">    </span>
 <span class="sd">    Call decorate with keyword arguments like</span>
 <span class="sd">    decorate(title=&#39;Title&#39;,</span>
 <span class="sd">             xlabel=&#39;x&#39;,</span>
 <span class="sd">             ylabel=&#39;y&#39;)</span>
+<span class="sd">             </span>
 <span class="sd">    The keyword arguments can be any of the axis properties</span>
 <span class="sd">    https://matplotlib.org/api/axes_api.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -344,16 +342,20 @@
 <div class="section" id="loading-the-data">
 <h2>Loading the data<a class="headerlink" href="#loading-the-data" title="Permalink to this headline">¶</a></h2>
 <p>In the previous notebook, we downloaded GSS data, loaded and cleaned it, resampled it to correct for stratified sampling, and then saved the data in an HDF5 file, which is much faster to load.  In this and the following notebooks, we’ll download the HDF5 file and load it.</p>
-<p>The following cell downloads the file.</p>
+<p>The following cell downloads the file if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data file</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">datafile</span><span class="p">):</span>
-    <span class="o">!</span>wget https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/master/gss_eda.3.hdf5
+<span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;raw/master/gss_eda.3.hdf5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -361,13 +363,14 @@
 <p>This file contains three DataFrames containing resamples of the GSS data.  We’ll work with the first resampling, <code class="docutils literal notranslate"><span class="pre">gss0</span></code>, to get started; at the end of this notebook, we’ll see the other two as well.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
+<span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
 <span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 165)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 169)
 </pre></div>
 </div>
 </div>
@@ -477,7 +480,7 @@ Name: polviews, dtype: int64
 <div class="section" id="pmfs">
 <h2>PMFs<a class="headerlink" href="#pmfs" title="Permalink to this headline">¶</a></h2>
 <p>To visualize these distributions, we’ll use the Probability Mass Function (PMF), which is similar to a histogram.  The difference is that the PMF is “normalized”, which means that it shows the percentage of people who gave each response, rather than the number.</p>
-<p>I use the <code class="docutils literal notranslate"><span class="pre">Pmf</span></code> class from <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> to compute them.</p>
+<p>I’ll use the <code class="docutils literal notranslate"><span class="pre">Pmf</span></code> class from <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> to compute them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">empiricaldist</span> <span class="kn">import</span> <span class="n">Pmf</span>
@@ -494,16 +497,14 @@ Name: polviews, dtype: int64
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Political view on a 7-point scale&#39;</span><span class="p">,</span>
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Fraction of population&#39;</span><span class="p">,</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of political views&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_28_0.png" src="_images/02_polviews_soln_28_0.png" />
+<img alt="_images/02_polviews_soln_29_0.png" src="_images/02_polviews_soln_29_0.png" />
 </div>
 </div>
-<p>Here’s the distribution from 1974:</p>
+<p>And from 2018:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pmf18</span> <span class="o">=</span> <span class="n">Pmf</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">polviews18</span><span class="p">)</span>
@@ -512,13 +513,11 @@ Name: polviews, dtype: int64
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Political view on a 7-point scale&#39;</span><span class="p">,</span>
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Fraction of population&#39;</span><span class="p">,</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of political views&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_30_0.png" src="_images/02_polviews_soln_30_0.png" />
+<img alt="_images/02_polviews_soln_31_0.png" src="_images/02_polviews_soln_31_0.png" />
 </div>
 </div>
 <p>In both cases, the most common response is <code class="docutils literal notranslate"><span class="pre">4</span></code>, which is the code for “moderate”.  And few respondents describe themselves as “extremely” liberal or conservative.</p>
@@ -533,13 +532,11 @@ Name: polviews, dtype: int64
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Political view on a 7-point scale&#39;</span><span class="p">,</span>
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Fraction of population&#39;</span><span class="p">,</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of political views&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_32_0.png" src="_images/02_polviews_soln_32_0.png" />
+<img alt="_images/02_polviews_soln_33_0.png" src="_images/02_polviews_soln_33_0.png" />
 </div>
 </div>
 <p>Now we can see the changes in the distribution more clearly.  It looks like the number of people at the extremes (1 and 7) has increased, and the fraction of liberal (2) and slightly liberal (3) has decreased.</p>
@@ -562,12 +559,12 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f83eb6cd8d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f8633622910&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> value that represents a collection of groups.  We can loop through the groups and display the number of respondents in each:</p>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> object that represents a collection of groups.  We can loop through the groups and display the number of respondents in each:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">gss_by_year</span><span class="p">:</span>
@@ -612,7 +609,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 </div>
-<p>In many ways the <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> behaves like a DataFrame.  We can use the bracket operator to select a column:</p>
+<p>In many ways the <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> behaves like a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.  We can use the bracket operator to select a column:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polviews_by_year</span> <span class="o">=</span> <span class="n">gss_by_year</span><span class="p">[</span><span class="s1">&#39;polviews&#39;</span><span class="p">]</span>
@@ -621,7 +618,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.SeriesGroupBy object at 0x7f83eb4439d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.SeriesGroupBy object at 0x7f8633630dd0&gt;
 </pre></div>
 </div>
 </div>
@@ -645,7 +642,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_47_0.png" src="_images/02_polviews_soln_47_0.png" />
+<img alt="_images/02_polviews_soln_48_0.png" src="_images/02_polviews_soln_48_0.png" />
 </div>
 </div>
 <p><strong>Exercise:</strong> The standard deviation quantifies the spread of the distribution, which is one way to measure polarization.</p>
@@ -689,7 +686,7 @@ Name: polviews, dtype: int64
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
     <span class="n">smooth</span> <span class="o">=</span> <span class="n">make_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
-    <span class="n">smooth</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">smooth</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -707,7 +704,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_55_0.png" src="_images/02_polviews_soln_55_0.png" />
+<img alt="_images/02_polviews_soln_56_0.png" src="_images/02_polviews_soln_56_0.png" />
 </div>
 </div>
 <p>One reason the PMFs for 1974 and 2018 did not look very different is that the mean seems to have gone up (more conservative) and then down again (more liberal).</p>
@@ -1100,7 +1097,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_77_0.png" src="_images/02_polviews_soln_77_0.png" />
+<img alt="_images/02_polviews_soln_78_0.png" src="_images/02_polviews_soln_78_0.png" />
 </div>
 </div>
 <p>The middle color is white, which won’t work when we plot it, so I will replace it with a purple color from another palette.</p>
@@ -1113,7 +1110,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_79_0.png" src="_images/02_polviews_soln_79_0.png" />
+<img alt="_images/02_polviews_soln_80_0.png" src="_images/02_polviews_soln_80_0.png" />
 </div>
 </div>
 <p>Here’s the modified diverging palette  with purple in the middle.</p>
@@ -1125,10 +1122,12 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_81_0.png" src="_images/02_polviews_soln_81_0.png" />
+<img alt="_images/02_polviews_soln_82_0.png" src="_images/02_polviews_soln_82_0.png" />
 </div>
 </div>
-<p>Now I’ll make a “color map”, which is a dictionary that maps from the responses to the corresponding colors.</p>
+<p>A feature of this color map is that the colors are meaningful, at least in countries that use blue, purple, and red for these points on the political spectrum.
+A drawback of this color map is that some some of the colors are indistinguishable to people who are <a class="reference external" href="https://davidmathlogic.com/colorblind">color blind</a>.</p>
+<p>Now I’ll make a dictionary that maps from the responses to the corresponding colors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Extremely liberal&#39;</span><span class="p">,</span> 
@@ -1152,12 +1151,12 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extremely liberal (0.16339869281045752, 0.4449826989619377, 0.6975009611687812)
-Liberal (0.4206843521722413, 0.6764321414840445, 0.8186851211072664)
-Slightly liberal (0.7614763552479815, 0.8685121107266436, 0.9245674740484429)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extremely liberal (0.16339869281045757, 0.44498269896193776, 0.6975009611687812)
+Liberal (0.4206843521722416, 0.6764321414840447, 0.8186851211072664)
+Slightly liberal (0.7614763552479817, 0.8685121107266438, 0.924567474048443)
 Moderate (0.5843137254901961, 0.4235294117647059, 0.7058823529411765)
-Slightly conservative (0.9824682814302192, 0.8006920415224915, 0.7061130334486739)
-Conservative (0.8945790080738178, 0.5038062283737026, 0.39976931949250294)
+Slightly conservative (0.9824682814302191, 0.8006920415224913, 0.7061130334486736)
+Conservative (0.8945790080738177, 0.5038062283737024, 0.39976931949250283)
 Extremely conservative (0.7284890426758939, 0.15501730103806227, 0.1973856209150327)
 </pre></div>
 </div>
@@ -1211,7 +1210,7 @@ Extremely conservative (0.7284890426758939, 0.15501730103806227, 0.1973856209150
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_90_0.png" src="_images/02_polviews_soln_90_0.png" />
+<img alt="_images/02_polviews_soln_91_0.png" src="_images/02_polviews_soln_91_0.png" />
 </div>
 </div>
 <p>This way of looking at the results suggests that changes in political alignment during this period have generally been slow and small.</p>
@@ -1234,7 +1233,7 @@ Extremely conservative (0.7284890426758939, 0.15501730103806227, 0.1973856209150
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02_polviews_soln_92_0.png" src="_images/02_polviews_soln_92_0.png" />
+<img alt="_images/02_polviews_soln_93_0.png" src="_images/02_polviews_soln_93_0.png" />
 </div>
 </div>
 <p>This figure shows that the fraction of people who describe themselves as “extreme” has increased from about 2.5% to about 4%.</p>

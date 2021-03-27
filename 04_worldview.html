@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Political Alignment Case Study &#8212; Political Alignment Case Study</title>
+    <title>Political Alignment and Other Views &#8212; Political Alignment Case Study</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,7 +54,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Political Alignment Case Study" href="03_outlook.html" />
+    <link rel="prev" title="Political Alignment and Outlook" href="03_outlook.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -92,22 +92,22 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="01_clean.html">
-   Political Alignment Case Study
+   Cleaning and Validation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_polviews.html">
-   Political Alignment Case Study
+   Exploring Distributions
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03_outlook.html">
-   Political Alignment Case Study
+   Political Alignment and Outlook
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Political Alignment Case Study
+   Political Alignment and Other Views
   </a>
  </li>
 </ul>
@@ -217,11 +217,6 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#loading-the-data">
    Loading the data
   </a>
@@ -281,16 +276,6 @@
    Resampling
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#publishing-your-report">
-   Publishing your report
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#headline-that-summarizes-your-results">
-   Headline that summarizes your results
-  </a>
- </li>
 </ul>
 
         </nav>
@@ -303,14 +288,15 @@
         
               <div>
                 
-  <div class="section" id="political-alignment-case-study">
-<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">¶</a></h1>
-<p>Allen Downey</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a></p>
+  <div class="section" id="political-alignment-and-other-views">
+<h1>Political Alignment and Other Views<a class="headerlink" href="#political-alignment-and-other-views" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is the fourth in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
+This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.</p>
 <p>This notebook is a template for a do-it-yourself, choose-your-own-adventure mini-project that explores the relationship between political alignment and other attitudes and beliefs.</p>
 <p>I will outline the steps and provide sample code.  You can choose which survey question to explore, adapt my code for your data, and write a report presenting the results.</p>
+<p>As an example, I wrote up <a class="reference external" href="https://www.allendowney.com/blog/2019/12/03/political-alignment-and-beliefs-about-homosexuality/">the results from this notebook in a blog article</a>.</p>
 <p>In previous notebooks, we looked at changes in political alignment over time, and explored the relationship between political alignment and survey questions related to “outlook”.</p>
 <p>The analysis in this notebook follows the steps we have seen:</p>
 <ol class="simple">
@@ -320,19 +306,12 @@
 <li><p>You will use a pivot table to compute the mean of your variable over time for each political alignment group (liberal, moderate, and conservative).</p></li>
 <li><p>Finally, you will look at results from three resamplings of the data to see whether the patterns you observed might be due to random sampling.</p></li>
 </ol>
-</div>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
-<p>If you are running this notebook in Colab, the following cell installs the <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> library.</p>
-<p>If you are running in another environment, you will need to install it yourself.</p>
+<p>The following cell installs the <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> library if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If we&#39;re running in Colab, set up the environment</span>
-
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">IN_COLAB</span> <span class="o">=</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
-
-<span class="k">if</span> <span class="n">IN_COLAB</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="o">!</span>pip install empiricaldist
 </pre></div>
 </div>
@@ -443,27 +422,32 @@
 <p>The following cells downloads the file.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data file</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">datafile</span><span class="p">):</span>
-    <span class="o">!</span>wget https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/master/gss_eda.3.hdf5
+<span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;raw/master/gss_eda.3.hdf5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now I’ll load one of the resampled DataFrames.</p>
+<p>Now I’ll load the first resampled <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
+<span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
 <span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 165)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 169)
 </pre></div>
 </div>
 </div>
@@ -472,8 +456,8 @@
 <div class="section" id="changes-in-social-attitudes">
 <h2>Changes in social attitudes<a class="headerlink" href="#changes-in-social-attitudes" title="Permalink to this headline">¶</a></h2>
 <p>The General Social Survey includes questions about a variety of social attitudes and beliefs.  We can use this dataset to explore changes in the responses over time and the relationship with political alignment.</p>
-<p>In my subset of the GSS data, I selected questions that were asked repeatedly over the interval of the survey.  <a class="reference external" href="https://gssdataexplorer.norc.org/projects/52787/variables/data_cart">You can see the variables I chose on the GSS web site</a>.</p>
-<p>To do the exercises in this notebook, you should choose a variable that you think might be interesting.</p>
+<p>In my subset of the GSS data, I selected questions that were asked repeatedly over the interval of the survey.
+To do the exercises in this notebook, you should choose a variable that you think might be interesting.</p>
 <p>I will walk you through a process for exploring the variable you choose, but you should feel free to ignore my suggestions if you have a better idea.</p>
 <p>If you are not sure which variable to explore, here is a <a class="reference external" href="https://en.wikipedia.org/wiki/The_Paradox_of_Choice">random selection of three that you can choose from</a>:</p>
 <div class="cell docutils container">
@@ -489,9 +473,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>class_
-satjob
-hunt
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wtssnr
+rincome
+pray
 </pre></div>
 </div>
 </div>
@@ -550,11 +534,10 @@ Name: homosex, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_22_0.png" src="_images/04_worldview_22_0.png" />
+<img alt="_images/04_worldview_24_0.png" src="_images/04_worldview_24_0.png" />
 </div>
 </div>
-<p>When you write your report, you should add a few sentences here to interpret the results you get for your variable.</p>
-<p>But remember that the results are an average over the entire interval of the survey, so you should not interpet it as a current condition.</p>
+<p>Remember that these results are an average over the entire interval of the survey, so you should not interpret it as a current condition.</p>
 </div>
 <div class="section" id="responses-over-time">
 <h2>Responses over time<a class="headerlink" href="#responses-over-time" title="Permalink to this headline">¶</a></h2>
@@ -732,10 +715,13 @@ Name: homosex, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_28_0.png" src="_images/04_worldview_28_0.png" />
+<img alt="_images/04_worldview_30_0.png" src="_images/04_worldview_30_0.png" />
 </div>
 </div>
-<p>When you write your report, you should add a few sentences here to interpret the results you get for your variable.</p>
+<p>This visualization is useful for exploring the data, but I would not present this version to an audience.</p>
+<p>The two responses at the bottom (“Almost always wrong” and “Sometimes wrong”) are a small proportion of the total, and they have not changed substantially.
+And the other two responses are almost a mirror image of each others.</p>
+<p>To tell the story of this graph, it is enough to show one of these lines, either the increase in “Not at all wrong” or the corresponding decrease in “Always wrong”.</p>
 </div>
 <div class="section" id="political-alignment">
 <h2>Political alignment<a class="headerlink" href="#political-alignment" title="Permalink to this headline">¶</a></h2>
@@ -789,7 +775,7 @@ Name: polviews3, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_36_0.png" src="_images/04_worldview_36_0.png" />
+<img alt="_images/04_worldview_38_0.png" src="_images/04_worldview_38_0.png" />
 </div>
 </div>
 </div>
@@ -813,7 +799,7 @@ Name: polviews3, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_40_0.png" src="_images/04_worldview_40_0.png" />
+<img alt="_images/04_worldview_42_0.png" src="_images/04_worldview_42_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -844,13 +830,12 @@ Name: polviews3, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_43_0.png" src="_images/04_worldview_43_0.png" />
-<img alt="_images/04_worldview_43_1.png" src="_images/04_worldview_43_1.png" />
-<img alt="_images/04_worldview_43_2.png" src="_images/04_worldview_43_2.png" />
+<img alt="_images/04_worldview_45_0.png" src="_images/04_worldview_45_0.png" />
+<img alt="_images/04_worldview_45_1.png" src="_images/04_worldview_45_1.png" />
+<img alt="_images/04_worldview_45_2.png" src="_images/04_worldview_45_2.png" />
 </div>
 </div>
-<p>When you write your report, you should add a few sentences here to interpret the results.</p>
-<p>But again, the results are an average over the entire interval of the survey, so you should not interpet it as a current condition.</p>
+<p>But again, these results are an average over the interval of the survey, so you should not interpret them as a current condition.</p>
 </div>
 <div class="section" id="recode">
 <h2>Recode<a class="headerlink" href="#recode" title="Permalink to this headline">¶</a></h2>
@@ -886,7 +871,7 @@ Name: recoded, dtype: int64
 </div>
 </div>
 </div>
-<p>Now if we compute the mean, we can interpret it as “the fraction of respondents who think same-sex sexual relations are always wrong”.</p>
+<p>If we compute the mean, we can interpret it as “the fraction of respondents who think same-sex sexual relations are always wrong”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s1">&#39;recoded&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -966,10 +951,10 @@ Name: recoded, dtype: float32
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_60_0.png" src="_images/04_worldview_60_0.png" />
+<img alt="_images/04_worldview_61_0.png" src="_images/04_worldview_61_0.png" />
 </div>
 </div>
-<p>When you write your report, you should add a few sentences here to interpret the results you get for your variable.</p>
+<p>As we might expect, more conservatives think homosexuality is “always wrong”, compared to moderates and liberals.</p>
 </div>
 <div class="section" id="time-series">
 <h2>Time series<a class="headerlink" href="#time-series" title="Permalink to this headline">¶</a></h2>
@@ -1002,10 +987,10 @@ Name: recoded, dtype: float32
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04_worldview_67_0.png" src="_images/04_worldview_67_0.png" />
+<img alt="_images/04_worldview_68_0.png" src="_images/04_worldview_68_0.png" />
 </div>
 </div>
-<p>Again, you should add some text here to interpret the results you get for your variable.</p>
+<p>The fraction of respondents who think homosexuality is wrong has been falling steeply since about 1990.</p>
 </div>
 <div class="section" id="time-series-by-group">
 <h2>Time series by group<a class="headerlink" href="#time-series-by-group" title="Permalink to this headline">¶</a></h2>
@@ -1123,7 +1108,7 @@ Name: recoded, dtype: float32
 <img alt="_images/04_worldview_76_0.png" src="_images/04_worldview_76_0.png" />
 </div>
 </div>
-<p>You should write a few sentences here to interpret the results.</p>
+<p>Negative attitudes about homosexuality have been declining in all three groups, starting at about the same time, and at almost the same rate.</p>
 </div>
 <div class="section" id="resampling">
 <h2>Resampling<a class="headerlink" href="#resampling" title="Permalink to this headline">¶</a></h2>
@@ -1176,36 +1161,6 @@ Name: recoded, dtype: float32
 <p>You should review your interpretation in the previous section to see how it holds up to resampling.  If you see an effect that is consistent in all three figures, it is less likely to be an artifact of random sampling.</p>
 <p>If it varies from one resampling to the next, you should probably not take it too seriously.</p>
 </div>
-<div class="section" id="publishing-your-report">
-<h2>Publishing your report<a class="headerlink" href="#publishing-your-report" title="Permalink to this headline">¶</a></h2>
-<p>If you would like to publish your results as a report, here’s how:</p>
-<ol class="simple">
-<li><p>Make sure you have saved your modified version of this notebook with an appropriate file name.</p></li>
-<li><p>Write your report by filling in the template below.</p></li>
-<li><p>Move your filled-in template to the top of the notebook.</p></li>
-<li><p>Hide or delete the cells a reader does not need to see.</p></li>
-<li><p>If you are running on Colab, use the Share button in the upper right to get a link you can share.</p></li>
-<li><p>Share the link with anyone who might be interested in your report.</p></li>
-</ol>
-<p>If you would like your report to be included in my collection, and possibly published on my blog, you can <a class="reference external" href="https://forms.gle/ak3srpQM5qsMwRbA8">use this form to submit it</a>.</p>
-<p>As an example, I wrote up <a class="reference external" href="https://www.allendowney.com/blog/2019/12/03/political-alignment-and-beliefs-about-homosexuality/">the results from this notebook in a blog article</a>.</p>
-<p>(This is the report template: Fill in the information below, then delete everything in parentheses.)</p>
-</div>
-<div class="section" id="headline-that-summarizes-your-results">
-<h2>Headline that summarizes your results<a class="headerlink" href="#headline-that-summarizes-your-results" title="Permalink to this headline">¶</a></h2>
-<p>By (Put your name here)</p>
-<p>(Today’s date)</p>
-<p>(Write a sentence or two that summarizes what you found.  Maybe include a few numbers, rounded off to about 2 significant digits.)</p>
-<p>(Explain where the variable you chose to explore, what years it covers, and the number of respondents)</p>
-<p>(Explain the methodology)</p>
-<p>(Present 1-2 figures that show your results)</p>
-<p>(Interpret the figures for the reader)</p>
-<p>(Having seen these results, what other questions are raised?)</p>
-<p>(Include the following text, which attributes the source of this material)</p>
-<p>This is a modified version of a notebook by Allen Downey, <a class="reference external" href="https://github.com/AllenDowney/PoliticalAlignmentCaseStudy">available here</a> under the <a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>.</p>
-<p>(If you agree to make your modified version available under the MIT license, you should include the following text.)</p>
-<p>This modified version is also under the <a class="reference external" href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>.</p>
-</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -1233,7 +1188,7 @@ Name: recoded, dtype: float32
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="03_outlook.html" title="previous page">Political Alignment Case Study</a>
+    <a class='left-prev' id="prev-link" href="03_outlook.html" title="previous page">Political Alignment and Outlook</a>
 
         </div>
         
