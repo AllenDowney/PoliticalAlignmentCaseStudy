@@ -273,9 +273,6 @@
                 
   <div class="section" id="exploring-distributions">
 <h1>Exploring Distributions<a class="headerlink" href="#exploring-distributions" title="Permalink to this headline">¶</a></h1>
-<p>Political Alignment Case Study</p>
-<p>Copyright 2020 Allen B. Downey</p>
-<p>License: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>This is the second in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
@@ -291,7 +288,6 @@ This case study is part of the <a class="reference external" href="https://allen
 </ol>
 <p>As an exercise, you will look at changes in political party affiliation over the same period.</p>
 <p>The following cell installs the <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> library if necessary.</p>
-<p>If you are running in another environment, you will need to install it yourself.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
@@ -345,7 +341,7 @@ This case study is part of the <a class="reference external" href="https://allen
 <div class="section" id="loading-the-data">
 <h2>Loading the data<a class="headerlink" href="#loading-the-data" title="Permalink to this headline">¶</a></h2>
 <p>In the previous notebook, we downloaded GSS data, loaded and cleaned it, resampled it to correct for stratified sampling, and then saved the data in an HDF5 file, which is much faster to load.  In this and the following notebooks, we’ll download the HDF5 file and load it.</p>
-<p>The following cell downloads the file.</p>
+<p>The following cell downloads the file if necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
