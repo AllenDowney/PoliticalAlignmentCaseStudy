@@ -1,0 +1,15 @@
+# Book settings
+title: Political Alignment Case Study
+author: Allen B. Downey
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+execute:
+  execute_notebooks: 'off'
+
+repository:
+  url: https://github.com/AllenDowney/PoliticalAlignmentCaseStudy
+html:
+  use_repository_button: true
