@@ -473,9 +473,9 @@ To do the exercises in this notebook, you should choose a variable that you thin
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wtssnr
-rincome
-pray
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>libcom
+conlabor
+fehire
 </pre></div>
 </div>
 </div>
@@ -492,6 +492,7 @@ pray
 <span class="mi">2</span>	<span class="n">Almost</span> <span class="n">always</span> <span class="n">wrong</span>
 <span class="mi">3</span>	<span class="n">Sometimes</span> <span class="n">wrong</span>
 <span class="mi">4</span>	<span class="n">Not</span> <span class="n">wrong</span> <span class="n">at</span> <span class="nb">all</span>
+<span class="mi">5</span>   <span class="n">Other</span>
 </pre></div>
 </div>
 <p>When you modify this notebook, you should replace this variable with the one you chose.</p>
@@ -507,6 +508,7 @@ pray
 2.0     1678
 3.0     2586
 4.0     9863
+5.0       94
 Name: homosex, dtype: int64
 </pre></div>
 </div>
@@ -522,12 +524,13 @@ Name: homosex, dtype: int64
          <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;PMF&#39;</span><span class="p">,</span>
          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of responses&#39;</span><span class="p">)</span>
 
-<span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Always wrong&#39;</span><span class="p">,</span>
           <span class="s1">&#39;Almost always wrong&#39;</span><span class="p">,</span>
           <span class="s1">&#39;Sometimes wrong&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;Not at all wrong&#39;</span><span class="p">]</span>
+          <span class="s1">&#39;Not at all wrong&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;Other&#39;</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span>
 </pre></div>
@@ -572,9 +575,11 @@ Name: homosex, dtype: int64
       <th>2.0</th>
       <th>3.0</th>
       <th>4.0</th>
+      <th>5.0</th>
     </tr>
     <tr>
       <th>year</th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -584,17 +589,19 @@ Name: homosex, dtype: int64
   <tbody>
     <tr>
       <th>1973</th>
-      <td>0.740977</td>
-      <td>0.058740</td>
-      <td>0.084926</td>
-      <td>0.115357</td>
+      <td>0.724066</td>
+      <td>0.057400</td>
+      <td>0.082988</td>
+      <td>0.112725</td>
+      <td>0.022822</td>
     </tr>
     <tr>
       <th>1974</th>
-      <td>0.741746</td>
-      <td>0.049156</td>
-      <td>0.077036</td>
-      <td>0.132062</td>
+      <td>0.709972</td>
+      <td>0.047051</td>
+      <td>0.073736</td>
+      <td>0.126404</td>
+      <td>0.042837</td>
     </tr>
     <tr>
       <th>1976</th>
@@ -602,6 +609,7 @@ Name: homosex, dtype: int64
       <td>0.057400</td>
       <td>0.089212</td>
       <td>0.173582</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>1977</th>
@@ -609,6 +617,7 @@ Name: homosex, dtype: int64
       <td>0.062414</td>
       <td>0.071331</td>
       <td>0.136488</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>1980</th>
@@ -616,6 +625,7 @@ Name: homosex, dtype: int64
       <td>0.055994</td>
       <td>0.058148</td>
       <td>0.160086</td>
+      <td>0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -650,9 +660,11 @@ Name: homosex, dtype: int64
       <th>2.0</th>
       <th>3.0</th>
       <th>4.0</th>
+      <th>5.0</th>
     </tr>
     <tr>
       <th>year</th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -666,6 +678,7 @@ Name: homosex, dtype: int64
       <td>0.033279</td>
       <td>0.077922</td>
       <td>0.413961</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2012</th>
@@ -673,6 +686,7 @@ Name: homosex, dtype: int64
       <td>0.029340</td>
       <td>0.075795</td>
       <td>0.444988</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2014</th>
@@ -680,6 +694,7 @@ Name: homosex, dtype: int64
       <td>0.029520</td>
       <td>0.077491</td>
       <td>0.504920</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2016</th>
@@ -687,6 +702,7 @@ Name: homosex, dtype: int64
       <td>0.036667</td>
       <td>0.075000</td>
       <td>0.508889</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2018</th>
@@ -694,6 +710,7 @@ Name: homosex, dtype: int64
       <td>0.034282</td>
       <td>0.057568</td>
       <td>0.575679</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
@@ -843,7 +860,7 @@ Name: polviews3, dtype: int64
 <p>For the variable I chose, a majority of respondents chose “always wrong”.  I’ll use that as my baseline response with code 1, and lump the other responses with code 0.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_recode</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_recode</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
