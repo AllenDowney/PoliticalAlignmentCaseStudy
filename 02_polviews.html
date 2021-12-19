@@ -354,7 +354,7 @@ This case study is part of the <a class="reference external" href="https://allen
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
 <span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
-         <span class="s1">&#39;raw/master/gss_eda.3.hdf5&#39;</span><span class="p">)</span>
+         <span class="s1">&#39;raw/master/gss_eds.3.hdf5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -362,9 +362,14 @@ This case study is part of the <a class="reference external" href="https://allen
 <p>This file contains three DataFrames containing resamples of the GSS data.  We’ll work with the first resampling, <code class="docutils literal notranslate"><span class="pre">gss0</span></code>, to get started; at the end of this notebook, we’ll see the other two as well.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.3.hdf5&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;gss_eds.3.hdf5&#39;</span>
 <span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s1">&#39;gss0&#39;</span><span class="p">)</span>
 <span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 203)
 </pre></div>
 </div>
 </div>
@@ -435,6 +440,18 @@ I’m going to show you a seven-point scale on which the political views that pe
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     31
+2.0    201
+3.0    211
+4.0    538
+5.0    223
+6.0    181
+7.0     30
+Name: polviews, dtype: int64
+</pre></div>
+</div>
+</div>
 </div>
 <p>And here are the responses from 2018.</p>
 <div class="cell docutils container">
@@ -442,6 +459,18 @@ I’m going to show you a seven-point scale on which the political views that pe
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year18</span> <span class="o">=</span> <span class="p">(</span><span class="n">gss</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2018</span><span class="p">)</span>
 <span class="n">polviews18</span> <span class="o">=</span> <span class="n">polviews</span><span class="p">[</span><span class="n">year18</span><span class="p">]</span>
 <span class="n">values</span><span class="p">(</span><span class="n">polviews18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     89
+2.0    269
+3.0    265
+4.0    891
+5.0    310
+6.0    342
+7.0     92
+Name: polviews, dtype: int64
 </pre></div>
 </div>
 </div>

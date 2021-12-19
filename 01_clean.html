@@ -293,7 +293,7 @@ The following cell downloads this extract.</p>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
 <span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/&#39;</span> <span class="o">+</span>
-         <span class="s1">&#39;raw/master/gss_eda.tar.gz&#39;</span><span class="p">)</span>
+         <span class="s1">&#39;raw/master/gss_eds.tar.gz&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -320,7 +320,7 @@ The following cell downloads this extract.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tarfile</span>
 <span class="kn">from</span> <span class="nn">statadict</span> <span class="kn">import</span> <span class="n">parse_stata_dict</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;gss_eda.tar.gz&#39;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;gss_eds.tar.gz&#39;</span>
 <span class="n">dict_file</span><span class="o">=</span><span class="s1">&#39;GSS.dct&#39;</span>
 <span class="n">data_file</span><span class="o">=</span><span class="s1">&#39;GSS.dat&#39;</span>
 
@@ -333,7 +333,7 @@ The following cell downloads this extract.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;statadict.base.StataDict at 0x7f0bd778a890&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;statadict.base.StataDict at 0x7fafdb805750&gt;
 </pre></div>
 </div>
 </div>
@@ -352,10 +352,220 @@ We can pass these values to <code class="docutils literal notranslate"><span cla
 </div>
 </div>
 <p>The column names in the data file are in all caps.
-I’ll convert them to lower case because I think it makes the code look better.</p>
+I’ll convert them to lower case to be consistent with the GSS documentation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">gss</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
+id_
+divorce
+sibs
+childs
+age
+educ
+degree
+sex
+race
+res16
+reg16
+adults
+income
+rincome
+region
+srcbelt
+partyid
+pres96
+pres00
+pres04
+pres08
+pres12
+polviews
+natspac
+natenvir
+natheal
+natcity
+natcrime
+natdrug
+nateduc
+natrace
+natarms
+nataid
+natfare
+natroad
+natsoc
+natmass
+natpark
+natchld
+natsci
+natenrgy
+spkath
+colath
+libath
+spksoc
+colsoc
+libsoc
+spkrac
+colrac
+librac
+spkcom
+colcom
+libcom
+spkmil
+colmil
+libmil
+spkhomo
+colhomo
+libhomo
+spkmslm
+colmslm
+libmslm
+cappun
+gunlaw
+grass
+relig
+fund
+attend
+reliten
+postlife
+pray
+popespks
+relig16
+prayer
+bible
+racmar
+racdin
+racpush
+racseg
+racopen
+raclive
+racclos
+racdis
+racinteg
+rachome
+racschol
+racfew
+rachaf
+racmost
+racpres
+racchurh
+affrmact
+happy
+hapmar
+health
+life
+helpful
+fair
+trust
+confinan
+conbus
+conclerg
+coneduc
+confed
+conlabor
+conpress
+conmedic
+contv
+conjudge
+consci
+conlegis
+conarmy
+satjob
+class_
+satfin
+finrela
+union_
+fehome
+fework
+fepres
+fepol
+abdefect
+abnomore
+abhlth
+abpoor
+abrape
+absingle
+abany
+chldidel
+sexeduc
+divlaw
+premarsx
+teensex
+xmarsex
+homosex
+pornlaw
+spanking
+letdie1
+polhitok
+polabuse
+polmurdr
+polescap
+polattak
+fear
+owngun
+pistol
+rowngun
+hunt
+phone
+fechld
+fehelp
+fepresch
+fefam
+racdif1
+racdif2
+racdif3
+racdif4
+god
+reborn
+savesoul
+racwork
+fejobaff
+discaffm
+discaffw
+fehire
+relpersn
+sprtprsn
+relexp
+spklang
+compuse
+hrsrelax
+trdunion
+wkracism
+wksexism
+wkharsex
+databank
+goodlife
+meovrwrk
+miracles
+relexper
+relactiv
+matesex
+frndsex
+acqntsex
+pikupsex
+paidsex
+othersex
+sexsex
+sexfreq
+sexsex5
+sexornt
+hhrace
+cohort
+ballot
+wtssall
+sexbirth
+sexnow
+eqwlth
+realinc
+realrinc
+coninc
+conrinc
+commun
 </pre></div>
 </div>
 </div>
@@ -369,7 +579,7 @@ I’ll convert them to lower case because I think it makes the code look better.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 169)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64814, 204)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -392,25 +602,25 @@ I’ll convert them to lower case because I think it makes the code look better.
       <th></th>
       <th>year</th>
       <th>id_</th>
-      <th>agewed</th>
       <th>divorce</th>
       <th>sibs</th>
       <th>childs</th>
       <th>age</th>
       <th>educ</th>
-      <th>paeduc</th>
-      <th>maeduc</th>
+      <th>degree</th>
+      <th>sex</th>
+      <th>race</th>
       <th>...</th>
-      <th>fejobaff</th>
-      <th>discaffm</th>
-      <th>discaffw</th>
-      <th>fehire</th>
-      <th>meovrwrk</th>
-      <th>avoidbuy</th>
-      <th>income</th>
-      <th>rincome</th>
+      <th>ballot</th>
+      <th>wtssall</th>
+      <th>sexbirth</th>
+      <th>sexnow</th>
+      <th>eqwlth</th>
+      <th>realinc</th>
       <th>realrinc</th>
-      <th>china</th>
+      <th>coninc</th>
+      <th>conrinc</th>
+      <th>commun</th>
     </tr>
   </thead>
   <tbody>
@@ -419,127 +629,127 @@ I’ll convert them to lower case because I think it makes the code look better.
       <td>1972</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
       <td>3</td>
       <td>0</td>
       <td>23</td>
       <td>16</td>
-      <td>10</td>
-      <td>97</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
       <td>...</td>
       <td>0</td>
+      <td>0.4446</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>18951.0</td>
       <td>0.0</td>
-      <td>-1</td>
+      <td>25926.0</td>
+      <td>0.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1972</td>
       <td>2</td>
-      <td>21</td>
       <td>2</td>
       <td>4</td>
       <td>5</td>
       <td>70</td>
       <td>10</td>
-      <td>8</td>
-      <td>8</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
       <td>...</td>
       <td>0</td>
+      <td>0.8893</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>24366.0</td>
       <td>0.0</td>
-      <td>-1</td>
+      <td>33333.0</td>
+      <td>0.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1972</td>
       <td>3</td>
-      <td>20</td>
       <td>2</td>
       <td>5</td>
       <td>4</td>
       <td>48</td>
       <td>12</td>
-      <td>8</td>
-      <td>8</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
       <td>...</td>
       <td>0</td>
+      <td>0.8893</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>24366.0</td>
       <td>0.0</td>
-      <td>-1</td>
+      <td>33333.0</td>
+      <td>0.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1972</td>
       <td>4</td>
-      <td>24</td>
       <td>2</td>
       <td>5</td>
       <td>0</td>
       <td>27</td>
       <td>17</td>
-      <td>16</td>
-      <td>12</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
       <td>...</td>
       <td>0</td>
+      <td>0.8893</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>30458.0</td>
       <td>0.0</td>
-      <td>-1</td>
+      <td>41667.0</td>
+      <td>0.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1972</td>
       <td>5</td>
-      <td>22</td>
       <td>2</td>
       <td>2</td>
       <td>2</td>
       <td>61</td>
       <td>12</td>
-      <td>8</td>
-      <td>8</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
       <td>...</td>
       <td>0</td>
+      <td>0.8893</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>50763.0</td>
       <td>0.0</td>
-      <td>-1</td>
+      <td>69444.0</td>
+      <td>0.0</td>
+      <td>0</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 169 columns</p>
+<p>5 rows × 204 columns</p>
 </div></div></div>
 </div>
-<p>This dataset has 64814 rows, one for each respondent, and 166 columns, one for each variable.</p>
+<p>This dataset has 64814 rows, one for each respondent, and 204 columns, one for each variable.</p>
 </div>
 <div class="section" id="validation">
 <h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
@@ -591,14 +801,14 @@ I’m going to show you a seven-point scale on which the political views that pe
 <p>Here are the values for the variable <code class="docutils literal notranslate"><span class="pre">polviews</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">column</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s1">&#39;polviews&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polviews</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s1">&#39;polviews&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span><span class="p">(</span><span class="n">polviews</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -630,7 +840,7 @@ Name: polviews, dtype: int64
 <p>And look at the values and their frequencies:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span><span class="p">(</span><span class="n">column</span><span class="p">[</span><span class="n">one_year</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span><span class="p">(</span><span class="n">polviews</span><span class="p">[</span><span class="n">one_year</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -655,18 +865,43 @@ Name: polviews, dtype: int64
 <div class="section" id="missing-data">
 <h2>Missing data<a class="headerlink" href="#missing-data" title="Permalink to this headline">¶</a></h2>
 <p>For many variables, missing values are encoded with numerical codes that we need to replace before we do any analysis.</p>
-<p>For <code class="docutils literal notranslate"><span class="pre">polviews</span></code>, the values 8, 9, and 0 represent “Don’t know”, “No answer”, and “Not applicable”.</p>
-<p>“Not applicable” usually means the respondent was not asked a particular question.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">polviews</span></code>, the values 8, 9, and 0 represent “Don’t know”, “No answer”, and “Not applicable”.
+“Not applicable” usually means the respondent was not asked a particular question.</p>
 <p>To keep things simple, we’ll treat all of these values as equivalent, but we lose some information by doing that.  For example, if a respondent refuses to answer a question, that might suggest something about their answer.  If so, treating their response as missing data might bias the results.</p>
 <p>Fortunately, for most questions the number of respondents who refused to answer is small.</p>
-<p>I’ll replace the numeric codes 8, 9, and 0 with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, which is a special value used to indicate missing data.</p>
+<p>I’ll replace the numeric codes 8, 9, and 0 with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>, which is a special value used to indicate missing data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clean</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clean</span> <span class="o">=</span> <span class="n">polviews</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">)</span>
+<span class="n">clean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        NaN
+1        NaN
+2        NaN
+3        NaN
+4        NaN
+        ... 
+64809    4.0
+64810    5.0
+64811    4.0
+64812    6.0
+64813    NaN
+Name: polviews, Length: 64814, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> is displayed, it appears as <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, which stands for “not a number”.</p>
 <p>We can use <code class="docutils literal notranslate"><span class="pre">notna</span></code> and <code class="docutils literal notranslate"><span class="pre">sum</span></code> to count the valid responses:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -770,7 +1005,7 @@ Name: polviews, dtype: int64
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">replace_invalid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">bad</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
-        <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">bad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">bad</span><span class="p">,</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">gss_replace_invalid</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Replace invalid data with NaN.</span>
@@ -778,65 +1013,72 @@ Name: polviews, dtype: int64
 <span class="sd">    df: DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># different variables use different codes for invalid data</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">cohort</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">marcohrt</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">cohort</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         
     <span class="c1"># since there are a lot of variables that use 0, 8, and 9 for invalid data,</span>
     <span class="c1"># I&#39;ll use a loop to replace all of them</span>
-    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abany&#39;</span><span class="p">,</span> <span class="s1">&#39;abdefect&#39;</span><span class="p">,</span> <span class="s1">&#39;abhlth&#39;</span><span class="p">,</span> <span class="s1">&#39;abnomore&#39;</span><span class="p">,</span> <span class="s1">&#39;abpoor&#39;</span><span class="p">,</span> <span class="s1">&#39;abrape&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;absingle&#39;</span><span class="p">,</span> <span class="s1">&#39;affrmact&#39;</span><span class="p">,</span> <span class="s1">&#39;bible&#39;</span><span class="p">,</span> <span class="s1">&#39;cappun&#39;</span><span class="p">,</span> <span class="s1">&#39;colath&#39;</span><span class="p">,</span> <span class="s1">&#39;colcom&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;colhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;colmil&#39;</span><span class="p">,</span> <span class="s1">&#39;colmslm&#39;</span><span class="p">,</span> <span class="s1">&#39;colrac&#39;</span><span class="p">,</span> <span class="s1">&#39;compuse&#39;</span><span class="p">,</span> <span class="s1">&#39;conarmy&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;conbus&#39;</span><span class="p">,</span> <span class="s1">&#39;conclerg&#39;</span><span class="p">,</span> <span class="s1">&#39;coneduc&#39;</span><span class="p">,</span> <span class="s1">&#39;confed&#39;</span><span class="p">,</span> <span class="s1">&#39;confinan&#39;</span><span class="p">,</span> <span class="s1">&#39;conjudge&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;conlabor&#39;</span><span class="p">,</span> <span class="s1">&#39;conlegis&#39;</span><span class="p">,</span> <span class="s1">&#39;conmedic&#39;</span><span class="p">,</span> <span class="s1">&#39;conpress&#39;</span><span class="p">,</span> <span class="s1">&#39;consci&#39;</span><span class="p">,</span> <span class="s1">&#39;contv&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;databank&#39;</span><span class="p">,</span> <span class="s1">&#39;discaffm&#39;</span><span class="p">,</span> <span class="s1">&#39;discaffw&#39;</span><span class="p">,</span> <span class="s1">&#39;divlaw&#39;</span><span class="p">,</span> <span class="s1">&#39;divorce&#39;</span><span class="p">,</span> <span class="s1">&#39;fair&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;fear&#39;</span><span class="p">,</span> <span class="s1">&#39;fechld&#39;</span><span class="p">,</span> <span class="s1">&#39;fefam&#39;</span><span class="p">,</span> <span class="s1">&#39;fehire&#39;</span><span class="p">,</span> <span class="s1">&#39;fejobaff&#39;</span><span class="p">,</span> <span class="s1">&#39;fepol&#39;</span><span class="p">,</span> <span class="s1">&#39;fepresch&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;finrela&#39;</span><span class="p">,</span> <span class="s1">&#39;fund&#39;</span><span class="p">,</span> <span class="s1">&#39;fund16&#39;</span><span class="p">,</span> <span class="s1">&#39;god&#39;</span><span class="p">,</span> <span class="s1">&#39;grass&#39;</span><span class="p">,</span> <span class="s1">&#39;gunlaw&#39;</span><span class="p">,</span> <span class="s1">&#39;hapmar&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;health&#39;</span><span class="p">,</span> <span class="s1">&#39;helpful&#39;</span><span class="p">,</span> <span class="s1">&#39;homosex&#39;</span><span class="p">,</span> <span class="s1">&#39;hunt&#39;</span><span class="p">,</span> <span class="s1">&#39;letdie1&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;libath&#39;</span><span class="p">,</span> <span class="s1">&#39;libcom&#39;</span><span class="p">,</span> <span class="s1">&#39;libhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;libmil&#39;</span><span class="p">,</span> <span class="s1">&#39;libmslm&#39;</span><span class="p">,</span> <span class="s1">&#39;librac&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;life&#39;</span><span class="p">,</span> <span class="s1">&#39;memchurh&#39;</span><span class="p">,</span> <span class="s1">&#39;meovrwrk&#39;</span><span class="p">,</span> <span class="s1">&#39;nataid&#39;</span><span class="p">,</span> <span class="s1">&#39;natarms&#39;</span><span class="p">,</span> <span class="s1">&#39;natchld&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;natcity&#39;</span><span class="p">,</span> <span class="s1">&#39;natcrime&#39;</span><span class="p">,</span> <span class="s1">&#39;natcrimy&#39;</span><span class="p">,</span> <span class="s1">&#39;natdrug&#39;</span><span class="p">,</span> <span class="s1">&#39;nateduc&#39;</span><span class="p">,</span> <span class="s1">&#39;natenrgy&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;natenvir&#39;</span><span class="p">,</span> <span class="s1">&#39;natfare&#39;</span><span class="p">,</span> <span class="s1">&#39;natheal&#39;</span><span class="p">,</span> <span class="s1">&#39;natmass&#39;</span><span class="p">,</span> <span class="s1">&#39;natpark&#39;</span><span class="p">,</span> <span class="s1">&#39;natrace&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;natroad&#39;</span><span class="p">,</span> <span class="s1">&#39;natsci&#39;</span><span class="p">,</span> <span class="s1">&#39;natsoc&#39;</span><span class="p">,</span> <span class="s1">&#39;natspac&#39;</span><span class="p">,</span> <span class="s1">&#39;polviews&#39;</span><span class="p">,</span> <span class="s1">&#39;pornlaw&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;postlife&#39;</span><span class="p">,</span> <span class="s1">&#39;pray&#39;</span><span class="p">,</span> <span class="s1">&#39;prayer&#39;</span><span class="p">,</span> <span class="s1">&#39;premarsx&#39;</span><span class="p">,</span> <span class="s1">&#39;pres04&#39;</span><span class="p">,</span> <span class="s1">&#39;pres08&#39;</span><span class="p">,</span> <span class="s1">&#39;pres12&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;racmar&#39;</span><span class="p">,</span> <span class="s1">&#39;racopen&#39;</span><span class="p">,</span> <span class="s1">&#39;racpres&#39;</span><span class="p">,</span> <span class="s1">&#39;reborn&#39;</span><span class="p">,</span> <span class="s1">&#39;relexp&#39;</span><span class="p">,</span> <span class="s1">&#39;reliten&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;relpersn&#39;</span><span class="p">,</span> <span class="s1">&#39;res16&#39;</span><span class="p">,</span> <span class="s1">&#39;satfin&#39;</span><span class="p">,</span> <span class="s1">&#39;satjob&#39;</span><span class="p">,</span> <span class="s1">&#39;savesoul&#39;</span><span class="p">,</span> <span class="s1">&#39;sexeduc&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;spanking&#39;</span><span class="p">,</span> <span class="s1">&#39;spkath&#39;</span><span class="p">,</span> <span class="s1">&#39;spkcom&#39;</span><span class="p">,</span> <span class="s1">&#39;spkhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;spkmil&#39;</span><span class="p">,</span> <span class="s1">&#39;spkmslm&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;spkrac&#39;</span><span class="p">,</span> <span class="s1">&#39;sprel16&#39;</span><span class="p">,</span> <span class="s1">&#39;sprtprsn&#39;</span><span class="p">,</span> <span class="s1">&#39;teensex&#39;</span><span class="p">,</span> <span class="s1">&#39;trust&#39;</span><span class="p">,</span> <span class="s1">&#39;union_&#39;</span><span class="p">,</span> <span class="s1">&#39;xmarsex&#39;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abany&#39;</span><span class="p">,</span> <span class="s1">&#39;abdefect&#39;</span><span class="p">,</span> <span class="s1">&#39;abhlth&#39;</span><span class="p">,</span> <span class="s1">&#39;abnomore&#39;</span><span class="p">,</span> <span class="s1">&#39;abpoor&#39;</span><span class="p">,</span> <span class="s1">&#39;abrape&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;absingle&#39;</span><span class="p">,</span> <span class="s1">&#39;acqntsex&#39;</span><span class="p">,</span> <span class="s1">&#39;affrmact&#39;</span><span class="p">,</span> <span class="s1">&#39;bible&#39;</span><span class="p">,</span> <span class="s1">&#39;cappun&#39;</span><span class="p">,</span> <span class="s1">&#39;colath&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;colcom&#39;</span><span class="p">,</span> <span class="s1">&#39;colhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;colmil&#39;</span><span class="p">,</span> <span class="s1">&#39;colmslm&#39;</span><span class="p">,</span> <span class="s1">&#39;colrac&#39;</span><span class="p">,</span> <span class="s1">&#39;colsoc&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;compuse&#39;</span><span class="p">,</span> <span class="s1">&#39;conarmy&#39;</span><span class="p">,</span> <span class="s1">&#39;conbus&#39;</span><span class="p">,</span> <span class="s1">&#39;conclerg&#39;</span><span class="p">,</span> <span class="s1">&#39;coneduc&#39;</span><span class="p">,</span> <span class="s1">&#39;confed&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;confinan&#39;</span><span class="p">,</span> <span class="s1">&#39;conjudge&#39;</span><span class="p">,</span> <span class="s1">&#39;conlabor&#39;</span><span class="p">,</span> <span class="s1">&#39;conlegis&#39;</span><span class="p">,</span> <span class="s1">&#39;conmedic&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;conpress&#39;</span><span class="p">,</span> <span class="s1">&#39;consci&#39;</span><span class="p">,</span> <span class="s1">&#39;contv&#39;</span><span class="p">,</span> <span class="s1">&#39;databank&#39;</span><span class="p">,</span> <span class="s1">&#39;discaffm&#39;</span><span class="p">,</span> <span class="s1">&#39;discaffw&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;divlaw&#39;</span><span class="p">,</span> <span class="s1">&#39;divorce&#39;</span><span class="p">,</span> <span class="s1">&#39;eqwlth&#39;</span><span class="p">,</span> <span class="s1">&#39;fair&#39;</span><span class="p">,</span> <span class="s1">&#39;fear&#39;</span><span class="p">,</span> <span class="s1">&#39;fechld&#39;</span><span class="p">,</span> <span class="s1">&#39;fefam&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;fehelp&#39;</span><span class="p">,</span> <span class="s1">&#39;fehire&#39;</span><span class="p">,</span> <span class="s1">&#39;fehome&#39;</span><span class="p">,</span> <span class="s1">&#39;fejobaff&#39;</span><span class="p">,</span> <span class="s1">&#39;fepol&#39;</span><span class="p">,</span> <span class="s1">&#39;fepres&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;fepresch&#39;</span><span class="p">,</span> <span class="s1">&#39;fework&#39;</span><span class="p">,</span> <span class="s1">&#39;finrela&#39;</span><span class="p">,</span> <span class="s1">&#39;frndsex&#39;</span><span class="p">,</span> <span class="s1">&#39;fund&#39;</span><span class="p">,</span> <span class="s1">&#39;god&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;goodlife&#39;</span><span class="p">,</span> <span class="s1">&#39;grass&#39;</span><span class="p">,</span> <span class="s1">&#39;gunlaw&#39;</span><span class="p">,</span> <span class="s1">&#39;hapmar&#39;</span><span class="p">,</span> <span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;health&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;helpful&#39;</span><span class="p">,</span> <span class="s1">&#39;hhrace&#39;</span><span class="p">,</span> <span class="s1">&#39;homosex&#39;</span><span class="p">,</span> <span class="s1">&#39;hunt&#39;</span><span class="p">,</span> <span class="s1">&#39;letdie1&#39;</span><span class="p">,</span> <span class="s1">&#39;libath&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;libcom&#39;</span><span class="p">,</span> <span class="s1">&#39;libhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;libmil&#39;</span><span class="p">,</span> <span class="s1">&#39;libmslm&#39;</span><span class="p">,</span> <span class="s1">&#39;librac&#39;</span><span class="p">,</span> <span class="s1">&#39;libsoc&#39;</span><span class="p">,</span> <span class="s1">&#39;life&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;matesex&#39;</span><span class="p">,</span> <span class="s1">&#39;meovrwrk&#39;</span><span class="p">,</span> <span class="s1">&#39;miracles&#39;</span><span class="p">,</span> <span class="s1">&#39;nataid&#39;</span><span class="p">,</span> <span class="s1">&#39;natarms&#39;</span><span class="p">,</span> <span class="s1">&#39;natchld&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;natcity&#39;</span><span class="p">,</span> <span class="s1">&#39;natcrime&#39;</span><span class="p">,</span> <span class="s1">&#39;natdrug&#39;</span><span class="p">,</span> <span class="s1">&#39;nateduc&#39;</span><span class="p">,</span> <span class="s1">&#39;natenrgy&#39;</span><span class="p">,</span> <span class="s1">&#39;natenvir&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;natfare&#39;</span><span class="p">,</span> <span class="s1">&#39;natheal&#39;</span><span class="p">,</span> <span class="s1">&#39;natmass&#39;</span><span class="p">,</span> <span class="s1">&#39;natpark&#39;</span><span class="p">,</span> <span class="s1">&#39;natrace&#39;</span><span class="p">,</span> <span class="s1">&#39;natroad&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;natsci&#39;</span><span class="p">,</span> <span class="s1">&#39;natsoc&#39;</span><span class="p">,</span> <span class="s1">&#39;natspac&#39;</span><span class="p">,</span> <span class="s1">&#39;othersex&#39;</span><span class="p">,</span> <span class="s1">&#39;paidsex&#39;</span><span class="p">,</span> <span class="s1">&#39;pikupsex&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;polabuse&#39;</span><span class="p">,</span> <span class="s1">&#39;polattak&#39;</span><span class="p">,</span> <span class="s1">&#39;polescap&#39;</span><span class="p">,</span> <span class="s1">&#39;polhitok&#39;</span><span class="p">,</span> <span class="s1">&#39;polmurdr&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;polviews&#39;</span><span class="p">,</span> <span class="s1">&#39;popespks&#39;</span><span class="p">,</span> <span class="s1">&#39;pornlaw&#39;</span><span class="p">,</span> <span class="s1">&#39;postlife&#39;</span><span class="p">,</span> <span class="s1">&#39;pray&#39;</span><span class="p">,</span> <span class="s1">&#39;prayer&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;premarsx&#39;</span><span class="p">,</span> <span class="s1">&#39;pres00&#39;</span><span class="p">,</span> <span class="s1">&#39;pres04&#39;</span><span class="p">,</span> <span class="s1">&#39;pres08&#39;</span><span class="p">,</span> <span class="s1">&#39;pres12&#39;</span><span class="p">,</span> <span class="s1">&#39;pres96&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;racchurh&#39;</span><span class="p">,</span> <span class="s1">&#39;racclos&#39;</span><span class="p">,</span> <span class="s1">&#39;racdif1&#39;</span><span class="p">,</span> <span class="s1">&#39;racdif2&#39;</span><span class="p">,</span> <span class="s1">&#39;racdif3&#39;</span><span class="p">,</span> <span class="s1">&#39;racdif4&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;racdin&#39;</span><span class="p">,</span> <span class="s1">&#39;racdis&#39;</span><span class="p">,</span> <span class="s1">&#39;racfew&#39;</span><span class="p">,</span> <span class="s1">&#39;rachaf&#39;</span><span class="p">,</span> <span class="s1">&#39;rachome&#39;</span><span class="p">,</span> <span class="s1">&#39;racinteg&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;raclive&#39;</span><span class="p">,</span> <span class="s1">&#39;racmar&#39;</span><span class="p">,</span> <span class="s1">&#39;racmost&#39;</span><span class="p">,</span> <span class="s1">&#39;racopen&#39;</span><span class="p">,</span> <span class="s1">&#39;racpres&#39;</span><span class="p">,</span> <span class="s1">&#39;racpush&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;racschol&#39;</span><span class="p">,</span> <span class="s1">&#39;racseg&#39;</span><span class="p">,</span> <span class="s1">&#39;racwork&#39;</span><span class="p">,</span> <span class="s1">&#39;reborn&#39;</span><span class="p">,</span> <span class="s1">&#39;relexp&#39;</span><span class="p">,</span> <span class="s1">&#39;relexper&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;reliten&#39;</span><span class="p">,</span> <span class="s1">&#39;relpersn&#39;</span><span class="p">,</span> <span class="s1">&#39;res16&#39;</span><span class="p">,</span> <span class="s1">&#39;rowngun&#39;</span><span class="p">,</span> <span class="s1">&#39;satfin&#39;</span><span class="p">,</span> <span class="s1">&#39;satjob&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;savesoul&#39;</span><span class="p">,</span> <span class="s1">&#39;sexbirth&#39;</span><span class="p">,</span> <span class="s1">&#39;sexeduc&#39;</span><span class="p">,</span> <span class="s1">&#39;sexnow&#39;</span><span class="p">,</span> <span class="s1">&#39;sexornt&#39;</span><span class="p">,</span> <span class="s1">&#39;sexsex&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;sexsex5&#39;</span><span class="p">,</span> <span class="s1">&#39;spanking&#39;</span><span class="p">,</span> <span class="s1">&#39;spkath&#39;</span><span class="p">,</span> <span class="s1">&#39;spkcom&#39;</span><span class="p">,</span> <span class="s1">&#39;spkhomo&#39;</span><span class="p">,</span> <span class="s1">&#39;spklang&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;spkmil&#39;</span><span class="p">,</span> <span class="s1">&#39;spkmslm&#39;</span><span class="p">,</span> <span class="s1">&#39;spkrac&#39;</span><span class="p">,</span> <span class="s1">&#39;spksoc&#39;</span><span class="p">,</span> <span class="s1">&#39;sprtprsn&#39;</span><span class="p">,</span> <span class="s1">&#39;teensex&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;trdunion&#39;</span><span class="p">,</span> <span class="s1">&#39;trust&#39;</span><span class="p">,</span> <span class="s1">&#39;union_&#39;</span><span class="p">,</span> <span class="s1">&#39;wkharsex&#39;</span><span class="p">,</span> <span class="s1">&#39;wkracism&#39;</span><span class="p">,</span> <span class="s1">&#39;wksexism&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;xmarsex&#39;</span><span class="p">,</span> <span class="s1">&#39;commun&#39;</span><span class="p">]</span>
     <span class="n">replace_invalid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
 
-    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;degree&#39;</span><span class="p">,</span> <span class="s1">&#39;padeg&#39;</span><span class="p">,</span> <span class="s1">&#39;madeg&#39;</span><span class="p">,</span> <span class="s1">&#39;spdeg&#39;</span><span class="p">,</span> <span class="s1">&#39;partyid&#39;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;degree&#39;</span><span class="p">,</span> <span class="s1">&#39;partyid&#39;</span><span class="p">]</span>
     <span class="n">replace_invalid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
         
-    <span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">owngun</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">pistol</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">owngun</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">pistol</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
-    <span class="n">df</span><span class="o">.</span><span class="n">chldidel</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">chldidel</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sexfreq</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">df</span><span class="o">.</span><span class="n">attend</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">adults</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">attend</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">childs</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">adults</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">9</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">df</span><span class="o">.</span><span class="n">relactiv</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">89</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">agewed</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">relig</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">relig16</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
-    <span class="n">df</span><span class="o">.</span><span class="n">realinc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  
-    <span class="n">df</span><span class="o">.</span><span class="n">realrinc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  
+    <span class="n">df</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">relig</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">relig16</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">relactiv</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">89</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="c1"># note: sibs contains some unlikely numbers</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">sibs</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sibs</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">hrsrelax</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
-    <span class="n">df</span><span class="o">.</span><span class="n">educ</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">maeduc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">paeduc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">speduc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">educ</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
-    <span class="n">df</span><span class="o">.</span><span class="n">income</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">rincome</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+    <span class="n">df</span><span class="o">.</span><span class="n">realinc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  
+    <span class="n">df</span><span class="o">.</span><span class="n">realrinc</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>                  
+    
+    <span class="n">df</span><span class="o">.</span><span class="n">income</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">rincome</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -844,6 +1086,26 @@ Name: polviews, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss_replace_invalid</span><span class="p">(</span><span class="n">gss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check that we&#39;ve cleaned all columns that need it</span>
+
+<span class="c1"># some columns have no missing values</span>
+<span class="n">clean_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id_&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;ballot&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;race&#39;</span><span class="p">,</span> <span class="s1">&#39;reg16&#39;</span><span class="p">,</span> <span class="s1">&#39;region&#39;</span><span class="p">,</span> <span class="s1">&#39;srcbelt&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">gss</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gss</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">int</span> <span class="ow">and</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clean_columns</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39;, &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -873,7 +1135,7 @@ Name: polviews, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;spkath&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;pray&#39;
 </pre></div>
 </div>
 </div>
@@ -938,7 +1200,7 @@ Name: polviews, dtype: int64
 <p>An HDF5 file is like a dictionary on disk.  It contains keys and corresponding values.</p>
 <p><code class="docutils literal notranslate"><span class="pre">to_hdf</span></code> takes three arguments:</p>
 <ul class="simple">
-<li><p>The filename, <code class="docutils literal notranslate"><span class="pre">gss_eda.hdf5</span></code>.</p></li>
+<li><p>The filename, <code class="docutils literal notranslate"><span class="pre">gss_eds.hdf5</span></code>.</p></li>
 <li><p>The key, <code class="docutils literal notranslate"><span class="pre">gss</span></code></p></li>
 <li><p>The compression level, which controls how hard the algorithm works to compress the file.</p></li>
 </ul>
@@ -949,19 +1211,19 @@ Name: polviews, dtype: int64
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save the original</span>
 
-<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eda.hdf5&#39;</span><span class="p">,</span> <span class="s1">&#39;gss&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eds.hdf5&#39;</span><span class="p">,</span> <span class="s1">&#39;gss&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -l gss_eda.hdf5
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -l gss_eds.hdf5
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 6939805 Apr 17 11:51 gss_eda.hdf5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 7625356 Dec 16 09:35 gss_eds.hdf5
 </pre></div>
 </div>
 </div>
@@ -972,8 +1234,8 @@ Name: polviews, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if the file already exists, remove it</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;gss_eda.3.hdf5&#39;</span><span class="p">):</span>
-    <span class="o">!</span>rm gss_eda.3.hdf5
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;gss_eds.3.hdf5&#39;</span><span class="p">):</span>
+    <span class="o">!</span>rm gss_eds.3.hdf5
 </pre></div>
 </div>
 </div>
@@ -988,19 +1250,19 @@ Name: polviews, dtype: int64
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">sample</span> <span class="o">=</span> <span class="n">resample_by_year</span><span class="p">(</span><span class="n">gss</span><span class="p">,</span> <span class="s1">&#39;wtssall&#39;</span><span class="p">)</span>
 
-    <span class="n">sample</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eda.3.hdf5&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sample</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gss_eds.3.hdf5&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -l gss_eda.3.hdf5
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -l gss_eds.3.hdf5
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 20717248 Apr 17 11:51 gss_eda.3.hdf5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 22699225 Dec 16 09:35 gss_eds.3.hdf5
 </pre></div>
 </div>
 </div>
