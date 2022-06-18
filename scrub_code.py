@@ -23,7 +23,7 @@ def scrub_code_cells(nb):
         # scrub cells marked with initial '# Solution' comment
         # any other marker will do, or it could be unconditional
         if cell.source.startswith("# Solution"):
-            cell.source = u'# Solution goes here'
+            cell.source = u''
             scrubbed += 1
 
         # clear all outputs
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
         # new name
         base, ext = os.path.splitext(filename)
-        
+
         if base.endswith("soln"):
             base = base.replace("soln", "")
             base = base.rstrip("_")
@@ -52,7 +52,7 @@ if __name__ == '__main__':
             base = base + "_scrubbed"
 
         new_filename = "%s%s" % (base, ext)
-        
+
         # write
         print("writing %s" % new_filename)
         with io.open(new_filename, 'w', encoding='utf8') as f:
