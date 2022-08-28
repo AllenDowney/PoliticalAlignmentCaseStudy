@@ -4,10 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Political Alignment Case Study &#8212; Political Alignment Case Study</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -17,79 +20,94 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-  <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
-
-    
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Cleaning and Validation" href="01_clean.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
 
-
-
+    <!-- Google Analytics -->
+    
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="#">
-  
-  
-  <h1 class="site-logo" id="site-title">Political Alignment Case Study</h1>
-  
-</a>
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="#">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Political Alignment Case Study</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="reference internal" href="#">
-   Political Alignment Case Study
-  </a>
- </li>
-</ul>
-<ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Political Alignment Case Study
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01_clean.html">
    Cleaning and Validation
@@ -97,7 +115,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_polviews.html">
-   Exploring Distributions
+   Political Views
   </a>
  </li>
  <li class="toctree-l1">
@@ -112,12 +130,18 @@
  </li>
 </ul>
 
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -125,75 +149,130 @@
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/AllenDowney/PoliticalAlignmentCaseStudy"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/index.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/AllenDowney/PoliticalAlignmentCaseStudy"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        
-        
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
     </div>
-</div>
-
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#videos-and-slides">
    Videos and Slides
@@ -228,23 +307,72 @@
  </li>
 </ul>
 
-        </nav>
-        
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Political Alignment Case Study</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#videos-and-slides">
+   Videos and Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-notebooks">
+   The notebooks
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notebook-1">
+     Notebook 1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notebook-2">
+     Notebook 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notebook-3">
+     Notebook 3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notebook-4">
+     Notebook 4
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="section" id="political-alignment-case-study">
-<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="political-alignment-case-study">
+<h1>Political Alignment Case Study<a class="headerlink" href="#political-alignment-case-study" title="Permalink to this headline">#</a></h1>
 <p>This data science case study explores the relationship between political alignment (conservative, moderate, or liberal) and other attitudes and beliefs.  It is meant primarily for teaching and learning about data science, but we might do some research along the way.</p>
 <p>If you are working through <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/">the <em>Elements of Data Science</em> curriculum</a>, you should be ready to start this case study when you have completed Notebook 6, which covers basic Pandas.</p>
 <p>This material is a work in progress, so your feedback is welcome.  The best way to provide that feedback is to <a class="reference external" href="https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/issues">click here and create an issue in this GitHub repository</a>.</p>
-<div class="section" id="videos-and-slides">
-<h2>Videos and Slides<a class="headerlink" href="#videos-and-slides" title="Permalink to this headline">¶</a></h2>
+<section id="videos-and-slides">
+<h2>Videos and Slides<a class="headerlink" href="#videos-and-slides" title="Permalink to this headline">#</a></h2>
 <p>I presented this case study for <a class="reference external" href="https://global.pydata.org/talks/363">PyData Global 2020</a>.</p>
 <p>Here are the <a class="reference external" href="https://docs.google.com/presentation/d/e/2PACX-1vSqifcdVGQmMoLDNlmbnugZ58jieItA_weGEF9oRsQCAa6iICLmehevGRzINYVv0tCGqcSTvuIQOSJo/pub">slides I presented</a></p>
 <p>And here are the videos:</p>
@@ -254,36 +382,36 @@
 <li><p><a class="reference external" href="https://www.youtube.com/watch?v=vfuXyXXSNtM">Part 3</a></p></li>
 <li><p><a class="reference external" href="https://www.youtube.com/watch?v=XFPi-AUiJSo">Part 4</a></p></li>
 </ul>
-</div>
-<div class="section" id="the-notebooks">
-<h2>The notebooks<a class="headerlink" href="#the-notebooks" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="the-notebooks">
+<h2>The notebooks<a class="headerlink" href="#the-notebooks" title="Permalink to this headline">#</a></h2>
 <p>For each of the notebooks below, you have two options: if you view the notebook on NBViewer, you can read it, but you can’t run the code.  If you run the notebook on Colab, you’ll be able to run the code, do the exercises, and save your modified version of the notebook in a Google Drive (if you have one).</p>
-<div class="section" id="notebook-1">
-<h3>Notebook 1<a class="headerlink" href="#notebook-1" title="Permalink to this headline">¶</a></h3>
+<section id="notebook-1">
+<h3>Notebook 1<a class="headerlink" href="#notebook-1" title="Permalink to this headline">#</a></h3>
 <p><strong>Cleaning and validation</strong>: The first notebook loads data from the General Social Survey (GSS) and walks through the process of cleaning and validating the data.  At the end, you can help me by choosing a random variable, checking the values against the codebook, and reporting your results.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/01_clean.ipynb">Click here to read Notebook 1 on NBViewer</a></p></li>
 <li><p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/01_clean.ipynb">Click here to run Notebook 1 on Colab</a></p></li>
 </ul>
-</div>
-<div class="section" id="notebook-2">
-<h3>Notebook 2<a class="headerlink" href="#notebook-2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="notebook-2">
+<h3>Notebook 2<a class="headerlink" href="#notebook-2" title="Permalink to this headline">#</a></h3>
 <p><strong>Exploration</strong>: This notebook uses the tools of exploratory data analysis to look at survey responses about political alignment.  It uses PMFs to display distributions, time series to represent changes over time, and cross tabulation to look at changes in distribution over time.  It also introduces local regression as a way to plot a smooth line through noisy data.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/02_polviews.ipynb">Click here to read Notebook 2 on NBViewer</a></p></li>
 <li><p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/02_polviews.ipynb">Click here to run Notebook 2 on Colab</a></p></li>
 </ul>
-</div>
-<div class="section" id="notebook-3">
-<h3>Notebook 3<a class="headerlink" href="#notebook-3" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="notebook-3">
+<h3>Notebook 3<a class="headerlink" href="#notebook-3" title="Permalink to this headline">#</a></h3>
 <p><strong>Political alignment and outlook</strong>: This notebook explores the relationship between political alignment and three survey questions related to “outlook”.  It uses a pivot table to compute the mean of the response variable grouped by political alignment and time.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb">Click here to read Notebook 3 on NBViewer</a></p></li>
 <li><p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb">Click here to run Notebook 3 on Colab</a></p></li>
 </ul>
-</div>
-<div class="section" id="notebook-4">
-<h3>Notebook 4<a class="headerlink" href="#notebook-4" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="notebook-4">
+<h3>Notebook 4<a class="headerlink" href="#notebook-4" title="Permalink to this headline">#</a></h3>
 <p><strong>Political alignment and other beliefs</strong>: This notebook explores the relationship between political alignment and other attitudes and beliefs.  It is a template for a do-it-yourself, choose-your-own-adventure mini-project, where you have the chance to explore a variable in the GSS dataset and report the results.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb">Click here to read Notebook 4 on NBViewer</a></p></li>
@@ -291,11 +419,11 @@
 </ul>
 <p>Copyright 2020 Allen B. Downey</p>
 <p>License: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+</section>
+</section>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -319,35 +447,41 @@
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
-            
-    <a class='right-next' id="next-link" href="01_clean.html" title="next page">Cleaning and Validation</a>
-
-        </div>
-        
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="01_clean.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Cleaning and Validation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Allen B. Downey<br/>
-        
-            &copy; Copyright 2020.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Allen B. Downey<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-    
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
 
-
-    
   </body>
 </html>
