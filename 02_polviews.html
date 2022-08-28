@@ -433,7 +433,7 @@ This case study is part of the <a class="reference external" href="https://allen
 <p>I’ve created an HDF file that contains three <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> objects with resampled GSS data.  We’ll work with the first resampling, <code class="docutils literal notranslate"><span class="pre">gss0</span></code>, to get started.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s2">&quot;gss_eds.3.hdf&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s2">&quot;gss_pacs_resampled.hdf&quot;</span>
 <span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="s2">&quot;gss0&quot;</span><span class="p">)</span>
 <span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>

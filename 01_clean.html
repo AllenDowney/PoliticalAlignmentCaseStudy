@@ -1072,7 +1072,7 @@ I recorded that information in the following function, which is intended to repl
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;natmass&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;trust&#39;
 </pre></div>
 </div>
 </div>
@@ -1136,7 +1136,7 @@ I recorded that information in the following function, which is intended to repl
 <p>An HDF5 file is like a dictionary on disk.  It contains keys and corresponding values.</p>
 <p><code class="docutils literal notranslate"><span class="pre">to_hdf</span></code> takes three arguments:</p>
 <ul class="simple">
-<li><p>The filename, <code class="docutils literal notranslate"><span class="pre">gss_eds.hdf</span></code>.</p></li>
+<li><p>The filename, <code class="docutils literal notranslate"><span class="pre">gss_pacs_clean.hdf</span></code>.</p></li>
 <li><p>The key, <code class="docutils literal notranslate"><span class="pre">gss</span></code></p></li>
 <li><p>The compression level, which controls how hard the algorithm works to compress the file.</p></li>
 </ul>
@@ -1148,8 +1148,8 @@ I recorded that information in the following function, which is intended to repl
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if the file already exists, remove it</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;gss_eds.hdf&quot;</span><span class="p">):</span>
-    <span class="o">!</span>rm gss_eds.3.hdf
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;gss_pacs_clean.hdf&quot;</span><span class="p">):</span>
+    <span class="o">!</span>rm gss_pacs_resampled.hdf
 </pre></div>
 </div>
 </div>
@@ -1158,19 +1158,19 @@ I recorded that information in the following function, which is intended to repl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save the original</span>
 
-<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;gss_eds.hdf&quot;</span><span class="p">,</span> <span class="s2">&quot;gss&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;gss_pacs_clean.hdf&quot;</span><span class="p">,</span> <span class="s2">&quot;gss&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -lh gss_eds.hdf
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -lh gss_pacs_clean.hdf
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 7.6M Aug 28 14:23 gss_eds.hdf
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 7.6M Aug 28 17:53 gss_pacs_clean.hdf
 </pre></div>
 </div>
 </div>
@@ -1181,8 +1181,8 @@ I recorded that information in the following function, which is intended to repl
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if the file already exists, remove it</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;gss_eds.3.hdf&quot;</span><span class="p">):</span>
-    <span class="o">!</span>rm gss_eds.3.hdf
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;gss_pacs_resampled.hdf&quot;</span><span class="p">):</span>
+    <span class="o">!</span>rm gss_pacs_resampled.hdf
 </pre></div>
 </div>
 </div>
@@ -1197,19 +1197,19 @@ I recorded that information in the following function, which is intended to repl
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">sample</span> <span class="o">=</span> <span class="n">resample_by_year</span><span class="p">(</span><span class="n">gss</span><span class="p">,</span> <span class="s2">&quot;wtssall&quot;</span><span class="p">)</span>
 
-    <span class="n">sample</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;gss_eds.3.hdf&quot;</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">sample</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;gss_pacs_resampled.hdf&quot;</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -lh gss_eds.3.hdf
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -lh gss_pacs_resampled.hdf
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 23M Aug 28 14:23 gss_eds.3.hdf
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 23M Aug 28 17:54 gss_pacs_resampled.hdf
 </pre></div>
 </div>
 </div>
