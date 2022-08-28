@@ -1,0 +1,14 @@
+black
+empiricaldist
+flake8
+jupyter
+matplotlib
+nbautoexport
+nb_black
+numpy
+pandas
+pip
+seaborn
+scipy
+statsmodels
+tables
