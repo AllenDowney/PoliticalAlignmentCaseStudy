@@ -949,7 +949,7 @@ But the responses are quite noisy, so we should not be too confident about these
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gss0&quot;</span><span class="p">,</span> <span class="s2">&quot;gss1&quot;</span><span class="p">,</span> <span class="s2">&quot;gss2&quot;</span><span class="p">]:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s2">&quot;gss_eda.3.hdf5&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s2">&quot;gss_eda.3.hdf&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
     <span class="n">plot_by_polviews</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -957,9 +957,25 @@ But the responses are quite noisy, so we should not be too confident about these
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03_outlook_58_0.png" src="_images/03_outlook_58_0.png" />
-<img alt="_images/03_outlook_58_1.png" src="_images/03_outlook_58_1.png" />
-<img alt="_images/03_outlook_58_2.png" src="_images/03_outlook_58_2.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">Input In [28],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gss0&quot;</span><span class="p">,</span> <span class="s2">&quot;gss1&quot;</span><span class="p">,</span> <span class="s2">&quot;gss2&quot;</span><span class="p">]:</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s2">&quot;gss_eda.3.hdf&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">plot_by_polviews</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/envs/PoliticalAlignmentCaseStudy/lib/python3.10/site-packages/pandas/io/pytables.py:427,</span> in <span class="ni">read_hdf</span><span class="nt">(path_or_buf, key, mode, errors, where, start, stop, columns, iterator, chunksize, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">424</span>     <span class="n">exists</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">426</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">427</span>     <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">path_or_buf</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">429</span> <span class="n">store</span> <span class="o">=</span> <span class="n">HDFStore</span><span class="p">(</span><span class="n">path_or_buf</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">430</span> <span class="c1"># can&#39;t auto open/close if we are using an iterator</span>
+<span class="g g-Whitespace">    </span><span class="mi">431</span> <span class="c1"># so delegate to the iterator</span>
+
+<span class="ne">FileNotFoundError</span>: File gss_eda.3.hdf does not exist
+</pre></div>
+</div>
 </div>
 </div>
 <p>Features that are the same in all three figures are more likely to reflect things actually happening in the world.  Features that differ substantially between the figures are more likely to be artifacts of random sampling.</p>
