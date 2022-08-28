@@ -6,6 +6,8 @@ If you are working through [the *Elements of Data Science* curriculum](https://a
 
 This material is a work in progress, so your feedback is welcome.  The best way to provide that feedback is to [click here and create an issue in this GitHub repository](https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/issues).
 
+Uodate August 2022: I have updated the notebooks and data files with the 2021 data from the General Social Survey.
+
 
 ## Videos and Slides
 
