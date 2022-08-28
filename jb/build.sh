@@ -1,5 +1,4 @@
-# pip install jupyter-book
-# pip install ghp-import
+# pip install jupyter-book ghp-import
 
 # Build the Jupyter book version
 
