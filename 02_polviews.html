@@ -507,10 +507,10 @@ First I’ll select the column.</p>
 </div>
 </div>
 </div>
-<p>And here are the responses from 2018.</p>
+<p>And here are the responses from 2021.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year21</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2018</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year21</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2021</span>
 <span class="n">polviews21</span> <span class="o">=</span> <span class="n">polviews</span><span class="p">[</span><span class="n">year21</span><span class="p">]</span>
 <span class="n">values</span><span class="p">(</span><span class="n">polviews21</span><span class="p">)</span>
 </pre></div>
@@ -550,7 +550,7 @@ First I’ll select the column.</p>
 </div>
 </div>
 </div>
-<p>And from 2018:</p>
+<p>And from 2021:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pmf21</span> <span class="o">=</span> <span class="n">Pmf</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">polviews21</span><span class="p">)</span>
@@ -585,7 +585,7 @@ So maybe we’re not so polarized after all.</p>
 </div>
 </div>
 <p>Now we can see the changes in the distribution more clearly.  It looks like the number of people at the extremes (1 and 7) has increased, and the fraction of slightly liberal (3) and slightly conservative (5) has decreased.</p>
-<p><strong>Exercise:</strong> To summarize these changes, we can compare the mean and standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> in 1974 and 2018.</p>
+<p><strong>Exercise:</strong> To summarize these changes, we can compare the mean and standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> in 1974 and 2021.</p>
 <p>The mean of the responses measures the balance of people in the population with liberal or conservative leanings.  If the mean increases over time, that might indicate a shift in the population toward conservatism.</p>
 <p>The standard deviation measures the dispersion of views in the population; if it increases over time, that might indicate an increase in polarization.</p>
 <p>Compute the mean and standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews74</span></code> and <code class="docutils literal notranslate"><span class="pre">polviews21</span></code>.</p>
@@ -641,7 +641,7 @@ First I’ll use <code class="docutils literal notranslate"><span class="pre">gr
 </div>
 </div>
 <p><strong>Exercise:</strong> The standard deviation quantifies the spread of the distribution, which is one way to measure polarization.
-Plot standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> for each year of the survey from 1972 to 2018.
+Plot standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> for each year of the survey from 1972 to 2021.
 Does it show evidence of increasing polarization?</p>
 </section>
 <section id="local-regression">
@@ -698,7 +698,7 @@ We can use <strong>local regression</strong> to compute a smooth line through th
 </div>
 </div>
 </div>
-<p>One reason the PMFs for 1974 and 2018 did not look very different is that the mean seems to have gone up (more conservative) and then down again (more liberal).
+<p>One reason the PMFs for 1974 and 2021 did not look very different is that the mean seems to have gone up (more conservative) and then down again (more liberal).
 Generally, it looks like the U.S. has been trending toward liberal for the last 20 years, or more, at least in the sense of how people describe themselves.</p>
 <p><strong>Exercise:</strong> Use <code class="docutils literal notranslate"><span class="pre">plot_series_lowess</span></code> to plot the standard deviation of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> with a smooth line.</p>
 </section>
