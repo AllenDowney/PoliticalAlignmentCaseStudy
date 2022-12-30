@@ -1,14 +1,10 @@
-black
+# these versions match Colab as of 2022-12-29
 empiricaldist
-flake8
 jupyter
+numpy==1.22
 matplotlib
-nbautoexport
-nb_black
-numpy
 pandas
-pip
 seaborn
-scipy
-statsmodels
+scipy==1.7
+statsmodels==0.12
 tables
