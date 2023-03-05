@@ -2,6 +2,6 @@ format: jb-article
 root: index
 sections:
 - file: 01_clean
-- file: 02_polviews
+- file: 02_polviews_soln
 - file: 03_outlook
 - file: 04_worldview
