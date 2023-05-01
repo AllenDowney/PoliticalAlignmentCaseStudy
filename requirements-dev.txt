@@ -2,7 +2,5 @@
 black
 flake8
 jupyter
-nb_black
-nbformat
 nbmake
 pytest
