@@ -5,7 +5,7 @@
 #################################################################################
 
 PROJECT_NAME = PoliticalAlignmentCaseStudy
-PYTHON_VERSION = 3.8
+PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 
 
