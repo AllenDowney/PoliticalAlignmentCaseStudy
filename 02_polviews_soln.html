@@ -1459,7 +1459,53 @@ Here are the seven categories plotted as a function of time.
 The <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor</span></code> argument passed to <code class="docutils literal notranslate"><span class="pre">plt.legend</span></code> puts the legend outside the axes of the figure.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xtab_norm</span><span class="p">[</span><span class="s1">&#39;Extremely liberal&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
+1974    0.021908
+1975    0.040057
+1976    0.021877
+1977    0.025085
+1978    0.014463
+1980    0.028792
+1982    0.029176
+1983    0.027202
+1984    0.023961
+1985    0.026585
+1986    0.016937
+1987    0.038984
+1988    0.025281
+1989    0.027643
+1990    0.039544
+1991    0.024490
+1993    0.026065
+1994    0.019404
+1996    0.026007
+1998    0.021237
+2000    0.033534
+2002    0.031502
+2004    0.031603
+2006    0.030911
+2008    0.033661
+2010    0.038481
+2012    0.045769
+2014    0.037674
+2016    0.051487
+2018    0.039415
+2021    0.053644
+2022    0.053660
+Name: Extremely liberal, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
     <span class="n">series</span> <span class="o">=</span> <span class="n">xtab_norm</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
     <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color_map</span><span class="p">[</span><span class="n">group</span><span class="p">])</span>
 
@@ -1474,6 +1520,9 @@ The <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor<
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extremely liberal
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">KeyError</span>: &#39;Extremely liberal&#39;
 </pre></div>
 </div>
