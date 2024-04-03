@@ -58,6 +58,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '05_alignment';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -518,6 +520,24 @@ title="Print to PDF"
 <h1>Alignment and Party Assortation<a class="headerlink" href="#alignment-and-party-assortation" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">empiricaldist</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -528,67 +548,25 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">make_lowess</span><span class="p">,</span> <span class="n">plot_series_lowess</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 3;
-                var nbb_unformatted_code = "plt.rcParams[\"figure.figsize\"] = (6, 4)";
-                var nbb_formatted_code = "plt.rcParams[\"figure.figsize\"] = (6, 4)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.nonparametric.smoothers_lowess</span> <span class="kn">import</span> <span class="n">lowess</span>
-
-
-<span class="k">def</span> <span class="nf">make_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="mf">0.666</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use LOWESS to compute a smooth line.</span>
-
-<span class="sd">    series: pd.Series</span>
-
-<span class="sd">    returns: pd.Series</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
-
-    <span class="n">smooth</span> <span class="o">=</span> <span class="n">lowess</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="n">frac</span><span class="p">)</span>
-    <span class="n">index</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">smooth</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/gss_pacs_resampled.hdf&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 5;
-                var nbb_unformatted_code = "from statsmodels.nonparametric.smoothers_lowess import lowess\n\n\ndef make_lowess(series, frac=0.666):\n    \"\"\"Use LOWESS to compute a smooth line.\n\n    series: pd.Series\n\n    returns: pd.Series\n    \"\"\"\n    y = series.values\n    x = series.index.values\n\n    smooth = lowess(y, x, frac=frac)\n    index, data = np.transpose(smooth)\n\n    return pd.Series(data, index=index)";
-                var nbb_formatted_code = "from statsmodels.nonparametric.smoothers_lowess import lowess\n\n\ndef make_lowess(series, frac=0.666):\n    \"\"\"Use LOWESS to compute a smooth line.\n\n    series: pd.Series\n\n    returns: pd.Series\n    \"\"\"\n    y = series.values\n    x = series.index.values\n\n    smooth = lowess(y, x, frac=frac)\n    index, data = np.transpose(smooth)\n\n    return pd.Series(data, index=index)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -615,65 +593,15 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 6;
-                var nbb_unformatted_code = "def chunk_series(df, xvarname, yvarname, n=50):\n    \"\"\"Break a population into chunks and compute a mean for each chunk.\n\n    Sort by `xvarname`, break into chunks, and compute the mean of column `yvarname`\n\n    df: DataFrame\n    xvarname: variable\n    yvarname: variable\n    size: chunk size\n\n    returns: pd.Series\n    \"\"\"\n    subset = df[[xvarname, yvarname]].dropna().sort_values(by=xvarname).reset_index()\n    size = int(len(df) // n) + 1\n    subset[\"chunk\"] = subset.index // size\n    groupby = subset.groupby(\"chunk\")\n    x = groupby[xvarname].mean()\n    y = groupby[yvarname].mean()\n\n    return pd.Series(y.values, x)";
-                var nbb_formatted_code = "def chunk_series(df, xvarname, yvarname, n=50):\n    \"\"\"Break a population into chunks and compute a mean for each chunk.\n\n    Sort by `xvarname`, break into chunks, and compute the mean of column `yvarname`\n\n    df: DataFrame\n    xvarname: variable\n    yvarname: variable\n    size: chunk size\n\n    returns: pd.Series\n    \"\"\"\n    subset = df[[xvarname, yvarname]].dropna().sort_values(by=xvarname).reset_index()\n    size = int(len(df) // n) + 1\n    subset[\"chunk\"] = subset.index // size\n    groupby = subset.groupby(\"chunk\")\n    x = groupby[xvarname].mean()\n    y = groupby[yvarname].mean()\n\n    return pd.Series(y.values, x)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorate the current axes.</span>
-
-<span class="sd">    Call decorate with keyword arguments like</span>
-<span class="sd">    decorate(title=&#39;Title&#39;,</span>
-<span class="sd">             xlabel=&#39;x&#39;,</span>
-<span class="sd">             ylabel=&#39;y&#39;)</span>
-
-<span class="sd">    The keyword arguments can be any of the axis properties</span>
-<span class="sd">    https://matplotlib.org/api/axes_api.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
-
-    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">handles</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorate_anchor</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="n">decorate</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">anchor_legend</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 8;
-                var nbb_unformatted_code = "def decorate(**options):\n    \"\"\"Decorate the current axes.\n\n    Call decorate with keyword arguments like\n    decorate(title='Title',\n             xlabel='x',\n             ylabel='y')\n\n    The keyword arguments can be any of the axis properties\n    https://matplotlib.org/api/axes_api.html\n    \"\"\"\n    ax = plt.gca()\n    ax.set(**options)\n\n    handles, labels = ax.get_legend_handles_labels()\n    if handles:\n        ax.legend(handles, labels)\n\n    plt.tight_layout()";
-                var nbb_formatted_code = "def decorate(**options):\n    \"\"\"Decorate the current axes.\n\n    Call decorate with keyword arguments like\n    decorate(title='Title',\n             xlabel='x',\n             ylabel='y')\n\n    The keyword arguments can be any of the axis properties\n    https://matplotlib.org/api/axes_api.html\n    \"\"\"\n    ax = plt.gca()\n    ax.set(**options)\n\n    handles, labels = ax.get_legend_handles_labels()\n    if handles:\n        ax.legend(handles, labels)\n\n    plt.tight_layout()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <section id="load-the-data">
 <h2>Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this heading">#</a></h2>
@@ -686,25 +614,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(68846, 204)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72390, 207)
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 10;
-                var nbb_unformatted_code = "datafile = \"gss_pacs_resampled.hdf\"\ngss = pd.read_hdf(datafile, \"gss0\")\ngss.shape";
-                var nbb_formatted_code = "datafile = \"gss_pacs_resampled.hdf\"\ngss = pd.read_hdf(datafile, \"gss0\")\ngss.shape";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -720,23 +633,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 12;
-                var nbb_unformatted_code = "columns = [\n    \"Extremely liberal\",\n    \"Liberal\",\n    \"Slightly liberal\",\n    \"Moderate\",\n    \"Slightly conservative\",\n    \"Conservative\",\n    \"Extremely conservative\",\n]";
-                var nbb_formatted_code = "columns = [\n    \"Extremely liberal\",\n    \"Liberal\",\n    \"Slightly liberal\",\n    \"Moderate\",\n    \"Slightly conservative\",\n    \"Conservative\",\n    \"Extremely conservative\",\n]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -747,23 +643,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/642d7b873c290b4e25380c01c67d708c735526128091a721c9b1ac5ff4e9369b.png" src="_images/642d7b873c290b4e25380c01c67d708c735526128091a721c9b1ac5ff4e9369b.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 13;
-                var nbb_unformatted_code = "palette = sns.color_palette(\"RdBu_r\", 7)\npalette[3] = \"purple\"\nsns.palplot(palette)";
-                var nbb_formatted_code = "palette = sns.color_palette(\"RdBu_r\", 7)\npalette[3] = \"purple\"\nsns.palplot(palette)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/5514839a1d31c168dfc64b80fd98a716e2c7bac817e1eac709a0f00ec299b75b.png" src="_images/5514839a1d31c168dfc64b80fd98a716e2c7bac817e1eac709a0f00ec299b75b.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -771,23 +652,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 14;
-                var nbb_unformatted_code = "color_map = dict(zip(columns, palette))";
-                var nbb_formatted_code = "color_map = dict(zip(columns, palette))";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -797,23 +661,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 15;
-                var nbb_unformatted_code = "# recode the 7 point scale with words\nd7 = dict(zip(range(1, 8), columns))\npolviews7 = gss[\"polviews\"].replace(d7)";
-                var nbb_formatted_code = "# recode the 7 point scale with words\nd7 = dict(zip(range(1, 8), columns))\npolviews7 = gss[\"polviews\"].replace(d7)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -821,23 +668,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 16;
-                var nbb_unformatted_code = "xtab = pd.crosstab(gss[\"year\"], polviews7, normalize=\"index\") * 100";
-                var nbb_formatted_code = "xtab = pd.crosstab(gss[\"year\"], polviews7, normalize=\"index\") * 100";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -857,23 +687,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/3e282028b039f728b94d7bebf9dac99dcb497dfc97ec52fa43fa2bbdd4be6458.png" src="_images/3e282028b039f728b94d7bebf9dac99dcb497dfc97ec52fa43fa2bbdd4be6458.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 17;
-                var nbb_unformatted_code = "for column in reversed(columns):\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 43],\n    title=\"Percentage of respondents with each political view\",\n)\n\nplt.legend(bbox_to_anchor=(1.02, 1.02))\nplt.savefig(\"alignment1.jpg\", dpi=600)";
-                var nbb_formatted_code = "for column in reversed(columns):\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 43],\n    title=\"Percentage of respondents with each political view\",\n)\n\nplt.legend(bbox_to_anchor=(1.02, 1.02))\nplt.savefig(\"alignment1.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/510e61d5ed39fed0a4d23f79b655f5a4e7383968a0d315f9bc6a3240824754ed.png" src="_images/510e61d5ed39fed0a4d23f79b655f5a4e7383968a0d315f9bc6a3240824754ed.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -893,23 +708,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/0519537909b018377c9f59b5da29c1a7516202a08e018130f18b5b155a25f0e6.png" src="_images/0519537909b018377c9f59b5da29c1a7516202a08e018130f18b5b155a25f0e6.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 18;
-                var nbb_unformatted_code = "selected_columns = [\"Extremely liberal\", \"Extremely conservative\"]\n\nfor column in selected_columns:\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 5.7],\n    title=\"Percentage of respondents with extreme political views\",\n)\nplt.savefig(\"alignment2.jpg\", dpi=600)";
-                var nbb_formatted_code = "selected_columns = [\"Extremely liberal\", \"Extremely conservative\"]\n\nfor column in selected_columns:\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 5.7],\n    title=\"Percentage of respondents with extreme political views\",\n)\nplt.savefig(\"alignment2.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/6a98c441465732ae62b2111a6f3dada92e98f84c4d92e858472ad9af70adeeab.png" src="_images/6a98c441465732ae62b2111a6f3dada92e98f84c4d92e858472ad9af70adeeab.png" />
+</div>
 </div>
 </section>
 <section id="but-what-do-people-think">
@@ -928,23 +728,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 22;
-                var nbb_unformatted_code = "recode_polviews = {\n    1: \"Liberal\",\n    2: \"Liberal\",\n    3: \"Liberal\",\n    4: \"Moderate\",\n    5: \"Conservative\",\n    6: \"Conservative\",\n    7: \"Conservative\",\n}";
-                var nbb_formatted_code = "recode_polviews = {\n    1: \"Liberal\",\n    2: \"Liberal\",\n    3: \"Liberal\",\n    4: \"Moderate\",\n    5: \"Conservative\",\n    6: \"Conservative\",\n    7: \"Conservative\",\n}";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -952,23 +735,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 23;
-                var nbb_unformatted_code = "gss[\"polviews3\"] = gss[\"polviews\"].replace(recode_polviews)";
-                var nbb_formatted_code = "gss[\"polviews3\"] = gss[\"polviews\"].replace(recode_polviews)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <p>For each question, I identified the responses more likely to be chosen by conservatives.
 The following figure shows, for each question, the percentage of liberals, moderates, and conservatives who chose one of the conservative responses.</p>
@@ -982,23 +748,6 @@ The following figure shows, for each question, the percentage of liberals, moder
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 27;
-                var nbb_unformatted_code = "polview_names = [\"Conservative\", \"Moderate\", \"Liberal\"]\nparty_names = [\"Republican\", \"Nonpartisan\", \"Democrat\"]\n\nmarker_map = dict(zip(polview_names, [\"s\", \"^\", \"o\"]))\nline_map = dict(zip(polview_names, [\"--\", \"-.\", \":\"]))";
-                var nbb_formatted_code = "polview_names = [\"Conservative\", \"Moderate\", \"Liberal\"]\nparty_names = [\"Republican\", \"Nonpartisan\", \"Democrat\"]\n\nmarker_map = dict(zip(polview_names, [\"s\", \"^\", \"o\"]))\nline_map = dict(zip(polview_names, [\"--\", \"-.\", \":\"]))";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1008,43 +757,11 @@ The following figure shows, for each question, the percentage of liberals, moder
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 28;
-                var nbb_unformatted_code = "muted = sns.color_palette(\"muted\", 5)\npolview_map = dict(zip(polview_names, [muted[3], muted[4], muted[0]]))\nparty_map = dict(zip(party_names, [muted[3], muted[4], muted[0]]))";
-                var nbb_formatted_code = "muted = sns.color_palette(\"muted\", 5)\npolview_map = dict(zip(polview_names, [muted[3], muted[4], muted[0]]))\nparty_map = dict(zip(party_names, [muted[3], muted[4], muted[0]]))";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/266b5a2888a5d2a485b9b0c808660d862198157c21a8add47245255bf9dfef05.png" src="_images/266b5a2888a5d2a485b9b0c808660d862198157c21a8add47245255bf9dfef05.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 29;
-                var nbb_unformatted_code = "plt.figure(figsize=(7, 4.5))\nplt.hlines(\n    issue_names,\n    table[\"Liberal\"],\n    table[\"Conservative\"],\n    color=\"gray\",\n    alpha=0.2,\n)\n\nfor polviews, color in polview_map.items():\n    x = table[polviews]\n    marker = marker_map[polviews]\n    plt.plot(x, issue_names, marker, color=color, alpha=0.9, label=polviews)\n\ndecorate(xlabel=\"Percent choosing conservative responses\")\nplt.savefig(\"alignment3.jpg\", dpi=600)";
-                var nbb_formatted_code = "plt.figure(figsize=(7, 4.5))\nplt.hlines(\n    issue_names,\n    table[\"Liberal\"],\n    table[\"Conservative\"],\n    color=\"gray\",\n    alpha=0.2,\n)\n\nfor polviews, color in polview_map.items():\n    x = table[polviews]\n    marker = marker_map[polviews]\n    plt.plot(x, issue_names, marker, color=color, alpha=0.9, label=polviews)\n\ndecorate(xlabel=\"Percent choosing conservative responses\")\nplt.savefig(\"alignment3.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/348d6abc5b2819acb63e2a63e1244b67d2fc5642b0b425bd41206ecbddb3abd0.png" src="_images/348d6abc5b2819acb63e2a63e1244b67d2fc5642b0b425bd41206ecbddb3abd0.png" />
+</div>
 </div>
 </section>
 <section id="change-in-location-and-spread">
@@ -1064,23 +781,8 @@ The following figure shows, for each question, the percentage of liberals, moder
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/275fe4d11ceb2a0ca14e3b1950e1506aa1bcc6b50218bba77f3ccc5f94471bee.png" src="_images/275fe4d11ceb2a0ca14e3b1950e1506aa1bcc6b50218bba77f3ccc5f94471bee.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 41;
-                var nbb_unformatted_code = "by_year = gss.groupby(\"year\")\n\nselected_years = [1986, 2016]\nfor year in selected_years:\n    group = by_year.get_group(year)\n    sns.kdeplot(group[\"conservatism\"], cut=0, bw_adjust=1.3, label=year)\n\ndecorate(xlabel=\"Number of conservative responses\")\nplt.savefig(\"alignment4.jpg\", dpi=600)";
-                var nbb_formatted_code = "by_year = gss.groupby(\"year\")\n\nselected_years = [1986, 2016]\nfor year in selected_years:\n    group = by_year.get_group(year)\n    sns.kdeplot(group[\"conservatism\"], cut=0, bw_adjust=1.3, label=year)\n\ndecorate(xlabel=\"Number of conservative responses\")\nplt.savefig(\"alignment4.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/9980ef7717992b45eaa0a8c59875b8d02568435c40eec841bdae62e1941c644e.png" src="_images/9980ef7717992b45eaa0a8c59875b8d02568435c40eec841bdae62e1941c644e.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1091,27 +793,12 @@ The following figure shows, for each question, the percentage of liberals, moder
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    7.638625
-2016    5.502925
+1986    7.635216
+2016    5.499032
 Name: conservatism, dtype: float64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 42;
-                var nbb_unformatted_code = "series_conservatism = gss.groupby(\"year\")[\"conservatism\"].mean()\nseries_conservatism.loc[selected_years]";
-                var nbb_formatted_code = "series_conservatism = gss.groupby(\"year\")[\"conservatism\"].mean()\nseries_conservatism.loc[selected_years]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1120,43 +807,11 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 43;
-                var nbb_unformatted_code = "def highlight_years(series, years):\n    plt.plot(series.loc[years], \"x\", color=\"C4\")";
-                var nbb_formatted_code = "def highlight_years(series, years):\n    plt.plot(series.loc[years], \"x\", color=\"C4\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/b7b0801018d089321876a75ea40b0af018c3ec15ace8afdafbe40872b212b72f.png" src="_images/b7b0801018d089321876a75ea40b0af018c3ec15ace8afdafbe40872b212b72f.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 44;
-                var nbb_unformatted_code = "plot_series_lowess(series_conservatism, plot_series=True, color=\"C0\", label=\"\")\nhighlight_years(series_conservatism, selected_years)\n\ndecorate(xlabel=\"Year of survey\", ylabel=\"Number of conservative responses\")\nplt.savefig(\"alignment5.jpg\", dpi=600)";
-                var nbb_formatted_code = "plot_series_lowess(series_conservatism, plot_series=True, color=\"C0\", label=\"\")\nhighlight_years(series_conservatism, selected_years)\n\ndecorate(xlabel=\"Year of survey\", ylabel=\"Number of conservative responses\")\nplt.savefig(\"alignment5.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/7756bfa52edeee7856a8eee152de57e80f07542f56af10a57d9478cf80f696c5.png" src="_images/7756bfa52edeee7856a8eee152de57e80f07542f56af10a57d9478cf80f696c5.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1167,55 +822,27 @@ Name: conservatism, dtype: float64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    3.000942
-2016    3.194460
+1986    2.993371
+2016    3.197281
 Name: conservatism, dtype: float64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 45;
-                var nbb_unformatted_code = "std_year = gss.groupby(\"year\")[\"conservatism\"].std()\nstd_year.loc[selected_years]";
-                var nbb_formatted_code = "std_year = gss.groupby(\"year\")[\"conservatism\"].std()\nstd_year.loc[selected_years]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">std_year</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">plot_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">std_year</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">)</span>
 <span class="n">highlight_years</span><span class="p">(</span><span class="n">std_year</span><span class="p">,</span> <span class="n">selected_years</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Standard deviation of conservatism&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> 
+         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Standard deviation of conservatism&quot;</span><span class="p">,</span>
+         <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment6.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8a7991ff08ef9be6d30bac5f36390caaea7d7b77f9fa327f81b4e7fc28e853ba.png" src="_images/8a7991ff08ef9be6d30bac5f36390caaea7d7b77f9fa327f81b4e7fc28e853ba.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 46;
-                var nbb_unformatted_code = "plot_series_lowess(std_year, \"C1\", plot_series=True, label=\"\")\nhighlight_years(std_year, selected_years)\ndecorate(xlabel=\"Year\", ylabel=\"Standard deviation of conservatism\")\nplt.savefig(\"alignment6.jpg\", dpi=600)";
-                var nbb_formatted_code = "plot_series_lowess(std_year, \"C1\", plot_series=True, label=\"\")\nhighlight_years(std_year, selected_years)\ndecorate(xlabel=\"Year\", ylabel=\"Standard deviation of conservatism\")\nplt.savefig(\"alignment6.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/804dd9a3bb1fedb1702278e2fdc4566ced6b1c1dc1acbf66223f12b95c9c5fb2.png" src="_images/804dd9a3bb1fedb1702278e2fdc4566ced6b1c1dc1acbf66223f12b95c9c5fb2.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1228,23 +855,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 47;
-                var nbb_unformatted_code = "def compute_mad(seq):\n    con = seq.dropna()\n    if len(con) == 0:\n        return np.nan\n    X, Y = np.meshgrid(con, con)\n    return np.abs(X - Y).mean()";
-                var nbb_formatted_code = "def compute_mad(seq):\n    con = seq.dropna()\n    if len(con) == 0:\n        return np.nan\n    X, Y = np.meshgrid(con, con)\n    return np.abs(X - Y).mean()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1255,23 +865,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 48;
-                var nbb_unformatted_code = "series_mad = pd.Series(dtype=float)\nfor name, group in gss.groupby(\"year\"):\n    con = group[\"conservatism\"].dropna()\n    series_mad.loc[name] = compute_mad(con)";
-                var nbb_formatted_code = "series_mad = pd.Series(dtype=float)\nfor name, group in gss.groupby(\"year\"):\n    con = group[\"conservatism\"].dropna()\n    series_mad.loc[name] = compute_mad(con)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1282,55 +875,25 @@ Name: conservatism, dtype: float64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    3.429145
-2016    3.638044
+1986    3.419892
+2016    3.640552
 Name: conservatism, dtype: float64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 49;
-                var nbb_unformatted_code = "series_mad = gss.groupby(\"year\")[\"conservatism\"].agg(compute_mad)\nseries_mad.loc[selected_years]";
-                var nbb_formatted_code = "series_mad = gss.groupby(\"year\")[\"conservatism\"].agg(compute_mad)\nseries_mad.loc[selected_years]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series_mad</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">plot_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series_mad</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
 <span class="n">highlight_years</span><span class="p">(</span><span class="n">series_mad</span><span class="p">,</span> <span class="n">selected_years</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;MADiff of conservatism&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;MADiff of conservatism&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment7.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8c4a5109012e99866bcff7b547f2a26a6cbcf9a78d66cf035d40b4b0c417eb19.png" src="_images/8c4a5109012e99866bcff7b547f2a26a6cbcf9a78d66cf035d40b4b0c417eb19.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 50;
-                var nbb_unformatted_code = "plot_series_lowess(series_mad, color=\"C2\", plot_series=True, label=\"\")\nhighlight_years(series_mad, selected_years)\ndecorate(xlabel=\"Year\", ylabel=\"MADiff of conservatism\")\nplt.savefig(\"alignment7.jpg\", dpi=600)";
-                var nbb_formatted_code = "plot_series_lowess(series_mad, color=\"C2\", plot_series=True, label=\"\")\nhighlight_years(series_mad, selected_years)\ndecorate(xlabel=\"Year\", ylabel=\"MADiff of conservatism\")\nplt.savefig(\"alignment7.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/5b7d545bff589a3244a3dfc9624935d736b05534cd8c1b694c495ba824564f92.png" src="_images/5b7d545bff589a3244a3dfc9624935d736b05534cd8c1b694c495ba824564f92.png" />
+</div>
 </div>
 </section>
 <section id="conservatism-by-polviews">
@@ -1343,23 +906,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 51;
-                var nbb_unformatted_code = "table = gss.pivot_table(\n    index=\"year\", columns=\"polviews3\", values=\"conservatism\", aggfunc=compute_mad\n)";
-                var nbb_formatted_code = "table = gss.pivot_table(\n    index=\"year\", columns=\"polviews3\", values=\"conservatism\", aggfunc=compute_mad\n)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1375,23 +921,8 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8d41020c930a373a409df0c5a093168bfcb8e0540692e495299fecb9e730516f.png" src="_images/8d41020c930a373a409df0c5a093168bfcb8e0540692e495299fecb9e730516f.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 52;
-                var nbb_unformatted_code = "columns = [\"Conservative\", \"Liberal\", \"Moderate\"]\nfor column in columns:\n    plot_series_lowess(table[column], polview_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"MADiff of conservatism\",\n)";
-                var nbb_formatted_code = "columns = [\"Conservative\", \"Liberal\", \"Moderate\"]\nfor column in columns:\n    plot_series_lowess(table[column], polview_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"MADiff of conservatism\",\n)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/1869d75858fa0b6012d93907693b02a6258237c35ca1570932f6e33e91a428cb.png" src="_images/1869d75858fa0b6012d93907693b02a6258237c35ca1570932f6e33e91a428cb.png" />
+</div>
 </div>
 </section>
 <section id="polarization-by-party">
@@ -1413,22 +944,7 @@ Name: conservatism, dtype: float64
  &#39;Strong republican&#39;]
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 54;
-                var nbb_unformatted_code = "columns = list(recode_party.values())[:-1]\ncolumns";
-                var nbb_formatted_code = "columns = list(recode_party.values())[:-1]\ncolumns";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1436,23 +952,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 55;
-                var nbb_unformatted_code = "color_map = dict(zip(columns, palette))";
-                var nbb_formatted_code = "color_map = dict(zip(columns, palette))";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1460,23 +959,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 56;
-                var nbb_unformatted_code = "xtab = pd.crosstab(gss[\"year\"], gss[\"party7\"], normalize=\"index\") * 100";
-                var nbb_formatted_code = "xtab = pd.crosstab(gss[\"year\"], gss[\"party7\"], normalize=\"index\") * 100";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1495,23 +977,8 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/3593e659034c4b2c79f9d814e8bc285432a95d956ebd9033e6197d22bd7dc136.png" src="_images/3593e659034c4b2c79f9d814e8bc285432a95d956ebd9033e6197d22bd7dc136.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 57;
-                var nbb_unformatted_code = "for column in reversed(columns):\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 43],\n    title=\"Percentage of respondents with each political party\",\n)\n\nplt.savefig(\"alignment8.jpg\", dpi=600)";
-                var nbb_formatted_code = "for column in reversed(columns):\n    plot_series_lowess(xtab[column], color_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 43],\n    title=\"Percentage of respondents with each political party\",\n)\n\nplt.savefig(\"alignment8.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/fb827d6e1d78654d782e7fd9ee72e15b694a68f8ee6a261f22d7f72ef7d5e3b9.png" src="_images/fb827d6e1d78654d782e7fd9ee72e15b694a68f8ee6a261f22d7f72ef7d5e3b9.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1583,22 +1050,7 @@ Name: conservatism, dtype: float64
     </tr>
   </tbody>
 </table>
-</div></div><script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 59;
-                var nbb_unformatted_code = "xtab = pd.crosstab(gss[\"year\"], gss[\"party3\"], normalize=\"index\") * 100\nxtab.head()";
-                var nbb_formatted_code = "xtab = pd.crosstab(gss[\"year\"], gss[\"party3\"], normalize=\"index\") * 100\nxtab.head()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1618,51 +1070,21 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/df92bdc2fc3784591e5737697de0928b97a93ff33a1c5c0bc3af56e2c844d06d.png" src="_images/df92bdc2fc3784591e5737697de0928b97a93ff33a1c5c0bc3af56e2c844d06d.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 60;
-                var nbb_unformatted_code = "for column in party_names:\n    plot_series_lowess(xtab[column], party_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 50],\n    title=\"Percentage of respondents in each party\",\n)\n\nplt.legend(bbox_to_anchor=(1.02, 1.02))\nplt.savefig(\"alignment9.jpg\", dpi=600)";
-                var nbb_formatted_code = "for column in party_names:\n    plot_series_lowess(xtab[column], party_map[column])\n\ndecorate(\n    xlabel=\"Year\",\n    ylabel=\"Percent\",\n    ylim=[0, 50],\n    title=\"Percentage of respondents in each party\",\n)\n\nplt.legend(bbox_to_anchor=(1.02, 1.02))\nplt.savefig(\"alignment9.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/2c0e2ba0ed3c2e7b766bc9900d30ca7f0113e960aa592b5f4d1f2fe777a0326a.png" src="_images/2c0e2ba0ed3c2e7b766bc9900d30ca7f0113e960aa592b5f4d1f2fe777a0326a.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Republican&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Democrat&quot;</span><span class="p">]</span>
-<span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="n">plot_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="s2">&quot;C4&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Difference between Democrats and Republicans&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment11.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/33a09c6d1b25a10989e7a6d8356a07ae373c56356690641bde6d597dd4d6714d.png" src="_images/33a09c6d1b25a10989e7a6d8356a07ae373c56356690641bde6d597dd4d6714d.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 64;
-                var nbb_unformatted_code = "diff = table[\"Republican\"] - table[\"Democrat\"]\nplot_series_lowess(diff, \"C4\", plot_series=True, label=\"\")\ndecorate(xlabel=\"Year\", ylabel=\"Difference between Democrats and Republicans\")\nplt.savefig(\"alignment11.jpg\", dpi=600)";
-                var nbb_formatted_code = "diff = table[\"Republican\"] - table[\"Democrat\"]\nplot_series_lowess(diff, \"C4\", plot_series=True, label=\"\")\ndecorate(xlabel=\"Year\", ylabel=\"Difference between Democrats and Republicans\")\nplt.savefig(\"alignment11.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/bd779bb2388a4a3dc6f7f5ce110bb7a426a08565a63a0d71ebe36605508e1e0c.png" src="_images/bd779bb2388a4a3dc6f7f5ce110bb7a426a08565a63a0d71ebe36605508e1e0c.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1680,23 +1102,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 65;
-                var nbb_unformatted_code = "def compare_kde_plots(df):\n    for name, group in df.groupby(\"party3\"):\n        sns.kdeplot(\n            group[\"conservatism\"],\n            color=party_map[name],\n            label=name,\n            cut=0,\n            bw_adjust=1.3,\n        )\n\n    decorate(xlabel=\"Number of conservative responses\")";
-                var nbb_formatted_code = "def compare_kde_plots(df):\n    for name, group in df.groupby(\"party3\"):\n        sns.kdeplot(\n            group[\"conservatism\"],\n            color=party_map[name],\n            label=name,\n            cut=0,\n            bw_adjust=1.3,\n        )\n\n    decorate(xlabel=\"Number of conservative responses\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1706,23 +1111,8 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/15b6f7531475ae522c28acdcdde612ee9c494760fa4ddeadd5a27154641b5127.png" src="_images/15b6f7531475ae522c28acdcdde612ee9c494760fa4ddeadd5a27154641b5127.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 66;
-                var nbb_unformatted_code = "compare_kde_plots(gss.query(\"year==1988\"))\nplt.savefig(\"alignment12.jpg\", dpi=600)";
-                var nbb_formatted_code = "compare_kde_plots(gss.query(\"year==1988\"))\nplt.savefig(\"alignment12.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/92c4ac8a9bd091c8a9a15bebc2cf3a84370ee974fc7450150cb2e4b9a2fd6b16.png" src="_images/92c4ac8a9bd091c8a9a15bebc2cf3a84370ee974fc7450150cb2e4b9a2fd6b16.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1732,23 +1122,8 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/723be30bc095c41c16ea679882193532a16664784ca0ba61e0c9cfdf521ea8a9.png" src="_images/723be30bc095c41c16ea679882193532a16664784ca0ba61e0c9cfdf521ea8a9.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 67;
-                var nbb_unformatted_code = "compare_kde_plots(gss.query(\"year==2018\"))\nplt.savefig(\"alignment13.jpg\", dpi=600)";
-                var nbb_formatted_code = "compare_kde_plots(gss.query(\"year==2018\"))\nplt.savefig(\"alignment13.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/63eef43e25d61fa423449fda733908c88595f84e23b0c5ea4b08aecd49ee0d58.png" src="_images/63eef43e25d61fa423449fda733908c88595f84e23b0c5ea4b08aecd49ee0d58.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1766,23 +1141,8 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d5793939c94afa6fb49c87e9ab49d49a56dff30dd172c311426e76639c2e38d0.png" src="_images/d5793939c94afa6fb49c87e9ab49d49a56dff30dd172c311426e76639c2e38d0.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 70;
-                var nbb_unformatted_code = "plt.figure(figsize=(9, 4))\n\nfor i, year in enumerate([1988, 2018]):\n    plt.subplot(1, 2, i + 1)\n    compare_kde_plots(gss.query(f\"year=={year}\"))\n    plt.title(year)\n    if i == 1:\n        plt.ylabel(\"\")\n\nplt.savefig(\"alignment13.jpg\", dpi=600)";
-                var nbb_formatted_code = "plt.figure(figsize=(9, 4))\n\nfor i, year in enumerate([1988, 2018]):\n    plt.subplot(1, 2, i + 1)\n    compare_kde_plots(gss.query(f\"year=={year}\"))\n    plt.title(year)\n    if i == 1:\n        plt.ylabel(\"\")\n\nplt.savefig(\"alignment13.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/6f8a4eea9b7d03fba4b55b4324c3c0ed3669edf2b16ebc80a86269d129b0d940.png" src="_images/6f8a4eea9b7d03fba4b55b4324c3c0ed3669edf2b16ebc80a86269d129b0d940.png" />
+</div>
 </div>
 </section>
 <section id="correlation">
@@ -1797,23 +1157,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 71;
-                var nbb_unformatted_code = "series_corr = (\n    gss.groupby(\"year\")[[\"conservatism\", \"partyid\"]]\n    .corr()[\"conservatism\"]\n    .xs(\"partyid\", level=1)\n)";
-                var nbb_formatted_code = "series_corr = (\n    gss.groupby(\"year\")[[\"conservatism\", \"partyid\"]]\n    .corr()[\"conservatism\"]\n    .xs(\"partyid\", level=1)\n)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1822,84 +1165,55 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1973.0    0.119789
-1974.0    0.120192
-1975.0    0.120722
-1976.0    0.121359
-1977.0    0.122073
-1978.0    0.122842
-1980.0    0.124531
-1982.0    0.126497
-1983.0    0.127644
-1984.0    0.129015
-1985.0    0.131006
-1986.0    0.135591
-1987.0    0.141326
-1988.0    0.149131
-1989.0    0.156118
-1990.0    0.163451
-1991.0    0.171627
-1993.0    0.188052
-1994.0    0.197494
-1996.0    0.215311
-1998.0    0.233253
-2000.0    0.250964
-2002.0    0.266878
-2004.0    0.281460
-2006.0    0.295713
-2008.0    0.311129
-2010.0    0.326873
-2012.0    0.342604
-2014.0    0.358184
-2016.0    0.373570
-2018.0    0.388802
-2021.0    0.411571
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1973.0    0.115622
+1974.0    0.116631
+1975.0    0.117765
+1976.0    0.119009
+1977.0    0.120343
+1978.0    0.121750
+1980.0    0.124783
+1982.0    0.128177
+1983.0    0.130054
+1984.0    0.132111
+1985.0    0.134466
+1986.0    0.137507
+1987.0    0.143163
+1988.0    0.149613
+1989.0    0.157334
+1990.0    0.164511
+1991.0    0.172101
+1993.0    0.189355
+1994.0    0.198083
+1996.0    0.215875
+1998.0    0.233721
+2000.0    0.250751
+2002.0    0.266292
+2004.0    0.281832
+2006.0    0.296517
+2008.0    0.312880
+2010.0    0.329575
+2012.0    0.346229
+2014.0    0.362747
+2016.0    0.379118
+2018.0    0.395393
+2021.0    0.419831
+2022.0    0.428039
 dtype: float64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 125;
-                var nbb_unformatted_code = "make_lowess(series_corr)";
-                var nbb_formatted_code = "make_lowess(series_corr)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series_corr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">plot_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series_corr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Correlation of conservatism and party&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment14.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d230db2ed7c3dff6597613759fe662e4a16ec820ed620e3c1bc0435aaa99c253.png" src="_images/d230db2ed7c3dff6597613759fe662e4a16ec820ed620e3c1bc0435aaa99c253.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 72;
-                var nbb_unformatted_code = "plot_series_lowess(series_corr, color=\"C2\", plot_series=True, label=\"\")\ndecorate(xlabel=\"Year\", ylabel=\"Correlation of conservatism and party\", ylim=[0, 0.5])\nplt.savefig(\"alignment14.jpg\", dpi=600)";
-                var nbb_formatted_code = "plot_series_lowess(series_corr, color=\"C2\", plot_series=True, label=\"\")\ndecorate(xlabel=\"Year\", ylabel=\"Correlation of conservatism and party\", ylim=[0, 0.5])\nplt.savefig(\"alignment14.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/29ca5306765453b423b0235d300a11e3ddc621380d1f3ccb7a73e1bdb1572270.png" src="_images/29ca5306765453b423b0235d300a11e3ddc621380d1f3ccb7a73e1bdb1572270.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1909,23 +1223,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 73;
-                var nbb_unformatted_code = "n = len(gss)\ngss[\"party_jitter\"] = gss[\"partyid\"].replace(7, np.nan) + np.random.normal(0, 0.5, n)\ngss[\"con_jitter\"] = gss[\"conservatism\"] + np.random.normal(0, 0.2, n)";
-                var nbb_formatted_code = "n = len(gss)\ngss[\"party_jitter\"] = gss[\"partyid\"].replace(7, np.nan) + np.random.normal(0, 0.5, n)\ngss[\"con_jitter\"] = gss[\"conservatism\"] + np.random.normal(0, 0.2, n)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1942,23 +1239,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 74;
-                var nbb_unformatted_code = "yticks = range(7)\nylabels = [\n    \"Strong democrat\",\n    \"Not very strong democrat\",\n    \"Independent, close to democrat\",\n    \"Independent (neither, no response)\",\n    \"Independent, close to republican\",\n    \"Not very strong republican\",\n    \"Strong Republican\",\n]";
-                var nbb_formatted_code = "yticks = range(7)\nylabels = [\n    \"Strong democrat\",\n    \"Not very strong democrat\",\n    \"Independent, close to democrat\",\n    \"Independent (neither, no response)\",\n    \"Independent, close to republican\",\n    \"Not very strong republican\",\n    \"Strong Republican\",\n]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1966,23 +1246,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 75;
-                var nbb_unformatted_code = "grouped = gss.groupby(\"year\")";
-                var nbb_formatted_code = "grouped = gss.groupby(\"year\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1991,28 +1254,11 @@ dtype: float64
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;con_jitter&quot;</span><span class="p">],</span> <span class="n">group</span><span class="p">[</span><span class="s2">&quot;party_jitter&quot;</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([],</span> <span class="p">[])</span>
     <span class="n">series</span> <span class="o">=</span> <span class="n">chunk_series</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;conservatism&quot;</span><span class="p">,</span> <span class="s2">&quot;partyid&quot;</span><span class="p">)</span>
-    <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Number of conservative responses&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 119;
-                var nbb_unformatted_code = "def make_scatter(year):\n    group = grouped.get_group(year)\n    plt.plot(group[\"con_jitter\"], group[\"party_jitter\"], \"o\", color='C1', alpha=0.05)\n    plt.yticks([], [])\n    series = chunk_series(group, \"conservatism\", \"partyid\")\n    plot_series_lowess(series, color=\"C4\", label=\"\", alpha=0.8)\n    decorate(xlabel=\"Number of conservative responses\", xlim=[0, 15])";
-                var nbb_formatted_code = "def make_scatter(year):\n    group = grouped.get_group(year)\n    plt.plot(group[\"con_jitter\"], group[\"party_jitter\"], \"o\", color=\"C1\", alpha=0.05)\n    plt.yticks([], [])\n    series = chunk_series(group, \"conservatism\", \"partyid\")\n    plot_series_lowess(series, color=\"C4\", label=\"\", alpha=0.8)\n    decorate(xlabel=\"Number of conservative responses\", xlim=[0, 15])";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2025,23 +1271,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 120;
-                var nbb_unformatted_code = "yticks = [0, 3, 6]\nylabels = [\n    \"Democrat\",\n    \"Independent\",\n    \"Republican\",\n]";
-                var nbb_formatted_code = "yticks = [0, 3, 6]\nylabels = [\n    \"Democrat\",\n    \"Independent\",\n    \"Republican\",\n]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2060,23 +1289,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 121;
-                var nbb_unformatted_code = "def make_contour(year):\n    group = grouped.get_group(year)\n    sns.kdeplot(x=group[\"con_jitter\"], y=group[\"party_jitter\"], cut=0)\n    series = chunk_series(group, \"conservatism\", \"partyid\")\n    plot_series_lowess(series, color=\"C4\", label=\"\")\n    plt.yticks([], [])\n    decorate(\n        xlabel=\"Number of conservative responses\",\n        ylabel=\"\",\n        xlim=[0, 15],\n        # ylim=[-1.0, 8],\n    )";
-                var nbb_formatted_code = "def make_contour(year):\n    group = grouped.get_group(year)\n    sns.kdeplot(x=group[\"con_jitter\"], y=group[\"party_jitter\"], cut=0)\n    series = chunk_series(group, \"conservatism\", \"partyid\")\n    plot_series_lowess(series, color=\"C4\", label=\"\")\n    plt.yticks([], [])\n    decorate(\n        xlabel=\"Number of conservative responses\",\n        ylabel=\"\",\n        xlim=[0, 15],\n        # ylim=[-1.0, 8],\n    )";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2085,23 +1297,8 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b23b06605ce648cd2dd6a0e1a804b38bb6bae76aa05311d8a7ff1f3bdf706248.png" src="_images/b23b06605ce648cd2dd6a0e1a804b38bb6bae76aa05311d8a7ff1f3bdf706248.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 122;
-                var nbb_unformatted_code = "make_scatter(1988)";
-                var nbb_formatted_code = "make_scatter(1988)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/4cb921efd11c82f080bef2d4a6e63e3b7bb43aa61b27ac787ae4dbde41092c7c.png" src="_images/4cb921efd11c82f080bef2d4a6e63e3b7bb43aa61b27ac787ae4dbde41092c7c.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2110,23 +1307,8 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2f9e2aeedadbaea4d0ea5a3a6d05ccddb5a01b3f82b27aa89c9d4a05c75685d7.png" src="_images/2f9e2aeedadbaea4d0ea5a3a6d05ccddb5a01b3f82b27aa89c9d4a05c75685d7.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 123;
-                var nbb_unformatted_code = "make_scatter(2018)";
-                var nbb_formatted_code = "make_scatter(2018)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/631db40df85026c7ea5f79391a054b80e1b1c56dbf2803bcf9b0bc62ffd34589.png" src="_images/631db40df85026c7ea5f79391a054b80e1b1c56dbf2803bcf9b0bc62ffd34589.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2145,23 +1327,8 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/371b7ed557112e5f357e02f0c91aa589937d7bbd309738ea0a301edef06e8239.png" src="_images/371b7ed557112e5f357e02f0c91aa589937d7bbd309738ea0a301edef06e8239.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 124;
-                var nbb_unformatted_code = "plt.figure(figsize=(9, 4))\n\nfor i, year in enumerate([1988, 2018]):\n    plt.subplot(1, 2, i + 1)\n    make_scatter(year)\n    plt.title(year)\n    if i == 0:\n        plt.yticks(yticks, ylabels)\n\n\nplt.savefig(\"alignment15.jpg\", dpi=600)";
-                var nbb_formatted_code = "plt.figure(figsize=(9, 4))\n\nfor i, year in enumerate([1988, 2018]):\n    plt.subplot(1, 2, i + 1)\n    make_scatter(year)\n    plt.title(year)\n    if i == 0:\n        plt.yticks(yticks, ylabels)\n\n\nplt.savefig(\"alignment15.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/d409492ad994af40178af5cf46e2a5bcc51abfb8ae84bbb2a713af1279b3e113.png" src="_images/d409492ad994af40178af5cf46e2a5bcc51abfb8ae84bbb2a713af1279b3e113.png" />
+</div>
 </div>
 </section>
 <section id="counterfactual-model">
@@ -2193,23 +1360,6 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 118;
-                var nbb_unformatted_code = "from statsmodels.miscmodels.ordinal_model import OrderedModel\n\n\ndef fit_ordinal(group, y=\"party7\", x=\"conservatism\"):\n    data = group.dropna(subset=[x, y])\n    if len(data) == 0:\n        return None\n\n    mod_log = OrderedModel(data[y], data[[x]], distr=\"logit\")\n    res_log = mod_log.fit(method=\"bfgs\", disp=False)\n    return res_log";
-                var nbb_formatted_code = "from statsmodels.miscmodels.ordinal_model import OrderedModel\n\n\ndef fit_ordinal(group, y=\"party7\", x=\"conservatism\"):\n    data = group.dropna(subset=[x, y])\n    if len(data) == 0:\n        return None\n\n    mod_log = OrderedModel(data[y], data[[x]], distr=\"logit\")\n    res_log = mod_log.fit(method=\"bfgs\", disp=False)\n    return res_log";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2235,23 +1385,6 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 83;
-                var nbb_unformatted_code = "import warnings\n\nwarnings.filterwarnings(\"ignore\", category=FutureWarning)\n\n\ndef predict_ordinal(result, group, x=\"conservatism\"):\n    group[\"party_pred\"] = np.nan\n    if result is None:\n        return\n\n    data = group.dropna(subset=[x])\n    if len(data) == 0:\n        return\n\n    predicted = result.model.predict(result.params, exog=data[[x]])\n    p = np.random.random(size=len(data))\n    lt = p[:, None] < predicted.cumsum(axis=1)\n    rows, cols = np.diff(lt, prepend=False).nonzero()\n    group.loc[data.index, \"party_pred\"] = cols";
-                var nbb_formatted_code = "import warnings\n\nwarnings.filterwarnings(\"ignore\", category=FutureWarning)\n\n\ndef predict_ordinal(result, group, x=\"conservatism\"):\n    group[\"party_pred\"] = np.nan\n    if result is None:\n        return\n\n    data = group.dropna(subset=[x])\n    if len(data) == 0:\n        return\n\n    predicted = result.model.predict(result.params, exog=data[[x]])\n    p = np.random.random(size=len(data))\n    lt = p[:, None] < predicted.cumsum(axis=1)\n    rows, cols = np.diff(lt, prepend=False).nonzero()\n    group.loc[data.index, \"party_pred\"] = cols";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2259,23 +1392,6 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 84;
-                var nbb_unformatted_code = "gss[\"party7\"] = gss[\"partyid\"].replace(7, np.nan)";
-                var nbb_formatted_code = "gss[\"party7\"] = gss[\"partyid\"].replace(7, np.nan)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2283,23 +1399,6 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 85;
-                var nbb_unformatted_code = "subset = gss.query(\"1973 <= year < 1985\").copy()";
-                var nbb_formatted_code = "subset = gss.query(\"1973 <= year < 1985\").copy()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2321,10 +1420,10 @@ Rather:</p>
   <th>Method:</th>           <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>5.637e+04</td>
 </tr>
 <tr>
-  <th>Date:</th>              <td>Sun, 11 Sep 2022</td>  <th>                     </th>     <td> </td>    
+  <th>Date:</th>              <td>Wed, 03 Apr 2024</td>  <th>                     </th>     <td> </td>    
 </tr>
 <tr>
-  <th>Time:</th>                  <td>15:02:56</td>      <th>                     </th>     <td> </td>    
+  <th>Time:</th>                  <td>10:49:37</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>No. Observations:</th>       <td> 15044</td>       <th>                     </th>     <td> </td>    
@@ -2333,7 +1432,7 @@ Rather:</p>
   <th>Df Residuals:</th>           <td> 15037</td>       <th>                     </th>     <td> </td>    
 </tr>
 <tr>
-  <th>Df Model:</th>               <td>     7</td>       <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>               <td>     1</td>       <th>                     </th>     <td> </td>    
 </tr>
 </table>
 <table class="simpletable">
@@ -2341,42 +1440,27 @@ Rather:</p>
         <td></td>          <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>conservatism</th> <td>    0.0624</td> <td>    0.005</td> <td>   13.292</td> <td> 0.000</td> <td>    0.053</td> <td>    0.072</td>
+  <th>conservatism</th> <td>    0.0625</td> <td>    0.005</td> <td>   13.311</td> <td> 0.000</td> <td>    0.053</td> <td>    0.072</td>
 </tr>
 <tr>
-  <th>0.0/1.0</th>      <td>   -1.1422</td> <td>    0.042</td> <td>  -27.401</td> <td> 0.000</td> <td>   -1.224</td> <td>   -1.061</td>
+  <th>0.0/1.0</th>      <td>   -1.1418</td> <td>    0.042</td> <td>  -27.402</td> <td> 0.000</td> <td>   -1.223</td> <td>   -1.060</td>
 </tr>
 <tr>
-  <th>1.0/2.0</th>      <td>    0.2638</td> <td>    0.015</td> <td>   17.701</td> <td> 0.000</td> <td>    0.235</td> <td>    0.293</td>
+  <th>1.0/2.0</th>      <td>    0.2639</td> <td>    0.015</td> <td>   17.704</td> <td> 0.000</td> <td>    0.235</td> <td>    0.293</td>
 </tr>
 <tr>
-  <th>2.0/3.0</th>      <td>   -0.6087</td> <td>    0.021</td> <td>  -29.065</td> <td> 0.000</td> <td>   -0.650</td> <td>   -0.568</td>
+  <th>2.0/3.0</th>      <td>   -0.6086</td> <td>    0.021</td> <td>  -29.060</td> <td> 0.000</td> <td>   -0.650</td> <td>   -0.568</td>
 </tr>
 <tr>
-  <th>3.0/4.0</th>      <td>   -0.5953</td> <td>    0.022</td> <td>  -27.562</td> <td> 0.000</td> <td>   -0.638</td> <td>   -0.553</td>
+  <th>3.0/4.0</th>      <td>   -0.5953</td> <td>    0.022</td> <td>  -27.560</td> <td> 0.000</td> <td>   -0.638</td> <td>   -0.553</td>
 </tr>
 <tr>
-  <th>4.0/5.0</th>      <td>   -0.7550</td> <td>    0.026</td> <td>  -29.036</td> <td> 0.000</td> <td>   -0.806</td> <td>   -0.704</td>
+  <th>4.0/5.0</th>      <td>   -0.7551</td> <td>    0.026</td> <td>  -29.039</td> <td> 0.000</td> <td>   -0.806</td> <td>   -0.704</td>
 </tr>
 <tr>
-  <th>5.0/6.0</th>      <td>    0.2395</td> <td>    0.021</td> <td>   11.552</td> <td> 0.000</td> <td>    0.199</td> <td>    0.280</td>
+  <th>5.0/6.0</th>      <td>    0.2395</td> <td>    0.021</td> <td>   11.551</td> <td> 0.000</td> <td>    0.199</td> <td>    0.280</td>
 </tr>
-</table></div><script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 86;
-                var nbb_unformatted_code = "result_fixed = fit_ordinal(subset)\nresult_fixed.summary()";
-                var nbb_formatted_code = "result_fixed = fit_ordinal(subset)\nresult_fixed.summary()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2388,32 +1472,17 @@ Rather:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    3895
-0.0    2537
-5.0    2316
-2.0    2041
-3.0    1974
-4.0    1461
-6.0    1134
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    3902
+0.0    2545
+5.0    2306
+2.0    2093
+3.0    1918
+4.0    1405
+6.0    1189
 Name: party_pred, dtype: int64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 87;
-                var nbb_unformatted_code = "subset[\"party_pred\"] = np.nan\npredict_ordinal(result_fixed, subset)\n\nsubset[\"party_pred\"].value_counts()";
-                var nbb_formatted_code = "subset[\"party_pred\"] = np.nan\npredict_ordinal(result_fixed, subset)\n\nsubset[\"party_pred\"].value_counts()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2432,22 +1501,7 @@ Name: party_pred, dtype: int64
 Name: party7, dtype: int64
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 88;
-                var nbb_unformatted_code = "subset[\"party7\"].value_counts()";
-                var nbb_formatted_code = "subset[\"party7\"].value_counts()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2457,25 +1511,10 @@ Name: party7, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0667228496496683
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0641764005269518
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 89;
-                var nbb_unformatted_code = "means = subset.groupby(\"party3\")[\"conservatism\"].mean()\nmeans[\"Republican\"] - means[\"Democrat\"]";
-                var nbb_formatted_code = "means = subset.groupby(\"party3\")[\"conservatism\"].mean()\nmeans[\"Republican\"] - means[\"Democrat\"]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2489,23 +1528,6 @@ Name: party7, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 90;
-                var nbb_unformatted_code = "def compute_diff(group):\n    group[\"party_pred3\"] = group[\"party_pred\"].replace(recode_party)\n    means = group.groupby(\"party_pred3\")[\"conservatism\"].mean()\n    if len(means):\n        return means[\"Republican\"] - means[\"Democrat\"]\n    else:\n        return np.nan";
-                var nbb_formatted_code = "def compute_diff(group):\n    group[\"party_pred3\"] = group[\"party_pred\"].replace(recode_party)\n    means = group.groupby(\"party_pred3\")[\"conservatism\"].mean()\n    if len(means):\n        return means[\"Republican\"] - means[\"Democrat\"]\n    else:\n        return np.nan";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2514,25 +1536,10 @@ Name: party7, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6957039843684054
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7970853434232819
 </pre></div>
 </div>
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 91;
-                var nbb_unformatted_code = "compute_diff(subset)";
-                var nbb_formatted_code = "compute_diff(subset)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2550,23 +1557,6 @@ Name: party7, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 92;
-                var nbb_unformatted_code = "def compute_diff_series(df, model=None):\n    diff_series = pd.Series([], dtype=float)\n\n    for name, group in df.groupby(\"year\"):\n        group = group.copy()\n        result = model if model else fit_ordinal(group)\n        predict_ordinal(result, group)\n        diff_series.loc[name] = compute_diff(group)\n        # print(name, diff_series.loc[name])\n\n    return diff_series";
-                var nbb_formatted_code = "def compute_diff_series(df, model=None):\n    diff_series = pd.Series([], dtype=float)\n\n    for name, group in df.groupby(\"year\"):\n        group = group.copy()\n        result = model if model else fit_ordinal(group)\n        predict_ordinal(result, group)\n        diff_series.loc[name] = compute_diff(group)\n        # print(name, diff_series.loc[name])\n\n    return diff_series";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2576,22 +1566,11 @@ Name: party7, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 93;
-                var nbb_unformatted_code = "np.random.seed(17)\ndiff_model = compute_diff_series(gss)";
-                var nbb_formatted_code = "np.random.seed(17)\ndiff_model = compute_diff_series(gss)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_653361/532577768.py:19: DeprecationWarning: In a future version, `df.iloc[:, i] = newvals` will attempt to set the values inplace instead of always setting a new array. To retain the old behavior, use either `df[df.columns[i]] = newvals` or, if columns are non-unique, `df.isetitem(i, newvals)`
+  group.loc[data.index, &quot;party_pred&quot;] = cols
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2601,22 +1580,11 @@ Name: party7, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 94;
-                var nbb_unformatted_code = "np.random.seed(17)\ndiff_fixed = compute_diff_series(gss, result_fixed)";
-                var nbb_formatted_code = "np.random.seed(17)\ndiff_fixed = compute_diff_series(gss, result_fixed)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_653361/532577768.py:19: DeprecationWarning: In a future version, `df.iloc[:, i] = newvals` will attempt to set the values inplace instead of always setting a new array. To retain the old behavior, use either `df[df.columns[i]] = newvals` or, if columns are non-unique, `df.isetitem(i, newvals)`
+  group.loc[data.index, &quot;party_pred&quot;] = cols
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2627,29 +1595,14 @@ Name: party7, dtype: int64
 <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">diff_model</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;With change in partisan sorting&quot;</span><span class="p">)</span>
 <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">diff_fixed</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;No change in partisan sorting&quot;</span><span class="p">)</span>
 
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Difference between Democrats and Republicans&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Difference&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment16.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/4cb63a0b409749a9e6bf382f2fedad48e372b051f4036ee2eff1450fb96497ad.png" src="_images/4cb63a0b409749a9e6bf382f2fedad48e372b051f4036ee2eff1450fb96497ad.png" />
-<script type="application/javascript">
-            setTimeout(function() {
-                var nbb_cell_id = 126;
-                var nbb_unformatted_code = "table = gss.pivot_table(index=\"year\", columns=\"party3\", values=\"conservatism\")\ndiff = table[\"Republican\"] - table[\"Democrat\"]\ndiff.plot(style=\"o\", color=\"C4\", alpha=0.4, label=\"Actual\")\n\nplot_series_lowess(diff_model, color=\"C4\", label=\"With change in partisan sorting\")\nplot_series_lowess(diff_fixed, color=\"C1\", label=\"No change in partisan sorting\")\n\ndecorate(xlabel=\"Year\", ylabel=\"Difference between Democrats and Republicans\")\nplt.savefig(\"alignment16.jpg\", dpi=600)";
-                var nbb_formatted_code = "table = gss.pivot_table(index=\"year\", columns=\"party3\", values=\"conservatism\")\ndiff = table[\"Republican\"] - table[\"Democrat\"]\ndiff.plot(style=\"o\", color=\"C4\", alpha=0.4, label=\"Actual\")\n\nplot_series_lowess(diff_model, color=\"C4\", label=\"With change in partisan sorting\")\nplot_series_lowess(diff_fixed, color=\"C1\", label=\"No change in partisan sorting\")\n\ndecorate(xlabel=\"Year\", ylabel=\"Difference between Democrats and Republicans\")\nplt.savefig(\"alignment16.jpg\", dpi=600)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            </script></div>
+<img alt="_images/ccda09a127ad8885c8910eb25314ad9bfe2e66493abad48f00686d283b8774b3.png" src="_images/ccda09a127ad8885c8910eb25314ad9bfe2e66493abad48f00686d283b8774b3.png" />
+</div>
 </div>
 </section>
 <section id="appendix-the-fifteen-questions">

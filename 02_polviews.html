@@ -547,6 +547,11 @@ The file that contains three resamplings;  we’ll use the first, <code class="d
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72390, 204)
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="political-alignment">
@@ -614,6 +619,18 @@ First we’ll select the column.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     31
+2.0    201
+3.0    211
+4.0    538
+5.0    223
+6.0    181
+7.0     30
+Name: polviews, dtype: int64
+</pre></div>
+</div>
+</div>
 </div>
 <p>And here are the responses from 2021.</p>
 <div class="cell docutils container">
@@ -621,6 +638,18 @@ First we’ll select the column.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year21</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2021</span>
 <span class="n">polviews21</span> <span class="o">=</span> <span class="n">polviews</span><span class="p">[</span><span class="n">year21</span><span class="p">]</span>
 <span class="n">values</span><span class="p">(</span><span class="n">polviews21</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     212
+2.0     577
+3.0     427
+4.0    1506
+5.0     480
+6.0     569
+7.0     181
+Name: polviews, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -644,6 +673,60 @@ First we’ll select the column.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>probs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>0.021908</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>0.142049</td>
+    </tr>
+    <tr>
+      <th>3.0</th>
+      <td>0.149117</td>
+    </tr>
+    <tr>
+      <th>4.0</th>
+      <td>0.380212</td>
+    </tr>
+    <tr>
+      <th>5.0</th>
+      <td>0.157597</td>
+    </tr>
+    <tr>
+      <th>6.0</th>
+      <td>0.127915</td>
+    </tr>
+    <tr>
+      <th>7.0</th>
+      <td>0.021201</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Here’s the distribution from 1974:</p>
 <div class="cell docutils container">
@@ -657,6 +740,9 @@ First we’ll select the column.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4ecc5839e3778ac3a55f640cf5ef88f6cabc393f64ca12c74eb8367595f1e603.png" src="_images/4ecc5839e3778ac3a55f640cf5ef88f6cabc393f64ca12c74eb8367595f1e603.png" />
 </div>
 </div>
 <p>And from 2021:</p>
@@ -672,6 +758,9 @@ First we’ll select the column.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9dd4d817e65b29adcc022b6e099fffe5e01dcfbff1d626e7ad0bed08799f8fea.png" src="_images/9dd4d817e65b29adcc022b6e099fffe5e01dcfbff1d626e7ad0bed08799f8fea.png" />
 </div>
 </div>
 <p>In both cases, the most common response is <code class="docutils literal notranslate"><span class="pre">4</span></code>, which is the code for “moderate”.  Few respondents describe themselves as “extremely” liberal or conservative.
@@ -691,6 +780,9 @@ So maybe we’re not so polarized after all.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8d7be69a161b6d6733dc6739754c03dd968333e068112107836e155c535b9545.png" src="_images/8d7be69a161b6d6733dc6739754c03dd968333e068112107836e155c535b9545.png" />
 </div>
 </div>
 <p>Now we can see the changes in the distribution more clearly.  It looks like the number of people at the extremes (1 and 7) has increased, and the fraction of slightly liberal (3) and slightly conservative (5) has decreased.</p>
@@ -712,6 +804,11 @@ We can use <code class="docutils literal notranslate"><span class="pre">groupby<
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f5f2cce2580&gt;
+</pre></div>
+</div>
+</div>
 </div>
 <p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> object that represents a collection of groups.</p>
 <p>We can loop through the groups and display the number of respondents in each:</p>
@@ -722,12 +819,55 @@ We can use <code class="docutils literal notranslate"><span class="pre">groupby<
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1972 1613
+1973 1504
+1974 1484
+1975 1490
+1976 1499
+1977 1530
+1978 1532
+1980 1468
+1982 1860
+1983 1599
+1984 1473
+1985 1534
+1986 1470
+1987 1819
+1988 1481
+1989 1537
+1990 1372
+1991 1517
+1993 1606
+1994 2992
+1996 2904
+1998 2832
+2000 2817
+2002 2765
+2004 2812
+2006 4510
+2008 2023
+2010 2044
+2012 1974
+2014 2538
+2016 2867
+2018 2348
+2021 4032
+2022 3544
+</pre></div>
+</div>
+</div>
 </div>
 <p>In many ways the <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> behaves like a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.  We can use the bracket operator to select a column:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polviews_by_year</span> <span class="o">=</span> <span class="n">gss_by_year</span><span class="p">[</span><span class="s2">&quot;polviews&quot;</span><span class="p">]</span>
 <span class="n">polviews_by_year</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.SeriesGroupBy object at 0x7f5f2cd05520&gt;
 </pre></div>
 </div>
 </div>
@@ -748,12 +888,20 @@ We can use <code class="docutils literal notranslate"><span class="pre">groupby<
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/d11b60ed8f8aedecb1a7a3e6436d8ecbc7b88ffa554b7fcb3e834ee973fb2639.png" src="_images/d11b60ed8f8aedecb1a7a3e6436d8ecbc7b88ffa554b7fcb3e834ee973fb2639.png" />
+</div>
 </div>
 <p>It looks like the mean increased between 1974 and 2000, decreased since then, and ended up almost where it started.
 The difference between the highest and lowest points is only 0.3 points on a 7-point scale, which is a modest effect.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_series</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">mean_series</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.34240143126104083
 </pre></div>
 </div>
 </div>
@@ -817,6 +965,9 @@ LOWESS stands for “locally weighted scatterplot smoothing”.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/826446f2f272f651c385f020c91b1a9cd346f45301540f21f1ce9afb5f0c4c40.png" src="_images/826446f2f272f651c385f020c91b1a9cd346f45301540f21f1ce9afb5f0c4c40.png" />
+</div>
 </div>
 <p>One reason the PMFs for 1974 and 2021 did not look very different is that the mean seems to have gone up (more conservative) and then down again (more liberal).
 Generally, it looks like the U.S. has been trending toward liberal for the last 20 years, or more, at least in the sense of how people describe themselves.</p>
@@ -846,6 +997,98 @@ It takes two <code class="docutils literal notranslate"><span class="pre">Series
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>polviews</th>
+      <th>1.0</th>
+      <th>2.0</th>
+      <th>3.0</th>
+      <th>4.0</th>
+      <th>5.0</th>
+      <th>6.0</th>
+      <th>7.0</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1974</th>
+      <td>31</td>
+      <td>201</td>
+      <td>211</td>
+      <td>538</td>
+      <td>223</td>
+      <td>181</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>1975</th>
+      <td>56</td>
+      <td>184</td>
+      <td>207</td>
+      <td>540</td>
+      <td>204</td>
+      <td>162</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>1976</th>
+      <td>31</td>
+      <td>198</td>
+      <td>175</td>
+      <td>564</td>
+      <td>209</td>
+      <td>206</td>
+      <td>34</td>
+    </tr>
+    <tr>
+      <th>1977</th>
+      <td>37</td>
+      <td>181</td>
+      <td>214</td>
+      <td>594</td>
+      <td>243</td>
+      <td>164</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>1978</th>
+      <td>21</td>
+      <td>140</td>
+      <td>255</td>
+      <td>559</td>
+      <td>265</td>
+      <td>187</td>
+      <td>25</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>It contains one row for each value of <code class="docutils literal notranslate"><span class="pre">year</span></code> and one column for each value of <code class="docutils literal notranslate"><span class="pre">polviews</span></code>.  Reading the first row, we see that in 1974, 31 people gave response 1, “extremely liberal”, 201 people gave response 2, “liberal”, and so on.</p>
 <p>The number of respondents varies from year to year, so we need to normalize the results, which means computing for each year the <em>fraction</em> of respondents in each category, rather than the count.</p>
@@ -864,6 +1107,98 @@ It takes two <code class="docutils literal notranslate"><span class="pre">Series
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>polviews</th>
+      <th>1.0</th>
+      <th>2.0</th>
+      <th>3.0</th>
+      <th>4.0</th>
+      <th>5.0</th>
+      <th>6.0</th>
+      <th>7.0</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1974</th>
+      <td>0.021908</td>
+      <td>0.142049</td>
+      <td>0.149117</td>
+      <td>0.380212</td>
+      <td>0.157597</td>
+      <td>0.127915</td>
+      <td>0.021201</td>
+    </tr>
+    <tr>
+      <th>1975</th>
+      <td>0.040057</td>
+      <td>0.131617</td>
+      <td>0.148069</td>
+      <td>0.386266</td>
+      <td>0.145923</td>
+      <td>0.115880</td>
+      <td>0.032189</td>
+    </tr>
+    <tr>
+      <th>1976</th>
+      <td>0.021877</td>
+      <td>0.139732</td>
+      <td>0.123500</td>
+      <td>0.398024</td>
+      <td>0.147495</td>
+      <td>0.145378</td>
+      <td>0.023994</td>
+    </tr>
+    <tr>
+      <th>1977</th>
+      <td>0.025085</td>
+      <td>0.122712</td>
+      <td>0.145085</td>
+      <td>0.402712</td>
+      <td>0.164746</td>
+      <td>0.111186</td>
+      <td>0.028475</td>
+    </tr>
+    <tr>
+      <th>1978</th>
+      <td>0.014463</td>
+      <td>0.096419</td>
+      <td>0.175620</td>
+      <td>0.384986</td>
+      <td>0.182507</td>
+      <td>0.128788</td>
+      <td>0.017218</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Looking at the numbers in the table, it’s hard to see what’s going on.
 In the next section, we’ll plot the results.</p>
@@ -899,6 +1234,18 @@ In the next section, we’ll plot the results.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conservative               9612
+Extremely conservative     2145
+Extremely liberal          2095
+Liberal                    7309
+Moderate                  24157
+Slightly conservative      9816
+Slightly liberal           7799
+Name: polviews, dtype: int64
+</pre></div>
+</div>
+</div>
 </div>
 <p>If we make the cross tabulation again, we can see that the column names are strings.</p>
 <div class="cell tag_remove-print docutils container">
@@ -908,6 +1255,98 @@ In the next section, we’ll plot the results.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>polviews</th>
+      <th>Conservative</th>
+      <th>Extremely conservative</th>
+      <th>Extremely liberal</th>
+      <th>Liberal</th>
+      <th>Moderate</th>
+      <th>Slightly conservative</th>
+      <th>Slightly liberal</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1974</th>
+      <td>0.127915</td>
+      <td>0.021201</td>
+      <td>0.021908</td>
+      <td>0.142049</td>
+      <td>0.380212</td>
+      <td>0.157597</td>
+      <td>0.149117</td>
+    </tr>
+    <tr>
+      <th>1975</th>
+      <td>0.115880</td>
+      <td>0.032189</td>
+      <td>0.040057</td>
+      <td>0.131617</td>
+      <td>0.386266</td>
+      <td>0.145923</td>
+      <td>0.148069</td>
+    </tr>
+    <tr>
+      <th>1976</th>
+      <td>0.145378</td>
+      <td>0.023994</td>
+      <td>0.021877</td>
+      <td>0.139732</td>
+      <td>0.398024</td>
+      <td>0.147495</td>
+      <td>0.123500</td>
+    </tr>
+    <tr>
+      <th>1977</th>
+      <td>0.111186</td>
+      <td>0.028475</td>
+      <td>0.025085</td>
+      <td>0.122712</td>
+      <td>0.402712</td>
+      <td>0.164746</td>
+      <td>0.145085</td>
+    </tr>
+    <tr>
+      <th>1978</th>
+      <td>0.128788</td>
+      <td>0.017218</td>
+      <td>0.014463</td>
+      <td>0.096419</td>
+      <td>0.384986</td>
+      <td>0.182507</td>
+      <td>0.175620</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>We are almost ready to plot the results, but first we need some colors.</p>
 </section>
@@ -922,6 +1361,9 @@ In the next section, we’ll plot the results.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/e799f22f806a620c3754fe50b4fe896016bb24c647670dc76b2ff74e39a1ed19.png" src="_images/e799f22f806a620c3754fe50b4fe896016bb24c647670dc76b2ff74e39a1ed19.png" />
+</div>
 </div>
 <p>Here’s the modified diverging palette  with purple in the middle.</p>
 <div class="cell tag_remove-print docutils container">
@@ -930,6 +1372,9 @@ In the next section, we’ll plot the results.</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">palette</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5a6aa4a4fef44df28bcc867aa53aad487711ec211af611edb9ff9885958c80f9.png" src="_images/5a6aa4a4fef44df28bcc867aa53aad487711ec211af611edb9ff9885958c80f9.png" />
 </div>
 </div>
 <p>A feature of this color map is that the colors are meaningful, at least in countries that use blue, purple, and red for these points on the political spectrum.
@@ -959,6 +1404,17 @@ A drawback of this color map is that some some of the colors are indistinguishab
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extremely liberal (0.16339869281045757, 0.44498269896193776, 0.6975009611687812)
+Liberal (0.4206843521722416, 0.6764321414840447, 0.8186851211072664)
+Slightly liberal (0.7614763552479817, 0.8685121107266438, 0.924567474048443)
+Moderate purple
+Slightly conservative (0.9824682814302191, 0.8006920415224913, 0.7061130334486736)
+Conservative (0.8945790080738177, 0.5038062283737024, 0.39976931949250283)
+Extremely conservative (0.7284890426758939, 0.15501730103806227, 0.1973856209150327)
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="plotting-a-cross-tabulation">
@@ -969,7 +1425,7 @@ we’ll use <code class="docutils literal notranslate"><span class="pre">plot_se
 The <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor</span></code> argument passed to <code class="docutils literal notranslate"><span class="pre">plt.legend</span></code> puts the legend outside the axes of the figure.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">xtab_norm</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">xtab_norm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">color_map</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 
 <span class="n">decorate</span><span class="p">(</span>
@@ -983,6 +1439,9 @@ The <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor<
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/507492abd66c22335a1586eddd688d3af7e76c7bc0b3fe053f8d0bca935ddba8.png" src="_images/507492abd66c22335a1586eddd688d3af7e76c7bc0b3fe053f8d0bca935ddba8.png" />
+</div>
 </div>
 <p>This way of looking at the results suggests that changes in political alignment during this period have generally been slow and small.
 The fraction of self-described moderates has not changed substantially.
@@ -993,7 +1452,7 @@ We can get a better view by plotting just the extremes.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Extremely liberal&quot;</span><span class="p">,</span> <span class="s2">&quot;Extremely conservative&quot;</span><span class="p">]</span>
 
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">xtab_norm</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">xtab_norm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selected_columns</span><span class="p">:</span>
         <span class="k">continue</span>
     <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">color_map</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
@@ -1001,11 +1460,13 @@ We can get a better view by plotting just the extremes.</p>
 <span class="n">decorate</span><span class="p">(</span>
     <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span>
     <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Proportion&quot;</span><span class="p">,</span>
-    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.057</span><span class="p">],</span>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Fraction of respondents with extreme political views&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/069a91c10ca643fc9f8f7febdf17f4b0ebffe6c43c5c3a37ac7b1cf528ed1552.png" src="_images/069a91c10ca643fc9f8f7febdf17f4b0ebffe6c43c5c3a37ac7b1cf528ed1552.png" />
 </div>
 </div>
 <p>I used <code class="docutils literal notranslate"><span class="pre">ylim</span></code> to set the limits of the y-axis so it starts at zero, to avoid making the changes seem bigger than they are.</p>

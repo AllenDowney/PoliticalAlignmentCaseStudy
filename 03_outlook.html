@@ -468,11 +468,6 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loading-the-data">
-   Loading the data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#are-people-fair">
    Are People Fair?
   </a>
@@ -524,7 +519,25 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="political-alignment-and-outlook">
 <h1>Political Alignment and Outlook<a class="headerlink" href="#political-alignment-and-outlook" title="Permalink to this heading">#</a></h1>
 <p>This is the third in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
-This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.</p>
+This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.
+<a class="reference external" href="https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/03_outlook.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>In the previous chapter, we used data from the General Social Survey (GSS) to plot changes in political alignment over time.
 In this notebook, we’ll explore the relationship between political alignment and respondents’ beliefs about themselves and other people.
 We’ll use the following variables from the GSS dataset:</p>
@@ -552,123 +565,28 @@ Here’s the plan:</p>
 </div>
 </div>
 </div>
-<p>The following cells define functions from previous notebooks we will use again.</p>
+<p>The following cells import functions the previous chapter that we’ll use again.</p>
 <div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Count the values and sort.</span>
-
-<span class="sd">    series: pd.Series</span>
-
-<span class="sd">    returns: series mapping from values to frequencies</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">series</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">values</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">make_lowess</span><span class="p">,</span> <span class="n">plot_series_lowess</span><span class="p">,</span> <span class="n">plot_columns_lowess</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>The following cell downloads the data file if necessary.</p>
 <div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorate the current axes.</span>
-
-<span class="sd">    Call decorate with keyword arguments like</span>
-<span class="sd">    decorate(title=&#39;Title&#39;,</span>
-<span class="sd">             xlabel=&#39;x&#39;,</span>
-<span class="sd">             ylabel=&#39;y&#39;)</span>
-
-<span class="sd">    The keyword arguments can be any of the axis properties</span>
-<span class="sd">    https://matplotlib.org/api/axes_api.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
-    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">handles</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.nonparametric.smoothers_lowess</span> <span class="kn">import</span> <span class="n">lowess</span>
-
-
-<span class="k">def</span> <span class="nf">make_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use LOWESS to compute a smooth line.</span>
-
-<span class="sd">    series: pd.Series</span>
-
-<span class="sd">    returns: pd.Series</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
-
-    <span class="n">smooth</span> <span class="o">=</span> <span class="n">lowess</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">index</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">smooth</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots a series of data points and a smooth line.</span>
-
-<span class="sd">    series: pd.Series</span>
-<span class="sd">    color: string or tuple</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">smooth</span> <span class="o">=</span> <span class="n">make_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
-    <span class="n">smooth</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_columns_lowess</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the columns in a DataFrame.</span>
-
-<span class="sd">    table: DataFrame with a cross tabulation</span>
-<span class="sd">    columns: list of column names, in the desired order</span>
-<span class="sd">    colors: mapping from column names to colors</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
-        <span class="n">series</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-        <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<section id="loading-the-data">
-<h2>Loading the data<a class="headerlink" href="#loading-the-data" title="Permalink to this heading">#</a></h2>
-<p>In the first notebook, we downloaded GSS data, loaded and cleaned it, resampled it to correct for stratified sampling, and then saved the data in an HDF5 file, which is much faster to load.  Now we’ll download the HDF5 file and load it.</p>
-<p>The following cell downloads the file if necessary.</p>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
-
-
-<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
-
-        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
-
-
-<span class="n">download</span><span class="p">(</span>
-    <span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/master/gss_pacs_resampled.hdf&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/gss_pacs_resampled.hdf&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>I’ve created an HDF file that contains three <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> objects with resampled GSS data.  We’ll work with the first resampling, <code class="docutils literal notranslate"><span class="pre">gss0</span></code>, to get started; at the end of this chapter, we’ll see the other two as well.</p>
+<p>We’ll use an extract of the data that I have cleaned and resampled to correct for stratified sampling.
+Instructions for downloading the file are in the notebook for this chapter.
+It contains three resamplings – we’ll use the first, <code class="docutils literal notranslate"><span class="pre">gss0</span></code>, to get started.
+At the end of the chapter, we’ll use the other two as well.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s2">&quot;gss_pacs_resampled.hdf&quot;</span>
@@ -678,24 +596,36 @@ Here’s the plan:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(68846, 204)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72390, 207)
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 <section id="are-people-fair">
 <h2>Are People Fair?<a class="headerlink" href="#are-people-fair" title="Permalink to this heading">#</a></h2>
-<p>In the GSS data, the variable <code class="docutils literal notranslate"><span class="pre">fair</span></code> contains responses to this question (see <a class="reference external" href="https://gssdataexplorer.norc.org/variables/440/vshow">https://gssdataexplorer.norc.org/variables/440/vshow</a>):</p>
+<p>In the GSS data, the variable <code class="docutils literal notranslate"><span class="pre">fair</span></code> contains responses to this question:</p>
 <blockquote>
 <div><p>Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?</p>
 </div></blockquote>
 <p>The possible responses are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>	<span class="n">Take</span> <span class="n">advantage</span>
-<span class="mi">2</span>	<span class="n">Fair</span>
-<span class="mi">3</span>	<span class="n">Depends</span>
-</pre></div>
-</div>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head text-left"><p>Response</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td class="text-left"><p>Take advantage</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td class="text-left"><p>Fair</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td class="text-left"><p>Depends</p></td>
+</tr>
+</tbody>
+</table>
 <p>As always, we start by looking at the distribution of responses, that is, how many people give each response:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -704,9 +634,9 @@ Here’s the plan:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    15435
-2.0    22806
-3.0     2755
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    16089
+2.0    23417
+3.0     2897
 Name: fair, dtype: int64
 </pre></div>
 </div>
@@ -721,12 +651,12 @@ There are also a number of NaNs, mostly respondents who were not asked this ques
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27850
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>29987
 </pre></div>
 </div>
 </div>
 </div>
-<p>To count the number of people who chose option 2, “people try to be fair”, we’ll use a dictionary to recode option 2 as <code class="docutils literal notranslate"><span class="pre">1</span></code> and the other options as <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p>To count the number of people who chose option <code class="docutils literal notranslate"><span class="pre">2</span></code>, “people try to be fair”, we’ll use a dictionary to recode option <code class="docutils literal notranslate"><span class="pre">2</span></code> as <code class="docutils literal notranslate"><span class="pre">1</span></code> and the other options as <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_fair</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
@@ -734,8 +664,8 @@ There are also a number of NaNs, mostly respondents who were not asked this ques
 </div>
 </div>
 </div>
-<p>As an alternative, we could include option 3, “depends”, by mapping it to 1, or give it less weight by mapping it to an intermediate value like 0.5.</p>
-<p>We can use <code class="docutils literal notranslate"><span class="pre">replace</span></code> to recode the values and store the result as a new column in the DataFrame.</p>
+<p>As an alternative, we could include option <code class="docutils literal notranslate"><span class="pre">3</span></code>, “depends”, by replacing it with <code class="docutils literal notranslate"><span class="pre">1</span></code>, or give it less weight by replacing it with an intermediate value like <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.
+We can use <code class="docutils literal notranslate"><span class="pre">replace</span></code> to recode the values and store the result as a new column in the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;fair2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;fair&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_fair</span><span class="p">)</span>
@@ -743,7 +673,7 @@ There are also a number of NaNs, mostly respondents who were not asked this ques
 </div>
 </div>
 </div>
-<p>And we’ll use <code class="docutils literal notranslate"><span class="pre">values</span></code> to check whether it worked.</p>
+<p>And we’ll use <code class="docutils literal notranslate"><span class="pre">values</span></code> to make sure it worked.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span><span class="p">(</span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;fair2&quot;</span><span class="p">])</span>
@@ -751,17 +681,18 @@ There are also a number of NaNs, mostly respondents who were not asked this ques
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0    18190
-1.0    22806
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0    18986
+1.0    23417
 Name: fair2, dtype: int64
 </pre></div>
 </div>
 </div>
 </div>
+<p>Now let’s see how the responses have changed over time.</p>
 </section>
 <section id="fairness-over-time">
 <h2>Fairness Over Time<a class="headerlink" href="#fairness-over-time" title="Permalink to this heading">#</a></h2>
-<p>As we saw in the previous notebook, we can use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to group responses by year.</p>
+<p>As we saw in the previous chapter, we can use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to group responses by year.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss_by_year</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
@@ -777,7 +708,8 @@ Name: fair2, dtype: int64
 </div>
 </div>
 </div>
-<p>Here’s the result, which shows the fraction of people who say people try to be fair, plotted over time.  As in the previous notebook, we plot the data points themselves with circles and a local regression model as a line.</p>
+<p>Here’s the result, which shows the fraction of people who say people try to be fair, plotted over time.
+As in the previous chapter, we plot the data points themselves with circles and a local regression model as a line.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">fair_by_year</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">)</span>
@@ -791,24 +723,45 @@ Name: fair2, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/66deb4387a90ec8c49084c49aedde349156784be30d620c84a1d3e654f90a8fb.png" src="_images/66deb4387a90ec8c49084c49aedde349156784be30d620c84a1d3e654f90a8fb.png" />
+<img alt="_images/c66dd4e209513c6b52923f0279d558dc7cf98d7002a9608170da7c0372146851.png" src="_images/c66dd4e209513c6b52923f0279d558dc7cf98d7002a9608170da7c0372146851.png" />
 </div>
 </div>
-<p>Sadly, it looks like faith in humanity has declined, at least by this measure.</p>
-<p>Let’s see what this trend looks like if we group the respondents by political alignment.</p>
+<p>Sadly, it looks like faith in humanity has declined, at least by this measure.
+Let’s see what this trend looks like if we group the respondents by political alignment.</p>
 </section>
 <section id="political-views-on-a-3-point-scale">
 <h2>Political Views on a 3-point Scale<a class="headerlink" href="#political-views-on-a-3-point-scale" title="Permalink to this heading">#</a></h2>
 <p>In the previous notebook, we looked at responses to <code class="docutils literal notranslate"><span class="pre">polviews</span></code>, which asks about political alignment.  The valid responses are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>	<span class="n">Extremely</span> <span class="n">liberal</span>
-<span class="mi">2</span>	<span class="n">Liberal</span>
-<span class="mi">3</span>	<span class="n">Slightly</span> <span class="n">liberal</span>
-<span class="mi">4</span>	<span class="n">Moderate</span>
-<span class="mi">5</span>	<span class="n">Slightly</span> <span class="n">conservative</span>
-<span class="mi">6</span>	<span class="n">Conservative</span>
-<span class="mi">7</span>	<span class="n">Extremely</span> <span class="n">conservative</span>
-</pre></div>
-</div>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head text-left"><p>Response</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td class="text-left"><p>Extremely liberal</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td class="text-left"><p>Liberal</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td class="text-left"><p>Slightly liberal</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td class="text-left"><p>Moderate</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td class="text-left"><p>Slightly conservative</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td class="text-left"><p>Conservative</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td class="text-left"><p>Extremely conservative</p></td>
+</tr>
+</tbody>
+</table>
 <p>To make it easier to visualize groups, we’ll lump the 7-point scale into a 3-point scale.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -825,7 +778,7 @@ Name: fair2, dtype: int64
 </div>
 </div>
 </div>
-<p>We’ll use <code class="docutils literal notranslate"><span class="pre">replace</span></code>, as we’ve seen before, and store the result as a new column in the DataFrame.</p>
+<p>We’ll use <code class="docutils literal notranslate"><span class="pre">replace</span></code> again, and store the result as a new column in the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_polviews</span><span class="p">)</span>
@@ -841,9 +794,9 @@ Name: fair2, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conservative    20359
-Liberal         16195
-Moderate        22950
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conservative    21573
+Liberal         17203
+Moderate        24157
 Name: polviews3, dtype: int64
 </pre></div>
 </div>
@@ -870,30 +823,33 @@ We’ll group the respondents by <code class="docutils literal notranslate"><spa
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>polviews3
-Conservative    0.582789
-Liberal         0.553916
-Moderate        0.542407
+Conservative    0.577879
+Liberal         0.550849
+Moderate        0.537621
 Name: fair2, dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
 <p>It looks like conservatives are a little more optimistic, in this sense, than liberals and moderates.
-But this result is averaged over the last 50 years.  Let’s see how things have changed over time.</p>
+But this result is averaged over the last 50 years.
+Let’s see how things have changed over time.</p>
 </section>
 <section id="fairness-over-time-by-group">
 <h2>Fairness over Time by Group<a class="headerlink" href="#fairness-over-time-by-group" title="Permalink to this heading">#</a></h2>
 <p>So far, we have grouped by <code class="docutils literal notranslate"><span class="pre">polviews3</span></code> and computed the mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> in each group.
 Then we grouped by <code class="docutils literal notranslate"><span class="pre">year</span></code> and computed the mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> for each year.
-Now I want to group by <code class="docutils literal notranslate"><span class="pre">polviews3</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code>, and compute the mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> in each group over time.</p>
-<p>We could do that computation “by hand” using the tools we already have, but it is so common and useful that it has a name: it is called a <strong>pivot table</strong>, and Pandas provides a function that computes it (see <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.pivot_table.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.pivot_table.html</a>).</p>
-<p>The function is called <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>, and it takes the following arguments:</p>
+Now we’ll group by <code class="docutils literal notranslate"><span class="pre">polviews3</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code>, and compute the mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> in each group over time.</p>
+<p>We could do that computation “by hand” using the tools we already have, but it is so common and useful that it has a name.
+It is called a <strong>pivot table</strong>, and Pandas provides a function called <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> that computes it.
+It takes the following arguments:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">values</span></code>, which is the name of the variable we want to summarize: <code class="docutils literal notranslate"><span class="pre">fair2</span></code> in this example.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>, which is the name of the variable that will provide the row labels: <code class="docutils literal notranslate"><span class="pre">year</span></code> in this example.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">columns</span></code>, which is the name of the variable that will provide the column labels: <code class="docutils literal notranslate"><span class="pre">polview3</span></code> in this example.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">aggfunc</span></code>, which is the function used to “aggregate”, or summarize, the values: <code class="docutils literal notranslate"><span class="pre">mean</span></code> in this example.</p></li>
 </ul>
+<p>Here’s how we run it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
@@ -903,7 +859,7 @@ Now I want to group by <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 </div>
-<p>The result is a table that has years running down the rows and political alignment running across the columns.
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> that has years running down the rows and political alignment running across the columns.
 Each entry in the table is the mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> for a given group in a given year.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -976,13 +932,14 @@ Each entry in the table is the mean of <code class="docutils literal notranslate
 </table>
 </div></div></div>
 </div>
-<p>Reading across the first row, we can see that in 1975, moderates were slightly more optimistic than the other groups.</p>
-<p>Reading down the first column, we can see that the estimated mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> among conservatives varies from year to year.  It is hard to tell looking at these numbers whether it is trending up or down; we can get a better view by plotting the results.</p>
+<p>Reading across the first row, we can see that in 1975, moderates were slightly more optimistic than the other groups.
+Reading down the first column, we can see that the estimated mean of <code class="docutils literal notranslate"><span class="pre">fair2</span></code> among conservatives varies from year to year.  It is hard to tell looking at these numbers whether it is trending up or down – we can get a better view by plotting the results.</p>
 </section>
 <section id="plotting-the-results">
 <h2>Plotting the Results<a class="headerlink" href="#plotting-the-results" title="Permalink to this heading">#</a></h2>
-<p>Before we plot the results, I’ll make a dictionary that maps from each group to a color.</p>
-<div class="cell tag_remove-print docutils container">
+<p>Before we plot the results, I’ll make a dictionary that maps from each group to a color.
+Seaborn provide a palette called <code class="docutils literal notranslate"><span class="pre">muted</span></code> that contains the colors we’ll use.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">muted</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;muted&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">muted</span><span class="p">)</span>
@@ -990,21 +947,24 @@ Each entry in the table is the mean of <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/cbac6cf651a04c5a6d70e2dbd72e41a30c1693750a7f0866f555451c5be2dbbb.png" src="_images/cbac6cf651a04c5a6d70e2dbd72e41a30c1693750a7f0866f555451c5be2dbbb.png" />
+<img alt="_images/b9bf5d3cbb6f6a04d01b52567e56405de67e9bf8bcb03a1e273d04a32110617d.png" src="_images/b9bf5d3cbb6f6a04d01b52567e56405de67e9bf8bcb03a1e273d04a32110617d.png" />
 </div>
 </div>
-<div class="cell tag_remove-print docutils container">
+<p>And here’s the dictionary.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Conservative&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;Moderate&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;Liberal&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Conservative&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;Moderate&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;Liberal&quot;</span><span class="p">:</span> <span class="n">muted</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>We can use <code class="docutils literal notranslate"><span class="pre">plot_columns_lowess</span></code> to see the results.</p>
+<p>Now we can plot the results.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Conservative&quot;</span><span class="p">,</span> <span class="s2">&quot;Liberal&quot;</span><span class="p">,</span> <span class="s2">&quot;Moderate&quot;</span><span class="p">]</span>
-<span class="n">plot_columns_lowess</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Conservative&quot;</span><span class="p">,</span> <span class="s2">&quot;Liberal&quot;</span><span class="p">,</span> <span class="s2">&quot;Moderate&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+    <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color_map</span><span class="p">[</span><span class="n">group</span><span class="p">])</span>
 
 <span class="n">decorate</span><span class="p">(</span>
     <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span>
@@ -1015,18 +975,20 @@ Each entry in the table is the mean of <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/92a7f728b2fedbc0fcb4bb05e87cdb5c3e71750c458a67da34a2a133f9571573.png" src="_images/92a7f728b2fedbc0fcb4bb05e87cdb5c3e71750c458a67da34a2a133f9571573.png" />
+<img alt="_images/d2722be4b358d5c87b76d18010edb6d4725fe64d9bbb4ec4c55b2fde9d3cf5df.png" src="_images/d2722be4b358d5c87b76d18010edb6d4725fe64d9bbb4ec4c55b2fde9d3cf5df.png" />
 </div>
 </div>
 <p>The fraction of respondents who think people try to be fair has dropped in all three groups, although liberals and moderates might have leveled off.
-In 1975, liberals were the least optimistic group.  In 2018, they might be the most optimistic.
+In 1975, liberals were the least optimistic group.
+In 2022, they might be the most optimistic.
 But the responses are quite noisy, so we should not be too confident about these conclusions.</p>
 <p>We can get a sense of how reliable they are by running the resampling process a few times and checking how much the results vary.</p>
 </section>
 <section id="simulating-possible-datasets">
 <h2>Simulating Possible Datasets<a class="headerlink" href="#simulating-possible-datasets" title="Permalink to this heading">#</a></h2>
-<p>The figures we have generated so far in this notebook are based on a single resampling of the GSS data.  Some of the features we see in these figures might be due to random sampling rather than actual changes in the world.</p>
-<p>By generating the same figures with different resampled datasets, we can get a sense of how much variation there is due to random sampling.</p>
+<p>The figures we have generated so far in this notebook are based on a single resampling of the GSS data.
+Some of the features we see in these figures might be due to random sampling rather than actual changes in the world.
+By generating the same figures with different resampled datasets, we can get a sense of how much variation there is due to random sampling.</p>
 <p>To make that easier, the following function contains the code from the previous analysis all in one place.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1042,7 +1004,9 @@ But the responses are quite noisy, so we should not be too confident about these
         <span class="n">values</span><span class="o">=</span><span class="s2">&quot;fair2&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;polviews3&quot;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
     <span class="p">)</span>
 
-    <span class="n">plot_columns_lowess</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color_map</span><span class="p">[</span><span class="n">group</span><span class="p">])</span>
 
     <span class="n">decorate</span><span class="p">(</span>
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span>
@@ -1053,27 +1017,26 @@ But the responses are quite noisy, so we should not be too confident about these
 </div>
 </div>
 </div>
-<p>Now we can loop through the three resampled datasets in the HDF5 file and generate a figure for each one.</p>
+<p>Now we can loop through the three resampled datasets in the data file and generate a figure for each one.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="s2">&quot;gss_pacs_resampled.hdf&quot;</span>
 
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gss0&quot;</span><span class="p">,</span> <span class="s2">&quot;gss1&quot;</span><span class="p">,</span> <span class="s2">&quot;gss2&quot;</span><span class="p">]:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
     <span class="n">plot_by_polviews</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/92a7f728b2fedbc0fcb4bb05e87cdb5c3e71750c458a67da34a2a133f9571573.png" src="_images/92a7f728b2fedbc0fcb4bb05e87cdb5c3e71750c458a67da34a2a133f9571573.png" />
-<img alt="_images/1135138a82aa3804525066445789003f0f6dcf6767d578f049a517c59de6d920.png" src="_images/1135138a82aa3804525066445789003f0f6dcf6767d578f049a517c59de6d920.png" />
-<img alt="_images/55847e6286a8d863142824076f855f4b40ded3ee24eef671bd71938367439766.png" src="_images/55847e6286a8d863142824076f855f4b40ded3ee24eef671bd71938367439766.png" />
+<img alt="_images/d2722be4b358d5c87b76d18010edb6d4725fe64d9bbb4ec4c55b2fde9d3cf5df.png" src="_images/d2722be4b358d5c87b76d18010edb6d4725fe64d9bbb4ec4c55b2fde9d3cf5df.png" />
+<img alt="_images/00179bf66f0e9fc7dea7520e5dcc54a9898ccb2257b342359d728998bb78b820.png" src="_images/00179bf66f0e9fc7dea7520e5dcc54a9898ccb2257b342359d728998bb78b820.png" />
+<img alt="_images/b8afa5f85152b5de31c4fb5f06b22915680b48adf4f59164188f4ddd900930a4.png" src="_images/b8afa5f85152b5de31c4fb5f06b22915680b48adf4f59164188f4ddd900930a4.png" />
 </div>
 </div>
-<p>Features that are the same in all three figures are more likely to reflect things actually happening in the world.  Features that differ substantially between the figures are more likely to be artifacts of random sampling.
-In this context, “artifact” has the sense of “something observed in a scientific investigation or experiment that is not naturally present but occurs as a result of the preparative or investigative procedure” (from <a class="reference external" href="https://www.lexico.com/en/definition/artifact">https://www.lexico.com/en/definition/artifact</a>).</p>
+<p>Features that are the same in all three figures are more likely to reflect things actually happening in the world.
+Features that differ substantially between the figures are more likely to be due to random sampling.</p>
 <p><strong>Exercise:</strong> As an exercise, you can run the same analysis with one of the other variables related to outlook including <code class="docutils literal notranslate"><span class="pre">happy</span></code>, <code class="docutils literal notranslate"><span class="pre">trust</span></code>, <code class="docutils literal notranslate"><span class="pre">helpful</span></code>, and maybe <code class="docutils literal notranslate"><span class="pre">fear</span></code> and <code class="docutils literal notranslate"><span class="pre">hapmar</span></code>.</p>
 <p>For these variables, you will have to read the codebook to see the responses and how they are encoded, then think about which responses to report.
 In the notebook for this chapter, there are some suggestions to get you started.</p>
@@ -1096,7 +1059,7 @@ Looking more closely, we used cross tabulation to see how the fraction of people
 We used <code class="docutils literal notranslate"><span class="pre">groupby</span></code> again to see how the responses have changed over time.
 Then we used a pivot table to show how the responses within each political group have changed over time.
 Finally, we used multiple resamplings of the original dataset to check whether the patterns we identified might be due to random sampling rather than real changes in the world.</p>
-<p>The tools we used in this case study are versatile; they are useful for exploring other variables in the GSS dataset, and other datasets as well.
+<p>The tools we used in this case study are versatile – they are useful for exploring other variables in the GSS dataset, and other datasets as well.
 And the process we followed is one I recommend whenever you are exploring a new dataset.</p>
 </section>
 </section>
@@ -1159,11 +1122,6 @@ And the process we followed is one I recommend whenever you are exploring a new 
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loading-the-data">
-   Loading the data
-  </a>
- </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#are-people-fair">
    Are People Fair?
