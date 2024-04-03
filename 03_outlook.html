@@ -521,23 +521,6 @@ title="Print to PDF"
 <p>This is the third in a series of notebooks that make up a <a class="reference external" href="https://allendowney.github.io/PoliticalAlignmentCaseStudy/">case study in exploratory data analysis</a>.
 This case study is part of the <a class="reference external" href="https://allendowney.github.io/ElementsOfDataScience/"><em>Elements of Data Science</em></a> curriculum.
 <a class="reference external" href="https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/03_outlook.ipynb">Click here to run this notebook on Colab</a>.</p>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
-
-<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
-
-        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
-
-<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/utils.py&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 <p>In the previous chapter, we used data from the General Social Survey (GSS) to plot changes in political alignment over time.
 In this notebook, we’ll explore the relationship between political alignment and respondents’ beliefs about themselves and other people.
 We’ll use the following variables from the GSS dataset:</p>
