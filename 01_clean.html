@@ -162,6 +162,13 @@ const thebe_selector_output = ".output, .cell_output"
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="confidence.html">
+                        Confidence In the Press
+                      </a>
+                    </li>
+                
     </ul>
 </nav>
       </div>
@@ -259,6 +266,13 @@ const thebe_selector_output = ".output, .cell_output"
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="confidence.html">
+                        Confidence In the Press
+                      </a>
+                    </li>
+                
     </ul>
 </nav>
       </div>
@@ -326,11 +340,16 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Cleaning and Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_polviews_soln.html">Political Alignment and Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_outlook.html">Political Alignment and Outlook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_worldview.html">Political Alignment and Other Views</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="confidence.html">Confidence In the Press</a></li>
 </ul>
 
     </div>
@@ -522,6 +541,24 @@ This case study is part of the <a class="reference external" href="https://allen
 <p>The following cell loads the packages we need.  If you have everything installed, there should be no error messages.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/raw/v1/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -548,11 +585,6 @@ The following cell downloads this extract.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72390, 207)
-</pre></div>
-</div>
-</div>
 </div>
 <p>We can use <code class="docutils literal notranslate"><span class="pre">head</span></code> to see what the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> looks like.</p>
 <div class="cell docutils container">
@@ -561,173 +593,6 @@ The following cell downloads this extract.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>abany</th>
-      <th>abdefect</th>
-      <th>abhlth</th>
-      <th>abnomore</th>
-      <th>abpoor</th>
-      <th>abrape</th>
-      <th>absingle</th>
-      <th>acqntsex</th>
-      <th>adults</th>
-      <th>affrmact</th>
-      <th>...</th>
-      <th>trdunion</th>
-      <th>trust</th>
-      <th>union</th>
-      <th>wkharsex</th>
-      <th>wkracism</th>
-      <th>wksexism</th>
-      <th>wtssall</th>
-      <th>wtssps</th>
-      <th>xmarsex</th>
-      <th>year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>3.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.4446</td>
-      <td>0.663196</td>
-      <td>NaN</td>
-      <td>1972</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>2.0</td>
-      <td>2.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.8893</td>
-      <td>0.917370</td>
-      <td>NaN</td>
-      <td>1972</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.8893</td>
-      <td>0.897413</td>
-      <td>NaN</td>
-      <td>1972</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>1.0</td>
-      <td>2.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.8893</td>
-      <td>1.066341</td>
-      <td>NaN</td>
-      <td>1972</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.8893</td>
-      <td>0.944324</td>
-      <td>NaN</td>
-      <td>1972</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 207 columns</p>
-</div></div></div>
 </div>
 <p>This dataset has one row for each respondent and one column for each variable.</p>
 </section>
@@ -792,18 +657,6 @@ I’m going to show you a seven-point scale on which the political views that pe
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     2081
-2.0     7623
-3.0     7900
-4.0    23992
-5.0     9596
-6.0     9361
-7.0     2165
-Name: polviews, dtype: int64
-</pre></div>
-</div>
-</div>
 </div>
 <p>To check the integrity of the data and confirm that we have loaded it correctly, we’ll do a “spot check”; that is, we’ll pick one year and compare the values we see in the dataset to the values reported in the codebook.</p>
 <p>We can select values from a single year like this:</p>
@@ -821,18 +674,6 @@ Name: polviews, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0     22
-2.0    201
-3.0    207
-4.0    564
-5.0    221
-6.0    160
-7.0     35
-Name: polviews, dtype: int64
-</pre></div>
-</div>
-</div>
 </div>
 <p>If you <a class="reference external" href="https://gssdataexplorer.norc.org/variables/178/vshow">compare these results to the values in the codebook</a>, you should see that they agree.</p>
 <p><strong>Exercise:</strong> Go back and change 1974 to another year, and compare the results to the codebook.</p>
@@ -845,6 +686,8 @@ Name: polviews, dtype: int64
 <p>To keep things simple, we’ll treat all of these values as equivalent, but we lose some information by doing that.  For example, if a respondent refuses to answer a question, that might suggest something about their answer.  If so, treating their response as missing data might bias the results.</p>
 <p>Fortunately, for most questions the number of respondents who refused to answer is small.</p>
 <p>I’ll replace the numeric codes 8, 9, and 0 with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>, which is a special value used to indicate missing data.</p>
+<p>[NOTE: When <a class="reference external" href="http://pd.NA">pd.NA</a> is mature, we might switch to it.
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html#missing-data-na">https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html#missing-data-na</a>]</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -859,22 +702,6 @@ Name: polviews, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        NaN
-1        NaN
-2        NaN
-3        NaN
-4        NaN
-        ... 
-72385    1.0
-72386    4.0
-72387    3.0
-72388    3.0
-72389    2.0
-Name: polviews, Length: 72390, dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <p>When <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> is displayed, it appears as <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, which stands for “not a number”.</p>
 <p>We can use <code class="docutils literal notranslate"><span class="pre">notna</span></code> and <code class="docutils literal notranslate"><span class="pre">sum</span></code> to count the valid responses:</p>
@@ -884,21 +711,11 @@ Name: polviews, Length: 72390, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>62718
-</pre></div>
-</div>
-</div>
 </div>
 <p>And we use <code class="docutils literal notranslate"><span class="pre">isna</span></code> to count the missing responses:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clean</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9672
 </pre></div>
 </div>
 </div>
@@ -1158,11 +975,6 @@ I recorded that information in the following function, which is intended to repl
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </div>
 <p>At this point, I have only moderate confidence that this code is correct.  I’m not sure I have dealt with every variable in the dataset, and I’m not sure that the special values for every variable are correct.</p>
 <p>So I will ask for your help.</p>
@@ -1173,11 +985,6 @@ I recorded that information in the following function, which is intended to repl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">gss</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;abhlth&#39;
 </pre></div>
 </div>
 </div>
@@ -1274,11 +1081,6 @@ I recorded that information in the following function, which is intended to repl
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 11M Apr  3 11:42 gss_pacs_clean.hdf
-</pre></div>
-</div>
-</div>
 </div>
 <p>And I’ll create a second file with three random resamplings of the original dataset.</p>
 <div class="cell docutils container">
@@ -1313,13 +1115,11 @@ I recorded that information in the following function, which is intended to repl
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-rw-rw-r-- 1 downey downey 31M Apr  3 11:43 gss_pacs_resampled.hdf
-</pre></div>
-</div>
-</div>
 </div>
 <p>For the other notebooks in this case study, we’ll load this resampled data rather than reading and cleaning the data every time.</p>
+<p>Political Alignment Case Study</p>
+<p>Copyright 2020 Allen B. Downey</p>
+<p>License: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
 </section>
 </section>
 

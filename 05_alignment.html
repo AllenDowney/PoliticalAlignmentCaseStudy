@@ -58,8 +58,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '05_alignment';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -162,6 +160,13 @@ const thebe_selector_output = ".output, .cell_output"
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="confidence.html">
+                        Confidence In the Press
+                      </a>
+                    </li>
+                
     </ul>
 </nav>
       </div>
@@ -259,6 +264,13 @@ const thebe_selector_output = ".output, .cell_output"
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="confidence.html">
+                        Confidence In the Press
+                      </a>
+                    </li>
+                
     </ul>
 </nav>
       </div>
@@ -326,11 +338,16 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_clean.html">Cleaning and Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_polviews_soln.html">Political Alignment and Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_outlook.html">Political Alignment and Outlook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_worldview.html">Political Alignment and Other Views</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="confidence.html">Confidence In the Press</a></li>
 </ul>
 
     </div>
@@ -613,8 +630,10 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72390, 207)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -641,9 +660,6 @@ title="Print to PDF"
 <span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">palette</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/5514839a1d31c168dfc64b80fd98a716e2c7bac817e1eac709a0f00ec299b75b.png" src="_images/5514839a1d31c168dfc64b80fd98a716e2c7bac817e1eac709a0f00ec299b75b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -686,9 +702,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/510e61d5ed39fed0a4d23f79b655f5a4e7383968a0d315f9bc6a3240824754ed.png" src="_images/510e61d5ed39fed0a4d23f79b655f5a4e7383968a0d315f9bc6a3240824754ed.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -707,13 +720,72 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/6a98c441465732ae62b2111a6f3dada92e98f84c4d92e858472ad9af70adeeab.png" src="_images/6a98c441465732ae62b2111a6f3dada92e98f84c4d92e858472ad9af70adeeab.png" />
-</div>
 </div>
 </section>
 <section id="but-what-do-people-think">
 <h2>But what do people think?<a class="headerlink" href="#but-what-do-people-think" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">convervative_values</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;abany&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;homosex&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s2">&quot;premarsx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s2">&quot;prayer&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;natfare&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="s2">&quot;grass&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;natenvir&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># about right or too much</span>
+    <span class="s2">&quot;divlaw&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;cappun&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;racopen&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;letdie1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;fepol&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;gunlaw&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;sexeduc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;pornlaw&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">convervative_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;homosex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cappun&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;grass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;abany&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prayer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;premarsx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;divlaw&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natfare&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natenvir&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pornlaw&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;racopen&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;letdie1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fepol&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gunlaw&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sexeduc&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">questions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
+    <span class="n">questions</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">convervative_values</span><span class="p">[</span><span class="n">varname</span><span class="p">])</span>
+    <span class="n">null</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+    <span class="n">questions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">null</span><span class="p">,</span> <span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="n">questions</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_polviews</span> <span class="o">=</span> <span class="p">{</span>
@@ -732,6 +804,47 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_polviews</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">augmented</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">questions</span><span class="p">,</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;polviews3&quot;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">augmented</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;polviews3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;Conservative&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Liberal&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">issue_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;abany&quot;</span><span class="p">:</span> <span class="s2">&quot;Abortion&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;homosex&quot;</span><span class="p">:</span> <span class="s2">&quot;Homosexuality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;premarsx&quot;</span><span class="p">:</span> <span class="s2">&quot;Premarital sex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prayer&quot;</span><span class="p">:</span> <span class="s2">&quot;School prayer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natfare&quot;</span><span class="p">:</span> <span class="s2">&quot;Welfare spending&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;grass&quot;</span><span class="p">:</span> <span class="s2">&quot;Legal cannabis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natenvir&quot;</span><span class="p">:</span> <span class="s2">&quot;Environment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;divlaw&quot;</span><span class="p">:</span> <span class="s2">&quot;Divorce&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cappun&quot;</span><span class="p">:</span> <span class="s2">&quot;Capital punishment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;racopen&quot;</span><span class="p">:</span> <span class="s2">&quot;Fair housing law&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;letdie1&quot;</span><span class="p">:</span> <span class="s2">&quot;Assisted suicide&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fepol&quot;</span><span class="p">:</span> <span class="s2">&quot;Women in politics&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gunlaw&quot;</span><span class="p">:</span> <span class="s2">&quot;Gun law&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sexeduc&quot;</span><span class="p">:</span> <span class="s2">&quot;Sex education&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pornlaw&quot;</span><span class="p">:</span> <span class="s2">&quot;Pornography&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">issue_names</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">issue_dict</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
 </div>
@@ -758,9 +871,162 @@ The following figure shows, for each question, the percentage of liberals, moder
 </div>
 </div>
 </div>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="_images/348d6abc5b2819acb63e2a63e1244b67d2fc5642b0b425bd41206ecbddb3abd0.png" src="_images/348d6abc5b2819acb63e2a63e1244b67d2fc5642b0b425bd41206ecbddb3abd0.png" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
+    <span class="n">issue_names</span><span class="p">,</span>
+    <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Liberal&quot;</span><span class="p">],</span>
+    <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Conservative&quot;</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">polviews</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">polview_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">polviews</span><span class="p">]</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="n">marker_map</span><span class="p">[</span><span class="n">polviews</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">issue_names</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">polviews</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Percent choosing conservative responses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment3.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># some questions are &quot;easier&quot; than others; we can use the logit of the prevalence</span>
+<span class="c1"># for each question to estimate its difficulty</span>
+
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logit</span>
+
+<span class="n">difficulty</span> <span class="o">=</span> <span class="o">-</span><span class="n">logit</span><span class="p">(</span><span class="n">questions</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="n">difficulty</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if we make a mesh with one row for each efficacy and one column for each question,</span>
+<span class="c1"># we can make a mapping from each efficacy to the number of conservative answers we</span>
+<span class="c1"># expect from a person with each efficacy</span>
+
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
+
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">)</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">expit</span><span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">D</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">P</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># as a prior for efficacy, I&#39;ll use a wide Gaussian, which represents</span>
+<span class="c1"># a gentle bias toward the middle of the range</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">empiricaldist</span> <span class="kn">import</span> <span class="n">Pmf</span>
+
+<span class="n">ys</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">prior</span> <span class="o">=</span> <span class="n">Pmf</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+<span class="n">prior</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the results for all respondents with a single 3-D array:</span>
+<span class="c1"># one row for each respondent,</span>
+<span class="c1"># one column for each question,</span>
+<span class="c1"># one page for each hypothetical value of efficacy</span>
+
+<span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now we can fill the array with the likelihoods of conservative and non-conservative</span>
+<span class="c1"># responses; where there&#39;s a NaN, we fill in all 1</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+<span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+<span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiplying along the rows gives the likelihood of each row of responses,</span>
+<span class="c1"># which we multiply by the prior probabilities</span>
+
+<span class="n">product</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">prior</span><span class="o">.</span><span class="n">values</span>
+<span class="n">product</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># normalize the rows to get a posterior distribution for each respondent</span>
+
+<span class="n">posterior</span> <span class="o">=</span> <span class="n">product</span> <span class="o">/</span> <span class="n">product</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">posterior</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the means of the posterior distributions</span>
+
+<span class="n">con</span> <span class="o">=</span> <span class="p">(</span><span class="n">posterior</span> <span class="o">*</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># and the variances of the posterior distributions</span>
+
+<span class="n">deviations</span> <span class="o">=</span> <span class="n">ns</span> <span class="o">-</span> <span class="n">con</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">var_con</span> <span class="o">=</span> <span class="p">(</span><span class="n">posterior</span> <span class="o">*</span> <span class="n">deviations</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">std_con</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_con</span><span class="p">)</span>
+<span class="n">std_con</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">answered</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="n">answered</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span><span class="p">[</span><span class="s2">&quot;conservatism&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">gss</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">con</span><span class="p">))</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">answered</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;conservatism&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">gss</span><span class="p">[</span><span class="s2">&quot;conservatism&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -780,22 +1046,11 @@ The following figure shows, for each question, the percentage of liberals, moder
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/9980ef7717992b45eaa0a8c59875b8d02568435c40eec841bdae62e1941c644e.png" src="_images/9980ef7717992b45eaa0a8c59875b8d02568435c40eec841bdae62e1941c644e.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_conservatism</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)[</span><span class="s2">&quot;conservatism&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">series_conservatism</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selected_years</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    7.635216
-2016    5.499032
-Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
@@ -808,23 +1063,23 @@ Name: conservatism, dtype: float64
 </div>
 </div>
 </div>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="_images/7756bfa52edeee7856a8eee152de57e80f07542f56af10a57d9478cf80f696c5.png" src="_images/7756bfa52edeee7856a8eee152de57e80f07542f56af10a57d9478cf80f696c5.png" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">series_conservatism</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">highlight_years</span><span class="p">(</span><span class="n">series_conservatism</span><span class="p">,</span> <span class="n">selected_years</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year of survey&quot;</span><span class="p">,</span>
+         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number of conservative responses&quot;</span><span class="p">,</span>
+         <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment5.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std_year</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)[</span><span class="s2">&quot;conservatism&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 <span class="n">std_year</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selected_years</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    2.993371
-2016    3.197281
-Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
@@ -839,9 +1094,6 @@ Name: conservatism, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment6.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/804dd9a3bb1fedb1702278e2fdc4566ced6b1c1dc1acbf66223f12b95c9c5fb2.png" src="_images/804dd9a3bb1fedb1702278e2fdc4566ced6b1c1dc1acbf66223f12b95c9c5fb2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -873,14 +1125,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year
-1986    3.419892
-2016    3.640552
-Name: conservatism, dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -890,9 +1134,6 @@ Name: conservatism, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment7.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/5b7d545bff589a3244a3dfc9624935d736b05534cd8c1b694c495ba824564f92.png" src="_images/5b7d545bff589a3244a3dfc9624935d736b05534cd8c1b694c495ba824564f92.png" />
 </div>
 </div>
 </section>
@@ -920,28 +1161,32 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/1869d75858fa0b6012d93907693b02a6258237c35ca1570932f6e33e91a428cb.png" src="_images/1869d75858fa0b6012d93907693b02a6258237c35ca1570932f6e33e91a428cb.png" />
-</div>
 </div>
 </section>
 <section id="polarization-by-party">
 <h2>Polarization by party<a class="headerlink" href="#polarization-by-party" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">recode_party</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">columns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_party</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Strong democrat&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Not very strong democrat&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Independent, close to democrat&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Independent&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Independent, close to republican&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Not very strong republican&quot;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Strong republican&quot;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">gss</span><span class="p">[</span><span class="s2">&quot;party7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;partyid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_party</span><span class="p">)</span>
+<span class="n">gss</span><span class="p">[</span><span class="s2">&quot;party7&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Strong democrat&#39;,
- &#39;Not very strong democrat&#39;,
- &#39;Independent, close to democrat&#39;,
- &#39;Independent&#39;,
- &#39;Independent, close to republican&#39;,
- &#39;Not very strong republican&#39;,
- &#39;Strong republican&#39;]
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">recode_party</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">columns</span>
 </pre></div>
 </div>
 </div>
@@ -976,8 +1221,23 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/fb827d6e1d78654d782e7fd9ee72e15b694a68f8ee6a261f22d7f72ef7d5e3b9.png" src="_images/fb827d6e1d78654d782e7fd9ee72e15b694a68f8ee6a261f22d7f72ef7d5e3b9.png" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recode_party</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Democrat&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Democrat&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Nonpartisan&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Nonpartisan&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Nonpartisan&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Republican&quot;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Republican&quot;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">gss</span><span class="p">[</span><span class="s2">&quot;party3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gss</span><span class="p">[</span><span class="s2">&quot;partyid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">recode_party</span><span class="p">)</span>
+<span class="n">gss</span><span class="p">[</span><span class="s2">&quot;party3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -987,70 +1247,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>party3</th>
-      <th>Democrat</th>
-      <th>Nonpartisan</th>
-      <th>Republican</th>
-    </tr>
-    <tr>
-      <th>year</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1972</th>
-      <td>50.968992</td>
-      <td>24.354005</td>
-      <td>24.677003</td>
-    </tr>
-    <tr>
-      <th>1973</th>
-      <td>42.592593</td>
-      <td>33.903134</td>
-      <td>23.504274</td>
-    </tr>
-    <tr>
-      <th>1974</th>
-      <td>48.089402</td>
-      <td>29.199712</td>
-      <td>22.710887</td>
-    </tr>
-    <tr>
-      <th>1975</th>
-      <td>41.508152</td>
-      <td>33.491848</td>
-      <td>25.000000</td>
-    </tr>
-    <tr>
-      <th>1976</th>
-      <td>40.321500</td>
-      <td>40.723376</td>
-      <td>18.955124</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1069,8 +1265,34 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/2c0e2ba0ed3c2e7b766bc9900d30ca7f0113e960aa592b5f4d1f2fe777a0326a.png" src="_images/2c0e2ba0ed3c2e7b766bc9900d30ca7f0113e960aa592b5f4d1f2fe777a0326a.png" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;party3&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;conservatism&quot;</span><span class="p">)</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">party_names</span><span class="p">:</span>
+    <span class="n">plot_series_lowess</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">party_map</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year of survey&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number of conservative responses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment10.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">smooth</span> <span class="o">=</span> <span class="n">make_lowess</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">smooth</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">smooth</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">diff</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1081,9 +1303,6 @@ Name: conservatism, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment11.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/bd779bb2388a4a3dc6f7f5ce110bb7a426a08565a63a0d71ebe36605508e1e0c.png" src="_images/bd779bb2388a4a3dc6f7f5ce110bb7a426a08565a63a0d71ebe36605508e1e0c.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1110,9 +1329,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/92c4ac8a9bd091c8a9a15bebc2cf3a84370ee974fc7450150cb2e4b9a2fd6b16.png" src="_images/92c4ac8a9bd091c8a9a15bebc2cf3a84370ee974fc7450150cb2e4b9a2fd6b16.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1120,9 +1336,6 @@ Name: conservatism, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment13.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/63eef43e25d61fa423449fda733908c88595f84e23b0c5ea4b08aecd49ee0d58.png" src="_images/63eef43e25d61fa423449fda733908c88595f84e23b0c5ea4b08aecd49ee0d58.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1139,9 +1352,6 @@ Name: conservatism, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment13.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/6f8a4eea9b7d03fba4b55b4324c3c0ed3669edf2b16ebc80a86269d129b0d940.png" src="_images/6f8a4eea9b7d03fba4b55b4324c3c0ed3669edf2b16ebc80a86269d129b0d940.png" />
 </div>
 </div>
 </section>
@@ -1164,44 +1374,6 @@ Name: conservatism, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1973.0    0.115622
-1974.0    0.116631
-1975.0    0.117765
-1976.0    0.119009
-1977.0    0.120343
-1978.0    0.121750
-1980.0    0.124783
-1982.0    0.128177
-1983.0    0.130054
-1984.0    0.132111
-1985.0    0.134466
-1986.0    0.137507
-1987.0    0.143163
-1988.0    0.149613
-1989.0    0.157334
-1990.0    0.164511
-1991.0    0.172101
-1993.0    0.189355
-1994.0    0.198083
-1996.0    0.215875
-1998.0    0.233721
-2000.0    0.250751
-2002.0    0.266292
-2004.0    0.281832
-2006.0    0.296517
-2008.0    0.312880
-2010.0    0.329575
-2012.0    0.346229
-2014.0    0.362747
-2016.0    0.379118
-2018.0    0.395393
-2021.0    0.419831
-2022.0    0.428039
-dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1210,9 +1382,6 @@ dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment14.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/29ca5306765453b423b0235d300a11e3ddc621380d1f3ccb7a73e1bdb1572270.png" src="_images/29ca5306765453b423b0235d300a11e3ddc621380d1f3ccb7a73e1bdb1572270.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1296,18 +1465,12 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/4cb921efd11c82f080bef2d4a6e63e3b7bb43aa61b27ac787ae4dbde41092c7c.png" src="_images/4cb921efd11c82f080bef2d4a6e63e3b7bb43aa61b27ac787ae4dbde41092c7c.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_scatter</span><span class="p">(</span><span class="mi">2018</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/631db40df85026c7ea5f79391a054b80e1b1c56dbf2803bcf9b0bc62ffd34589.png" src="_images/631db40df85026c7ea5f79391a054b80e1b1c56dbf2803bcf9b0bc62ffd34589.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1325,9 +1488,6 @@ dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment15.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/d409492ad994af40178af5cf46e2a5bcc51abfb8ae84bbb2a713af1279b3e113.png" src="_images/d409492ad994af40178af5cf46e2a5bcc51abfb8ae84bbb2a713af1279b3e113.png" />
 </div>
 </div>
 </section>
@@ -1407,60 +1567,6 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><table class="simpletable">
-<caption>OrderedModel Results</caption>
-<tr>
-  <th>Dep. Variable:</th>          <td>party7</td>       <th>  Log-Likelihood:    </th> <td> -28150.</td> 
-</tr>
-<tr>
-  <th>Model:</th>               <td>OrderedModel</td>    <th>  AIC:               </th> <td>5.631e+04</td>
-</tr>
-<tr>
-  <th>Method:</th>           <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>5.637e+04</td>
-</tr>
-<tr>
-  <th>Date:</th>              <td>Wed, 03 Apr 2024</td>  <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Time:</th>                  <td>10:49:37</td>      <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>No. Observations:</th>       <td> 15044</td>       <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Df Residuals:</th>           <td> 15037</td>       <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Df Model:</th>               <td>     1</td>       <th>                     </th>     <td> </td>    
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-        <td></td>          <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
-</tr>
-<tr>
-  <th>conservatism</th> <td>    0.0625</td> <td>    0.005</td> <td>   13.311</td> <td> 0.000</td> <td>    0.053</td> <td>    0.072</td>
-</tr>
-<tr>
-  <th>0.0/1.0</th>      <td>   -1.1418</td> <td>    0.042</td> <td>  -27.402</td> <td> 0.000</td> <td>   -1.223</td> <td>   -1.060</td>
-</tr>
-<tr>
-  <th>1.0/2.0</th>      <td>    0.2639</td> <td>    0.015</td> <td>   17.704</td> <td> 0.000</td> <td>    0.235</td> <td>    0.293</td>
-</tr>
-<tr>
-  <th>2.0/3.0</th>      <td>   -0.6086</td> <td>    0.021</td> <td>  -29.060</td> <td> 0.000</td> <td>   -0.650</td> <td>   -0.568</td>
-</tr>
-<tr>
-  <th>3.0/4.0</th>      <td>   -0.5953</td> <td>    0.022</td> <td>  -27.560</td> <td> 0.000</td> <td>   -0.638</td> <td>   -0.553</td>
-</tr>
-<tr>
-  <th>4.0/5.0</th>      <td>   -0.7551</td> <td>    0.026</td> <td>  -29.039</td> <td> 0.000</td> <td>   -0.806</td> <td>   -0.704</td>
-</tr>
-<tr>
-  <th>5.0/6.0</th>      <td>    0.2395</td> <td>    0.021</td> <td>   11.551</td> <td> 0.000</td> <td>    0.199</td> <td>    0.280</td>
-</tr>
-</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1471,34 +1577,10 @@ Rather:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    3902
-0.0    2545
-5.0    2306
-2.0    2093
-3.0    1918
-4.0    1405
-6.0    1189
-Name: party_pred, dtype: int64
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span><span class="p">[</span><span class="s2">&quot;party7&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    3871
-0.0    2502
-5.0    2252
-2.0    2026
-3.0    1938
-4.0    1368
-6.0    1154
-Name: party7, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -1507,11 +1589,6 @@ Name: party7, dtype: int64
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">means</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;party3&quot;</span><span class="p">)[</span><span class="s2">&quot;conservatism&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">means</span><span class="p">[</span><span class="s2">&quot;Republican&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">means</span><span class="p">[</span><span class="s2">&quot;Democrat&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0641764005269518
 </pre></div>
 </div>
 </div>
@@ -1532,11 +1609,6 @@ Name: party7, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compute_diff</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7970853434232819
 </pre></div>
 </div>
 </div>
@@ -1565,23 +1637,11 @@ Name: party7, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_653361/532577768.py:19: DeprecationWarning: In a future version, `df.iloc[:, i] = newvals` will attempt to set the values inplace instead of always setting a new array. To retain the old behavior, use either `df[df.columns[i]] = newvals` or, if columns are non-unique, `df.isetitem(i, newvals)`
-  group.loc[data.index, &quot;party_pred&quot;] = cols
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
 <span class="n">diff_fixed</span> <span class="o">=</span> <span class="n">compute_diff_series</span><span class="p">(</span><span class="n">gss</span><span class="p">,</span> <span class="n">result_fixed</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_653361/532577768.py:19: DeprecationWarning: In a future version, `df.iloc[:, i] = newvals` will attempt to set the values inplace instead of always setting a new array. To retain the old behavior, use either `df[df.columns[i]] = newvals` or, if columns are non-unique, `df.isetitem(i, newvals)`
-  group.loc[data.index, &quot;party_pred&quot;] = cols
 </pre></div>
 </div>
 </div>
@@ -1599,9 +1659,6 @@ Name: party7, dtype: int64
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;alignment16.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/ccda09a127ad8885c8910eb25314ad9bfe2e66493abad48f00686d283b8774b3.png" src="_images/ccda09a127ad8885c8910eb25314ad9bfe2e66493abad48f00686d283b8774b3.png" />
 </div>
 </div>
 </section>
