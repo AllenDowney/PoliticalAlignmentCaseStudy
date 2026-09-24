@@ -21,8 +21,9 @@ includes this case study as chapters 14–15, and EDS v2 plans to expand it
 
 Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 
-- **Decide first:** **Task 1**, which branch is the default
-- **Then:** Tasks 2 (CI), 3 (pandas 3), 4 (working tree)
+- **Done:** **Task 1** (`v1` is the default; `master` fast-forwarded and
+  protected; `v1.0.1` tagged)
+- **Next:** Tasks 2 (CI), 3 (pandas 3), 4 (working tree)
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -30,7 +31,25 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 
 ## Task 1: Decide the branch layout (`master` vs `v1`)
 
-**Status:** Not started. Decision needed.
+**Status:** Done 2026-09-24. Option A, with the one-time fast-forward.
+
+- [x] Fast-forwarded `master` from `f3dd234` to `5404cac` (no force). This
+      removed `gss_eds.hdf5`, `gss_eds.3.hdf5`, and `scrub_code.py` from
+      `master`; nothing downloads them from `master` (EDS `archive/quizzes`
+      and both `unfilled/04_worldview` copies use `raw/update2021/`).
+- [x] Made `v1` the default branch on GitHub.
+- [x] Ruleset `23951246` blocks deletion and non-fast-forward pushes on
+      `master`, `v1`, and `update2021`, with no bypass actors, so it applies
+      to the owner too. Normal pushes still work.
+- [x] Tagged `v1.0.1` (annotated) on `898fe24` (2024-06-14), the last commit
+      before EDS print 1.0.1 was finalized (Book `1ec3aca`, 2024-08-10),
+      matching the EDS tag.
+- [x] Checked: the eight printed `blob/master/` links for notebooks 1–4 and
+      `raw/v1/gss_pacs_resampled.hdf` all return 200.
+- [ ] After Task 3, fast-forward `master` again (`git push origin v1:master`)
+      so the printed links get the pandas 3 fixes.
+
+Background, as written before the decision:
 
 GitHub's default branch is `master` (last commit `f3dd234`, 2024-01-30), but
 the work happens on `v1` (`0e490c5`, 2025-01-03). `v1` is 11 commits ahead of
