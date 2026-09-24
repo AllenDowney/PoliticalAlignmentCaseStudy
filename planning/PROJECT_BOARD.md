@@ -34,7 +34,8 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
   running under pandas 3)
 - **Done:** **Task 8** (`environment.yml`, Makefile, `requirements-dev.txt`)
 - **Done:** **Task 9** (README and `jb/index.md` identical and current)
-- **Next:** nothing left on the board; see the open items under Tasks 7 and 8
+- **Next:** republish the website with `jb/build.sh` (the owner runs it; see
+  Task 10), then Task 10 (split build from publish)
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -296,7 +297,7 @@ from what the notebooks import, Python 3.13, and Makefile targets that use it.
       does that job now).
 - [ ] Not done: EDS split build from publish (`build.sh`/`publish.sh`,
       `make notebooks`/`make publish`). Here `build.sh` and `jb/build.sh`
-      still build and publish in one step. Worth doing before EDS v2 work.
+      still build and publish in one step. Moved to Task 10.
 
 ## Task 9: Reconcile the README with `jb/index.md`
 
@@ -320,3 +321,29 @@ README. The site was not rebuilt or published (`jb/build.sh` publishes).
 The README still describes the 2020 PyData version and links to
 `blob/master/`. It says "Uodate August 2022" (a typo), and notebook 5 is missing
 from its list. `jb/index.md` has uncommitted changes.
+
+## Task 10: Split build from publish
+
+**Status:** Not started. Do before the EDS v2 work.
+
+Both build scripts publish as their last step, so there is no way to build
+without publishing:
+
+- `build.sh` makes `02_polviews.ipynb` from `02_polviews_soln.ipynb`, then
+  runs `git add 0*.ipynb`, `git commit`, and `git push`.
+- `jb/build.sh` copies the notebooks in, builds the site with `jb build`, then
+  runs `ghp-import -n -p -f`, which force-pushes `gh-pages` and replaces the
+  live site.
+
+Follow EDS Tasks 14 and 15: `build.sh` and `jb/build.sh` only change the
+working tree; `publish.sh` and `jb/publish.sh` push; Makefile targets
+`notebooks`, `publish`, `site`, and `publish-site`. Update CLAUDE.md's Traps
+section to match.
+
+Pending: the live site (last published 2025-01-03, `499f3b3`) still has the
+old front page. Republishing it needs `jb/build.sh` as it stands, which the
+owner runs; Claude Code's permission check blocked it as a publication.
+The site builds cleanly from a scratch copy in the Task 8 environment (4
+warnings). A republish also drops `generation.html` and `margin.html`,
+which the current build no longer makes; nothing links to them, and every
+known link (including the printed book's) goes to the site root.

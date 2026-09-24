@@ -127,3 +127,11 @@ GSS2024_*.pdf
 # written by generation, resampling, and resampling2
 /gss_eda.hdf5
 /generation*.png
+
+# figures made by cover/cover.ipynb (cover_figure.svg) and an earlier run of it
+cover/*.svg
+cover/*.jpg
+cover/*.pdf
+
+# an old extract; nothing downloads it from this repo (GssExtract has its own copy)
+/gss_pacs.hdf

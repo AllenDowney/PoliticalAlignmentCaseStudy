@@ -92,5 +92,9 @@ GSS2024_*.pdf
 - `environment.yml~` deleted; the proposed `.gitignore` additions made.
 - `05_alignment` also writes `alignment1.jpg`–`alignment16.jpg` into the root;
   those were ignored under Task 2.
-- Still in limbo: `cover/` (4 files), `gss_alignment.gif`, `mygif.gif`,
-  `gss_pacs.hdf`.
+- Later the same day: the four `cover/` files are ignored, not tracked. They
+  are matplotlib output (`cover_figure.svg` is what `cover/cover.ipynb`
+  saves; `eds_cover.{svg,pdf,jpg}` are exports from a May 2021 run); the
+  source is the tracked notebook. `gss_pacs.hdf` is ignored: nothing
+  downloads it from this repo, and GssExtract serves its own copy.
+- Still in limbo: `gss_alignment.gif`, `mygif.gif`.
