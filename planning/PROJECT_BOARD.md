@@ -29,7 +29,8 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
   in limbo)
 - **Done:** **Task 7** (`01_clean` pinned to GssExtract `1ac586b`; rebuilds
   now match the committed data, checked in CI)
-- **Next:** Task 5 (issues), then Tasks 6, 8, 9
+- **Done:** **Task 5** (#1, #3, and PR #4 closed with comments; nothing open)
+- **Next:** Tasks 6, 8, 9
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -183,7 +184,11 @@ output, and the two scripts the build depends on (`build.sh`,
 
 ## Task 5: Close stale issues and the PR
 
-**Status:** Not started.
+**Status:** Done 2026-09-24. All three closed with a comment; the repo has no
+open issues or PRs. All four typos in #1 were already fixed: the
+codebook listing reads "Extremely conservative", the second PMF is
+introduced as "And from 2022:", the repeated-title plot was rewritten, and
+"helfulness" is gone.
 
 - **#3** (2020-11-15, `GSS.dct` not found after a fresh clone) and **PR #4**
   (a fix for it): obsolete. `01_clean` stopped reading `GSS.dct` in 2022
