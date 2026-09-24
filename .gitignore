@@ -105,3 +105,21 @@ venv.bak/
 
 # frames that 05_alignment writes for gss_alignment.gif
 alignment[0-9]*.jpg
+
+# website build: output, and notebooks copied in by jb/build.sh
+jb/_build/
+jb/*.ipynb
+
+# raw and downloaded data; the committed HDF files stay tracked
+*.dta
+/gss_pacs_2022.hdf
+examples/*.hdf
+examples/utils.py
+examples/*.png
+
+# NORC documentation kept locally
+gss_docs/
+GSS2024_*.pdf
+
+# editor backups
+*~

@@ -25,7 +25,9 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
   protected; `v1.0.1` tagged)
 - **Done:** **Task 3** (pandas 3 fixes; refactor verified against pandas 2),
   **Task 2** (CI green on all three OSes)
-- **Next:** Task 4 (working tree), Task 7 (the GssExtract source has changed)
+- **Done:** **Task 4** (working tree: 36 paths down to the `Makefile` and 7
+  in limbo)
+- **Next:** Task 7 (the GssExtract source has changed), Task 5 (issues)
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -163,8 +165,14 @@ Results:
 
 ## Task 4: Triage the working tree
 
-**Status:** Not started. Inventory in
-[working_tree_triage.md](working_tree_triage.md).
+**Status:** Done 2026-09-24. Inventory and outcome in
+[working_tree_triage.md](working_tree_triage.md). What is left: the
+`Makefile` edits (Task 8), and the limbo files (`cover/`, two GIFs,
+`gss_pacs.hdf`).
+
+The uncommitted `gss_pacs_clean.hdf` turned out to be the file that the
+committed `gss_pacs_resampled.hdf` came from, so it is now tracked
+(`0a59c00`).
 
 `git status` shows 36 paths: 7 modified tracked files and 29 untracked,
 including a 477 MB raw GSS file (`gss7221_r2.dta`), 31 MB of website build
@@ -201,8 +209,10 @@ A `main` link changes whenever GssExtract does, so rebuilding PACS data is not
 reproducible. Pin it to a commit or tag.
 
 Confirmed 2026-09-24 (Task 3): a rebuild from today's `main` differs from the
-committed `gss_pacs_clean.hdf` (2024-01-30) in 31 columns and from the
-uncommitted 2024-04-03 rebuild in 17. The income columns are on a different
+committed `gss_pacs_clean.hdf` in 17 columns. (That file is now the
+2024-04-03 rebuild that `gss_pacs_resampled.hdf` came from; see Task 4. The
+2024-01-30 version it replaced differs in 31.) So the GssExtract version to
+look for is the one from around 2024-04-03. The income columns are on a different
 dollar basis, `reg16` code 9 is now 0, and `fund`, `hhrace`, and `reliten`
 have values that were missing before. Find the GssExtract commit that
 reproduces the committed files, and pin to it. Whether to move to the new

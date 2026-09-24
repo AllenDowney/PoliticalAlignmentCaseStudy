@@ -2,7 +2,11 @@
 
 Snapshot 2026-09-24, on branch `v1`: `git status` lists 36 paths, of which 7
 are modified tracked files and 29 are untracked. This file proposes what to do
-with each one. It follows the EDS triage
+with each one.
+
+**Done 2026-09-24.** Everything below was carried out as proposed, except as
+noted in the Outcome section at the end. What is left in `git status`: the
+`Makefile` (Task 8) and the seven limbo paths. It follows the EDS triage
 (`~/ElementsOfDataScience/planning/working_tree_triage.md`).
 
 Actions: **track** (commit it), **ignore** (add to `.gitignore`), **delete**,
@@ -22,7 +26,7 @@ directory when it runs.
 | `examples/confidence.ipynb` | Title wording ("'hardly any'") | track |
 | `02_polviews_soln.ipynb` | Two blank lines removed | track, or restore |
 | `Makefile` | 34 lines removed, including `lint`, `format`, and env targets | review with Task 8 |
-| `gss_pacs_clean.hdf` | Rebuilt 2024-04-03; binary | compare with the committed version first (Task 3). Restore if it is not a deliberate update |
+| `gss_pacs_clean.hdf` | Rebuilt 2024-04-03; binary | compare with the committed version first (Task 3). Restore if it is not a deliberate update. **Outcome: tracked** (`0a59c00`); see below |
 
 ## Untracked: the build
 
@@ -74,3 +78,19 @@ GSS2024_*.pdf
 # editor backups
 *~
 ```
+
+## Outcome
+
+- `gss_pacs_clean.hdf`: tracked, not restored (`0a59c00`). The 2024-04-03
+  rebuild (`37c15b0`) committed `gss_pacs_resampled.hdf` but not the matching
+  clean file. Resampling the uncommitted file with `01_clean`'s
+  `resample_by_year` and seeds 0–2 reproduces all three committed frames
+  exactly, under pandas 2.3.3 and 3.0.6. The 2024-01-30 file does not.
+- Build scripts tracked (`1a45ad3`). The `jb/`, `examples/confidence`, and
+  `02_polviews_soln` edits tracked (`d015d64`). `jb/build.sh` now copies
+  `examples/divorce.ipynb` too, although `_toc.yml` does not list it.
+- `environment.yml~` deleted; the proposed `.gitignore` additions made.
+- `05_alignment` also writes `alignment1.jpg`–`alignment16.jpg` into the root;
+  those were ignored under Task 2.
+- Still in limbo: `cover/` (4 files), `gss_alignment.gif`, `mygif.gif`,
+  `gss_pacs.hdf`.
