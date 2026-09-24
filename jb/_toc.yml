@@ -1,7 +1,12 @@
-format: jb-article
+format: jb-book
 root: index
-sections:
-- file: 01_clean
-- file: 02_polviews_soln
-- file: 03_outlook
-- file: 04_worldview
+parts:
+- caption: Chapters
+  chapters:
+    - file: 01_clean
+    - file: 02_polviews_soln
+    - file: 03_outlook
+    - file: 04_worldview
+- caption: Examples
+  chapters:
+    - file: confidence

@@ -4,6 +4,7 @@
 
 # copy the chapter notebooks
 cp ../0*.ipynb .
+cp ../examples/*.ipynb .
 
 # add tags to hide the solutions
 python prep_notebooks.py
