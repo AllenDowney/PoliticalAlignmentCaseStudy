@@ -23,8 +23,8 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 
 - **Done:** **Task 1** (`v1` is the default; `master` fast-forwarded and
   protected; `v1.0.1` tagged)
-- **Done:** **Task 3** (pandas 3 fixes; refactor verified against pandas 2)
-- **In progress:** **Task 2** (CI pushed; waiting on the first run)
+- **Done:** **Task 3** (pandas 3 fixes; refactor verified against pandas 2),
+  **Task 2** (CI green on all three OSes)
 - **Next:** Task 4 (working tree), Task 7 (the GssExtract source has changed)
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
@@ -90,8 +90,8 @@ tag the release and protect the branches the printed book depends on.
 
 ## Task 2: Revive CI
 
-**Status:** In progress 2026-09-24. Workflow updated and re-enabled; see the
-first run.
+**Status:** Done 2026-09-24. Run `36034145679` passed on Ubuntu, Windows,
+and macOS, including `make tests-clean`.
 
 GitHub disabled the `tests` workflow for inactivity (`disabled_inactivity`),
 and it has no runs on record. It also triggers only on pushes to `master`,
@@ -101,7 +101,7 @@ tests Python 3.8.
 - [x] Update `.github/workflows/tests.yml` to match EDS: actions v7, Python
       3.13, Ubuntu, Windows, and macOS, `fail-fast: false`, `PYTHONUTF8=1`,
       push on `v1`, monthly schedule
-- [ ] Re-enable the workflow on GitHub, and check the first run is green
+- [x] Re-enable the workflow on GitHub, and check the first run is green
 - [x] Notebook 5 passes under statsmodels 0.15.0, so `make tests` now runs
       `0[2345]*.ipynb`. `01_clean` moved to `make tests-clean`, which runs a
       copy in `build/clean/` (gitignored), because running it in place
