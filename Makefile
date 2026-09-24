@@ -54,7 +54,9 @@ tests:
 
 ## 01_clean downloads the GssExtract source and writes gss_pacs_clean.hdf and
 ## gss_pacs_resampled.hdf into its working directory, so run it in a copy
-## under build/ to keep it from replacing the committed files.
+## under build/ to keep it from replacing the committed files. Then check that
+## the rebuilt files match the committed ones.
 tests-clean:
 	python -c "import os, shutil; os.makedirs('build/clean', exist_ok=True); shutil.copy('01_clean.ipynb', 'build/clean')"
 	cd build/clean && pytest --nbmake 01_clean.ipynb
+	python -c "import pandas as pd; [pd.testing.assert_frame_equal(pd.read_hdf('build/clean/' + f, k), pd.read_hdf(f, k)) for f, ks in [('gss_pacs_clean.hdf', ['gss']), ('gss_pacs_resampled.hdf', ['gss0', 'gss1', 'gss2'])] for k in ks]; print('rebuilt data match the committed files')"

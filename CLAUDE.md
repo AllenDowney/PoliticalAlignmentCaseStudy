@@ -27,18 +27,9 @@ planning/                 project board and write-ups
 
 ## Data flow
 
-`01_clean` downloads `gss_pacs_2022.hdf` from the `GssExtract` repo (`raw/main/data/interim/`), cleans it with `utils.gss_replace_invalid` and other steps, and writes `gss_pacs_clean.hdf` and `gss_pacs_resampled.hdf`. Both are committed. Every other notebook downloads `gss_pacs_resampled.hdf` from `raw/v1/`, so readers don't need to run `01_clean`.
+`01_clean` downloads `gss_pacs_2022.hdf` from the `GssExtract` repo, pinned to commit `1ac586b` (2024-04-02), the version the committed data were built from. It cleans it with its own `gss_replace_invalid` (not the one in `utils.py`, which no notebook calls) and writes `gss_pacs_clean.hdf` (key `gss`) and `gss_pacs_resampled.hdf` (keys `gss0`, `gss1`, `gss2`). Both are committed. Every other notebook downloads `gss_pacs_resampled.hdf` from `raw/v1/`, so readers don't need to run `01_clean`.
 
-A change to `01_clean` or `gss_replace_invalid` could change the data every other notebook reads. Rebuild in a scratch copy and compare with the committed files before replacing them:
-
-```python
-import pandas as pd
-new = pd.read_hdf("scratch/gss_pacs_resampled.hdf", "gss")
-old = pd.read_hdf("gss_pacs_resampled.hdf", "gss")
-pd.testing.assert_frame_equal(new, old)
-```
-
-A refactor must pass this unchanged. A change that is meant to move numbers gets its own commit.
+A change to `01_clean` could change the data every other notebook reads. `make tests-clean` rebuilds both files in `build/clean/` and asserts that all four frames equal the committed ones; CI runs it on every push. A refactor must pass this unchanged. A change that is meant to move numbers gets its own commit.
 
 ## Notebooks: the `.ipynb` is the source
 
@@ -63,7 +54,7 @@ pandas 3 also makes the `key` of `to_hdf` keyword-only (`to_hdf(path, key="gss")
 
 `build.sh` and `jb/build.sh` publish without asking. `build.sh` ends in `git commit` and `git push`, and `jb/build.sh` ends in `ghp-import -p`, which replaces the website. Don't run them as a way to test something.
 
-`make tests` runs notebooks 2–5 against the committed data. `make tests-clean` runs `01_clean` in `build/clean/`. Don't run `01_clean` in the repo root: it rewrites both committed HDF files, and because the GssExtract source has changed since they were built (Task 7), a rebuild does not match them. `05_alignment` writes `alignment*.jpg` frames into the root; they are gitignored.
+`make tests` runs notebooks 2–5 against the committed data. `make tests-clean` runs `01_clean` in `build/clean/`. Don't run `01_clean` in the repo root: it rewrites both committed HDF files. `05_alignment` writes `alignment*.jpg` frames into the root; they are gitignored.
 
 `generation.ipynb` downloads `raw/master/gss_eda.hdf5`, which was deleted in 2022, so it can't run (Task 6).
 

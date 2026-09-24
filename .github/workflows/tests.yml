@@ -45,8 +45,9 @@ jobs:
         run: |
           make tests
 
-      # 01_clean downloads the source extract from GssExtract and rebuilds
-      # the data, in a copy under build/
-      - name: Run the cleaning notebook
+      # 01_clean downloads the pinned source extract from GssExtract and
+      # rebuilds the data in a copy under build/; then check the rebuilt
+      # files equal the committed ones
+      - name: Rebuild the data and compare
         run: |
           make tests-clean

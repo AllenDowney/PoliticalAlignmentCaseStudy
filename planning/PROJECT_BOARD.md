@@ -27,7 +27,9 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
   **Task 2** (CI green on all three OSes)
 - **Done:** **Task 4** (working tree: 36 paths down to the `Makefile` and 7
   in limbo)
-- **Next:** Task 7 (the GssExtract source has changed), Task 5 (issues)
+- **Done:** **Task 7** (`01_clean` pinned to GssExtract `1ac586b`; rebuilds
+  now match the committed data, checked in CI)
+- **Next:** Task 5 (issues), then Tasks 6, 8, 9
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -202,7 +204,7 @@ same download to commit `34b22cb`, the last one that has the file. Check
 
 ## Task 7: Pin the `GssExtract` source
 
-**Status:** Not started.
+**Status:** Done 2026-09-24.
 
 `01_clean` downloads `GssExtract/raw/main/data/interim/gss_pacs_2022.hdf`.
 A `main` link changes whenever GssExtract does, so rebuilding PACS data is not
@@ -212,7 +214,21 @@ Confirmed 2026-09-24 (Task 3): a rebuild from today's `main` differs from the
 committed `gss_pacs_clean.hdf` in 17 columns. (That file is now the
 2024-04-03 rebuild that `gss_pacs_resampled.hdf` came from; see Task 4. The
 2024-01-30 version it replaced differs in 31.) So the GssExtract version to
-look for is the one from around 2024-04-03. The income columns are on a different
+look for is the one from around 2024-04-03.
+
+Result: GssExtract has nine commits of `gss_pacs_2022.hdf`. The one from
+2024-04-02 (`1ac586b`) reproduces the committed `gss_pacs_clean.hdf` and all
+three frames of `gss_pacs_resampled.hdf` exactly, under pandas 3.0.6. The
+later one on `main` (`e954d99`, 2025-03-06, "2022 r4") is the changed data.
+
+- [x] `01_clean` downloads from `raw/1ac586b64b42.../`, the full hash. That
+      URL serves the same bytes as the local GssExtract object.
+- [x] `make tests-clean` now also asserts that the rebuilt files equal the
+      committed ones, so CI catches any change that moves the data. Checked
+      that it fails when given the `main` source.
+- [ ] Moving to the r4 data is a separate decision for EDS v2: it changes
+      numbers in the printed chapters, so it gets its own commit and a
+      rebuild of both files. The income columns are on a different
 dollar basis, `reg16` code 9 is now 0, and `fund`, `hhrace`, and `reliten`
 have values that were missing before. Find the GssExtract commit that
 reproduces the committed files, and pin to it. Whether to move to the new
