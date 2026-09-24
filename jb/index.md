@@ -2,14 +2,17 @@
 
 This data science case study explores the relationship between political alignment (conservative, moderate, or liberal) and other attitudes and beliefs.  It is meant primarily for teaching and learning about data science, but we might do some research along the way.
 
-If you are working through [the *Elements of Data Science* curriculum](https://allendowney.github.io/ElementsOfDataScience/), you should be ready to start this case study when you have completed Notebook 6, which covers basic Pandas.
+If you are working through [the *Elements of Data Science* curriculum](https://allendowney.github.io/ElementsOfDataScience/), you should be ready to start this case study when you have completed Notebook 7, which covers basic Pandas.
+Notebooks 2 and 3 of this case study appear as Chapters 14 and 15 of the printed book.
 
 This material is a work in progress, so your feedback is welcome.  The best way to provide that feedback is to [click here and create an issue in this GitHub repository](https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/issues).
+
+The notebooks use data from the General Social Survey (GSS) from 1972 through 2022.
 
 
 ## Videos and Slides
 
-I presented this case study for [PyData Global 2020](https://global.pydata.org/talks/363).
+I presented this case study for [PyData Global 2020](https://web.archive.org/web/20201108182725/https://global.pydata.org/talks/363).
 
 Here are the [slides I presented](https://docs.google.com/presentation/d/e/2PACX-1vSqifcdVGQmMoLDNlmbnugZ58jieItA_weGEF9oRsQCAa6iICLmehevGRzINYVv0tCGqcSTvuIQOSJo/pub)
 
@@ -63,6 +66,13 @@ For each of the notebooks below, you have two options: if you view the notebook 
 * [Click here to read Notebook 4 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/04_worldview.ipynb)
 
 * [Click here to run Notebook 4 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/04_worldview.ipynb)
+
+
+### Notebook 5
+
+**Alignment and party**: This notebook uses fifteen GSS questions that most distinguish liberals and conservatives to build a scale of conservatism.  It looks at how the distribution of that scale has changed over time, and how strongly it is correlated with party identification.  It ends with a counterfactual model that explores why the gap between Democrats and Republicans has grown.  This notebook is saved without outputs, so run it on Colab to see the results.
+
+* [Click here to run Notebook 5 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/05_alignment.ipynb)
 
 
 Copyright 2020 Allen B. Downey

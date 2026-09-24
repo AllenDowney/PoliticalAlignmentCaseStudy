@@ -23,7 +23,8 @@ A ruleset blocks deleting or force-pushing `master`, `v1`, and `update2021`. Don
 generation.ipynb, margin.ipynb, resampling*.ipynb   extra notebooks
 examples/                 confidence, divorce
 unfilled/                 an older 04_worldview with 16 of 42 code cells empty
-jb/                       Jupyter Book website: 01-04 (02 as the _soln version) and examples/confidence
+jb/                       Jupyter Book website: 01-04 (02 as the _soln version) and examples/confidence;
+                          jb/index.md is a copy of README.md, so keep the two identical
 utils.py                  helpers the notebooks download; not the same file as EDS's utils.py
 planning/                 project board and write-ups
 ```

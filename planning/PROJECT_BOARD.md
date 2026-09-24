@@ -33,7 +33,8 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 - **Done:** **Task 6** (`generation`, `resampling`, `resampling2` pinned and
   running under pandas 3)
 - **Done:** **Task 8** (`environment.yml`, Makefile, `requirements-dev.txt`)
-- **Next:** Task 9
+- **Done:** **Task 9** (README and `jb/index.md` identical and current)
+- **Next:** nothing left on the board; see the open items under Tasks 7 and 8
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -299,7 +300,22 @@ from what the notebooks import, Python 3.13, and Makefile targets that use it.
 
 ## Task 9: Reconcile the README with `jb/index.md`
 
-**Status:** Not started.
+**Status:** Done 2026-09-24. `jb/index.md` is now an exact copy of the
+README. The site was not rebuilt or published (`jb/build.sh` publishes).
+
+- [x] Fixed "Uodate August 2022 ... 2021 data": the data run from 1972 to
+      2022, so the line now says that.
+- [x] "Notebook 6, which covers basic Pandas" is now Notebook 7: EDS's basic
+      Pandas notebook is `07_dataframes`.
+- [x] Added that notebooks 2 and 3 are Chapters 14 and 15 of the printed
+      book, and a Notebook 5 section. Notebook 5 is committed without
+      outputs, so it has only a Colab link.
+- [x] Links go to `blob/v1/`, the default branch. All of them return 200.
+      The PyData talk page (`global.pydata.org/talks/363`) was a 404; it
+      now links to the Wayback Machine copy from 2020-11-08.
+- The printed book's `intro2.tex` is a conversion of this README, and it
+  still has the typo and the old facts. That can only change in a new
+  edition.
 
 The README still describes the 2020 PyData version and links to
 `blob/master/`. It says "Uodate August 2022" (a typo), and notebook 5 is missing

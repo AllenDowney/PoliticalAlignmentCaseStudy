@@ -2,16 +2,17 @@
 
 This data science case study explores the relationship between political alignment (conservative, moderate, or liberal) and other attitudes and beliefs.  It is meant primarily for teaching and learning about data science, but we might do some research along the way.
 
-If you are working through [the *Elements of Data Science* curriculum](https://allendowney.github.io/ElementsOfDataScience/), you should be ready to start this case study when you have completed Notebook 6, which covers basic Pandas.
+If you are working through [the *Elements of Data Science* curriculum](https://allendowney.github.io/ElementsOfDataScience/), you should be ready to start this case study when you have completed Notebook 7, which covers basic Pandas.
+Notebooks 2 and 3 of this case study appear as Chapters 14 and 15 of the printed book.
 
 This material is a work in progress, so your feedback is welcome.  The best way to provide that feedback is to [click here and create an issue in this GitHub repository](https://github.com/AllenDowney/PoliticalAlignmentCaseStudy/issues).
 
-Uodate August 2022: I have updated the notebooks and data files with the 2021 data from the General Social Survey.
+The notebooks use data from the General Social Survey (GSS) from 1972 through 2022.
 
 
 ## Videos and Slides
 
-I presented this case study for [PyData Global 2020](https://global.pydata.org/talks/363).
+I presented this case study for [PyData Global 2020](https://web.archive.org/web/20201108182725/https://global.pydata.org/talks/363).
 
 Here are the [slides I presented](https://docs.google.com/presentation/d/e/2PACX-1vSqifcdVGQmMoLDNlmbnugZ58jieItA_weGEF9oRsQCAa6iICLmehevGRzINYVv0tCGqcSTvuIQOSJo/pub)
 
@@ -35,36 +36,43 @@ For each of the notebooks below, you have two options: if you view the notebook 
 
 **Cleaning and validation**: The first notebook loads data from the General Social Survey (GSS) and walks through the process of cleaning and validating the data.  At the end, you can help me by choosing a random variable, checking the values against the codebook, and reporting your results.
 
-* [Click here to read Notebook 1 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/01_clean.ipynb)
+* [Click here to read Notebook 1 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/01_clean.ipynb)
 
-* [Click here to run Notebook 1 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/01_clean.ipynb)
+* [Click here to run Notebook 1 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/01_clean.ipynb)
 
 
 ### Notebook 2
 
 **Exploration**: This notebook uses the tools of exploratory data analysis to look at survey responses about political alignment.  It uses PMFs to display distributions, time series to represent changes over time, and cross tabulation to look at changes in distribution over time.  It also introduces local regression as a way to plot a smooth line through noisy data.
 
-* [Click here to read Notebook 2 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/02_polviews.ipynb)
+* [Click here to read Notebook 2 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/02_polviews.ipynb)
 
-* [Click here to run Notebook 2 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/02_polviews.ipynb)
+* [Click here to run Notebook 2 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/02_polviews.ipynb)
 
 
 ### Notebook 3
 
 **Political alignment and outlook**: This notebook explores the relationship between political alignment and three survey questions related to "outlook".  It uses a pivot table to compute the mean of the response variable grouped by political alignment and time.
 
-* [Click here to read Notebook 3 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb)
+* [Click here to read Notebook 3 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/03_outlook.ipynb)
 
-* [Click here to run Notebook 3 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/03_outlook.ipynb)
+* [Click here to run Notebook 3 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/03_outlook.ipynb)
 
 
 ### Notebook 4
 
 **Political alignment and other beliefs**: This notebook explores the relationship between political alignment and other attitudes and beliefs.  It is a template for a do-it-yourself, choose-your-own-adventure mini-project, where you have the chance to explore a variable in the GSS dataset and report the results.
 
-* [Click here to read Notebook 4 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
+* [Click here to read Notebook 4 on NBViewer](https://nbviewer.jupyter.org/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/04_worldview.ipynb)
 
-* [Click here to run Notebook 4 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/master/04_worldview.ipynb)
+* [Click here to run Notebook 4 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/04_worldview.ipynb)
+
+
+### Notebook 5
+
+**Alignment and party**: This notebook uses fifteen GSS questions that most distinguish liberals and conservatives to build a scale of conservatism.  It looks at how the distribution of that scale has changed over time, and how strongly it is correlated with party identification.  It ends with a counterfactual model that explores why the gap between Democrats and Republicans has grown.  This notebook is saved without outputs, so run it on Colab to see the results.
+
+* [Click here to run Notebook 5 on Colab](https://colab.research.google.com/github/AllenDowney/PoliticalAlignmentCaseStudy/blob/v1/05_alignment.ipynb)
 
 
 Copyright 2020 Allen B. Downey
