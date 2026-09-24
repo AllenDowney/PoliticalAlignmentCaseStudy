@@ -2,14 +2,17 @@
 
 A data science case study using the General Social Survey: how political alignment (liberal, moderate, conservative) relates to other attitudes, and how both change over time. It is part of the *Elements of Data Science* curriculum. The printed EDS book includes two of these notebooks as chapters 14 and 15 (`02_polviews_soln` and `03_outlook`), and EDS v2 plans to expand the case study. `planning/PROJECT_BOARD.md` holds the numbered tasks and is the place to record findings; `planning/` holds the longer write-ups.
 
-## Branches: two of them matter, and neither can move
+## Branches: `v1` is where work happens; `master` follows it
 
-GitHub's default branch is `master`; the current work is on `v1`. Both are load-bearing:
+`v1` is GitHub's default branch and where the work happens. Three branches are load-bearing:
 
 - The printed EDS book links to `blob/master/` for notebooks 1–4 (`ElementsOfDataScienceBook/latex/intro2.tex`).
 - The notebooks download `utils.py` and `gss_pacs_resampled.hdf` from `raw/v1/`.
+- Old EDS notebooks download data from `raw/update2021/`.
 
-So never delete, rename, or force-push either branch, and don't move `utils.py` or the committed HDF files on `v1`. Don't rename `master` to `main`: printed links can't be updated, and Colab and raw links aren't guaranteed to follow GitHub's rename redirect. Which branch should be the default is open; see Task 1.
+A ruleset blocks deleting or force-pushing `master`, `v1`, and `update2021`. Don't move `utils.py` or the committed HDF files on `v1`. Don't rename `master` to `main`: printed links can't be updated, and Colab and raw links aren't guaranteed to follow GitHub's rename redirect.
+
+**Standing rule:** when CI passes on `v1`, fast-forward `master` to that commit (`git push origin <sha>:refs/heads/master`), without asking. Never push to `master` anything that isn't already on `v1`. `v1.0.1` tags the state when print 1.0.1 was finalized.
 
 ## Layout
 
