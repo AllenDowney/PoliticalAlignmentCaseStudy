@@ -30,7 +30,9 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 - **Done:** **Task 7** (`01_clean` pinned to GssExtract `1ac586b`; rebuilds
   now match the committed data, checked in CI)
 - **Done:** **Task 5** (#1, #3, and PR #4 closed with comments; nothing open)
-- **Next:** Tasks 6, 8, 9
+- **Done:** **Task 6** (`generation`, `resampling`, `resampling2` pinned and
+  running under pandas 3)
+- **Next:** Tasks 8, 9
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -200,12 +202,40 @@ introduced as "And from 2022:", the repeated-title plot was rewritten, and
 
 ## Task 6: Fix the notebooks that download deleted data
 
-**Status:** Not started.
+**Status:** Done 2026-09-24. All three run under pandas 3.0.6 and Python 3.13
+with `pytest --nbmake`. They are not in `make tests`.
 
 `generation.ipynb` downloads `raw/master/gss_eda.hdf5`, which was deleted from
 this repo in 2022 (`5c5971c`), so it cannot run. EDS pinned its copy of the
 same download to commit `34b22cb`, the last one that has the file. Check
 `resampling` and `resampling2` too; they also use `raw/master/` links.
+
+Results:
+
+- `gss_eda.hdf5` has six versions. Each notebook is pinned (full hash) to
+  the one its recorded `gss.shape` came from, not to `34b22cb`:
+  `generation` and `resampling` to `c67527f` (2020-01-19, 165 columns),
+  `resampling2` to `c97b1d3` (2020-08-05, 169 columns). `34b22cb` also has
+  169 columns but differs from `c97b1d3` in `homosex`, `realinc`, and
+  `avoidbuy`.
+- `resampling` had a silent pandas 3 bug that Task 3 missed:
+  `fill_missing_values(gss[varname])` filled a copy, so all 405 missing
+  `age` and `educ` values stayed missing and statsmodels dropped those rows.
+  The function now returns the filled Series and the callers assign it.
+- `generation`: its `utils.py` link now uses `raw/v1/`. It called
+  `resample_rows_weighted(df, df['wtssall'])`, written for a 2020 `utils.py`
+  whose effective definition was `df.sample(..., weights=...)`; the current
+  one takes a column name and fails on float32 weights ("probabilities do not
+  sum to 1"). The cell now calls `df.sample` directly, which is what ran in
+  2020. `results = None` was commented out, so a fresh run failed with a
+  `NameError`.
+- The nine `inplace=True` calls left in `generation` are in a markdown
+  cell, so they never run.
+- `generation` takes about 13 minutes. Running the three notebooks writes
+  `gss_eda.hdf5` and eleven `generation*.png` figures; those are gitignored.
+- Edits were made with nbformat, not a jupytext round trip, which added
+  cell-metadata noise to these older notebooks. The recorded 2020 outputs are
+  kept: they come from the pinned data.
 
 ## Task 7: Pin the `GssExtract` source
 

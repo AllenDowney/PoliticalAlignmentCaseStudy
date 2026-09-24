@@ -123,3 +123,7 @@ GSS2024_*.pdf
 
 # editor backups
 *~
+
+# written by generation, resampling, and resampling2
+/gss_eda.hdf5
+/generation*.png
