@@ -2,12 +2,12 @@
 
 Snapshot 2026-09-24, on branch `v1`: `git status` lists 36 paths, of which 7
 are modified tracked files and 29 are untracked. This file proposes what to do
-with each one.
+with each one. It follows the EDS triage
+(`~/ElementsOfDataScience/planning/working_tree_triage.md`).
 
 **Done 2026-09-24.** Everything below was carried out as proposed, except as
 noted in the Outcome section at the end. What is left in `git status`: the
-`Makefile` (Task 8) and the seven limbo paths. It follows the EDS triage
-(`~/ElementsOfDataScience/planning/working_tree_triage.md`).
+`Makefile` (Task 8) and the seven limbo paths.
 
 Actions: **track** (commit it), **ignore** (add to `.gitignore`), **delete**,
 **restore** (`git restore`, discarding the local change), **limbo** (leave it
