@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# frames that 05_alignment writes for gss_alignment.gif
+alignment[0-9]*.jpg

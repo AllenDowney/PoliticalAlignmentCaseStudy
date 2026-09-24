@@ -23,7 +23,9 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 
 - **Done:** **Task 1** (`v1` is the default; `master` fast-forwarded and
   protected; `v1.0.1` tagged)
-- **Next:** Tasks 2 (CI), 3 (pandas 3), 4 (working tree)
+- **Done:** **Task 3** (pandas 3 fixes; refactor verified against pandas 2)
+- **In progress:** **Task 2** (CI pushed; waiting on the first run)
+- **Next:** Task 4 (working tree), Task 7 (the GssExtract source has changed)
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -88,28 +90,34 @@ tag the release and protect the branches the printed book depends on.
 
 ## Task 2: Revive CI
 
-**Status:** Not started.
+**Status:** In progress 2026-09-24. Workflow updated and re-enabled; see the
+first run.
 
 GitHub disabled the `tests` workflow for inactivity (`disabled_inactivity`),
 and it has no runs on record. It also triggers only on pushes to `master`,
 uses `actions/checkout@v2` and `setup-python@v2` (Node 20, deprecated), and
 tests Python 3.8.
 
-- [ ] Update `.github/workflows/tests.yml` to match EDS: actions v7, Python
+- [x] Update `.github/workflows/tests.yml` to match EDS: actions v7, Python
       3.13, Ubuntu, Windows, and macOS, `fail-fast: false`, `PYTHONUTF8=1`,
-      push on the working branch (Task 1), monthly schedule
-- [ ] Re-enable the workflow on GitHub
-- [ ] `make tests` runs `0[1234]*.ipynb`, with a comment that notebook 5
-      "won't run until Colab updates statsmodels". Recheck that after Task 3.
+      push on `v1`, monthly schedule
+- [ ] Re-enable the workflow on GitHub, and check the first run is green
+- [x] Notebook 5 passes under statsmodels 0.15.0, so `make tests` now runs
+      `0[2345]*.ipynb`. `01_clean` moved to `make tests-clean`, which runs a
+      copy in `build/clean/` (gitignored), because running it in place
+      rewrites both committed HDF files with data rebuilt from the changed
+      GssExtract source (Task 7). CI runs both targets.
+- [x] `05_alignment` writes `alignment1.jpg` to `alignment16.jpg` into the
+      repo root; added them to `.gitignore`.
 
 ## Task 3: pandas 3 fixes
 
-**Status:** Not started. Found 2026-09-24 by running the notebooks under
+**Status:** Done 2026-09-24 (`1f8ba92`). Found 2026-09-24 by running the notebooks under
 pandas 3.0.6 on a clean export of `origin/v1`: `02_polviews`,
 `02_polviews_soln`, `03_outlook`, and `04_worldview` pass; `01_clean` and
 `05_alignment` fail.
 
-- [ ] **Chained in-place calls do nothing under copy-on-write.** This covers
+- [x] **Chained in-place calls do nothing under copy-on-write.** This covers
       both `df['col'].replace(..., inplace=True)` and the attribute form
       `df.col.replace(..., inplace=True)`: 98 calls in
       `utils.gss_replace_invalid`, one in `utils.fill_missing`, and 22 in
@@ -120,18 +128,37 @@ pandas 3.0.6 on a clean export of `origin/v1`: `02_polviews`,
       rebuilding the data under pandas 3 would keep every missing-data code
       as a real answer. That happened to EDS's `clean_gss` (see EDS Task 19).
       Fix by assigning: `df['col'] = df['col'].replace(...)`.
-- [ ] **`to_hdf` key is keyword-only:** `01_clean` calls
+- [x] **`to_hdf` key is keyword-only:** `01_clean` calls
       `gss.to_hdf("gss_pacs_clean.hdf", "gss", "w", complevel=6)`, which raises
       a `TypeError`.
-- [ ] **NaN into a bool column raises:** `05_alignment` builds `questions`
+- [x] **NaN into a bool column raises:** `05_alignment` builds `questions`
       from `isin` (bool), then sets `questions.loc[null, varname] = np.nan`.
       pandas 3 raises `TypeError: Invalid value 'nan' for dtype 'bool'`.
       Cast to float first.
-- [ ] After fixing `01_clean`, rebuild both HDF files in a scratch copy and
+- [x] After fixing `01_clean`, rebuild both HDF files in a scratch copy and
       check they are identical to the committed ones (the EDS method), rather
       than overwriting them.
 
 Edit notebooks through jupytext (see `CLAUDE.md`).
+
+Results:
+
+- All 121 chained `inplace` calls now assign. `01_clean` also passes `key=`
+  and `mode=` to `to_hdf` by keyword, and a cell that removed
+  `gss_pacs_resampled.hdf` when it meant `gss_pacs_clean.hdf` is fixed.
+  `05_alignment` casts the `isin` result to float.
+- Refactor check: on the same `gss_pacs_2022.hdf`, the new `01_clean` under
+  pandas 3.0.6 and the old one under pandas 2.3.3 produce identical
+  `gss_pacs_clean.hdf` and identical `gss0`–`gss2`. The new
+  `gss_replace_invalid` and `fill_missing` under pandas 3 match the old ones
+  under pandas 2 on a synthetic frame (9,729 NaNs each; the old code under
+  pandas 3 produces 0). No notebook calls either function, so this was
+  checked directly.
+- Neither rebuild matches the committed HDF files, because the GssExtract
+  source has changed (Task 7). The committed files were not replaced.
+- `pytest --nbmake` passes for 01, 02, 02_soln, 03, 04, and 05 under
+  pandas 3.0.6 and Python 3.13. `01_clean` and `05_alignment` are committed
+  without outputs, and they were left that way.
 
 ## Task 4: Triage the working tree
 
@@ -171,6 +198,14 @@ same download to commit `34b22cb`, the last one that has the file. Check
 `01_clean` downloads `GssExtract/raw/main/data/interim/gss_pacs_2022.hdf`.
 A `main` link changes whenever GssExtract does, so rebuilding PACS data is not
 reproducible. Pin it to a commit or tag.
+
+Confirmed 2026-09-24 (Task 3): a rebuild from today's `main` differs from the
+committed `gss_pacs_clean.hdf` (2024-01-30) in 31 columns and from the
+uncommitted 2024-04-03 rebuild in 17. The income columns are on a different
+dollar basis, `reg16` code 9 is now 0, and `fund`, `hhrace`, and `reliten`
+have values that were missing before. Find the GssExtract commit that
+reproduces the committed files, and pin to it. Whether to move to the new
+data is a separate decision, and it gets its own commit.
 
 ## Task 8: Refresh `environment.yml`, `requirements.txt`, and the Makefile
 

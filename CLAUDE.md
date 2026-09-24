@@ -57,13 +57,13 @@ Edit `02_polviews_soln.ipynb`, not `02_polviews.ipynb`; `build.sh` regenerates t
 
 ## Traps
 
-pandas 3 (copy-on-write) makes chained in-place calls silent no-ops. That includes the attribute form: `df.age.replace([98, 99], np.nan, inplace=True)` leaves `df` unchanged, exactly like `df['age'].replace(..., inplace=True)`. Nothing raises, so tests don't catch it. `utils.gss_replace_invalid` is 98 such calls. Assign instead: `df['age'] = df['age'].replace(...)`. See Task 3.
+pandas 3 (copy-on-write) makes chained in-place calls silent no-ops. That includes the attribute form: `df.age.replace([98, 99], np.nan, inplace=True)` leaves `df` unchanged, exactly like `df['age'].replace(..., inplace=True)`. Nothing raises, so tests don't catch it. Task 3 removed them all; don't add new ones. Assign instead: `df['age'] = df['age'].replace(...)`.
 
 pandas 3 also makes the `key` of `to_hdf` keyword-only (`to_hdf(path, key="gss")`), and refuses to write NaN into a bool column (`05_alignment`).
 
 `build.sh` and `jb/build.sh` publish without asking. `build.sh` ends in `git commit` and `git push`, and `jb/build.sh` ends in `ghp-import -p`, which replaces the website. Don't run them as a way to test something.
 
-`make tests` covers notebooks 1–4 only. Notebook 5 was excluded pending a Colab statsmodels update; it now also fails under pandas 3, and so does `01_clean` (Task 3).
+`make tests` runs notebooks 2–5 against the committed data. `make tests-clean` runs `01_clean` in `build/clean/`. Don't run `01_clean` in the repo root: it rewrites both committed HDF files, and because the GssExtract source has changed since they were built (Task 7), a rebuild does not match them. `05_alignment` writes `alignment*.jpg` frames into the root; they are gitignored.
 
 `generation.ipynb` downloads `raw/master/gss_eda.hdf5`, which was deleted in 2022, so it can't run (Task 6).
 

@@ -2,10 +2,10 @@ name: tests
 
 on:
   push:
-    branches: [master]
+    branches: [v1]
   pull_request:
   schedule:
-    # Run monthly
+    # Run on the first of every month
     - cron: "0 0 1 * *"
   workflow_dispatch:
 
@@ -14,17 +14,27 @@ jobs:
     name: Tests (${{ matrix.os }}, Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
     strategy:
+      # Report every leg; one broken notebook should not hide the others.
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]  
-        python-version: [3.8]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.13"]
+
+    env:
+      # Windows defaults to cp1252 rather than UTF-8
+      PYTHONUTF8: "1"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
       - name: Install dependencies
         run: |
@@ -35,3 +45,8 @@ jobs:
         run: |
           make tests
 
+      # 01_clean downloads the source extract from GssExtract and rebuilds
+      # the data, in a copy under build/
+      - name: Run the cleaning notebook
+        run: |
+          make tests-clean

@@ -48,6 +48,13 @@ add_notebooks:
 	git add 0*.ipynb
 	git commit -m "Updating notebooks"
 
+## The notebooks that read the committed gss_pacs_resampled.hdf
 tests:
-	# notebook 5 won't run until Colab updates statsmodels
-	pytest --nbmake 0[1234]*.ipynb
+	pytest --nbmake 0[2345]*.ipynb
+
+## 01_clean downloads the GssExtract source and writes gss_pacs_clean.hdf and
+## gss_pacs_resampled.hdf into its working directory, so run it in a copy
+## under build/ to keep it from replacing the committed files.
+tests-clean:
+	python -c "import os, shutil; os.makedirs('build/clean', exist_ok=True); shutil.copy('01_clean.ipynb', 'build/clean')"
+	cd build/clean && pytest --nbmake 01_clean.ipynb
