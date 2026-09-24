@@ -1,0 +1,35 @@
+# Environment for running the Political Alignment Case Study notebooks
+# locally. Create it with:
+#     make create_environment      (mamba env create -f environment.yml)
+#     conda activate PoliticalAlignmentCaseStudy
+#
+# requirements.txt lists the same notebook dependencies for pip, and is what
+# CI installs; keep the two in step.
+
+name: PoliticalAlignmentCaseStudy
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.13
+  - jupyter
+
+  # used by the notebooks
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - statsmodels
+  - pytables          # read_hdf and to_hdf
+  - empiricaldist     # Pmf and Cdf
+
+  # make tests, and the jupytext round trip in CLAUDE.md
+  - pytest
+  - nbmake
+  - jupytext
+
+  # the website: jb/build.sh uses the Jupyter Book 1 CLI (jb build, _toc.yml)
+  - jupyter-book<2
+  - ghp-import

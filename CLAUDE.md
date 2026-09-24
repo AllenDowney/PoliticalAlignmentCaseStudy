@@ -65,4 +65,6 @@ pandas 3 also makes the `key` of `to_hdf` keyword-only (`to_hdf(path, key="gss")
 
 ## Environment
 
-For now, `requirements.txt` and `requirements-dev.txt`, installed with pip. Task 8 replaces them with an `environment.yml` like the one in `ElementsOfDataScience`.
+Locally, use `environment.yml` (conda-forge, Python 3.13): `make create_environment`, then `conda activate PoliticalAlignmentCaseStudy`; `make update_environment` after editing it. It includes the test tools, jupytext, and Jupyter Book 1 (`jupyter-book<2`: `jb/build.sh` uses the 1.x `jb build` CLI and `_toc.yml`, which Jupyter Book 2 dropped).
+
+CI installs `requirements-dev.txt` with pip, which pulls in `requirements.txt`. Keep `requirements.txt` and the notebook section of `environment.yml` in step. `statadict` is left out on purpose: only `utils.read_gss` imports it, and nothing calls that.

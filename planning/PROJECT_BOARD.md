@@ -32,7 +32,8 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
 - **Done:** **Task 5** (#1, #3, and PR #4 closed with comments; nothing open)
 - **Done:** **Task 6** (`generation`, `resampling`, `resampling2` pinned and
   running under pandas 3)
-- **Next:** Tasks 8, 9
+- **Done:** **Task 8** (`environment.yml`, Makefile, `requirements-dev.txt`)
+- **Next:** Task 9
 - **Quick wins:** Task 5 (stale issues and PR)
 - **Later:** Tasks 6–9
 
@@ -271,11 +272,30 @@ data is a separate decision, and it gets its own commit.
 
 ## Task 8: Refresh `environment.yml`, `requirements.txt`, and the Makefile
 
-**Status:** Not started.
+**Status:** Done 2026-09-24.
 
 The repo has `requirements.txt` and `requirements-dev.txt`, and an untracked
 `environment.yml~` (2019). Follow EDS Task 8: one `environment.yml` built
 from what the notebooks import, Python 3.13, and Makefile targets that use it.
+
+- [x] `environment.yml`: conda-forge, Python 3.13, the notebook libraries,
+      pytest, nbmake, jupytext, `jupyter-book<2`, and `ghp-import`. It solves
+      with mamba in under a minute (pandas 3.0.6, Jupyter Book 1.0.4), and
+      `make tests` and `make tests-clean` pass in it. The site builds from a
+      scratch copy (not published) with 4 warnings: `02_polviews`,
+      `05_alignment`, and `divorce` are copied in but not in `_toc.yml`, and
+      `confidence` has an empty cross-reference.
+- [x] `requirements.txt` unchanged: it already lists what the notebooks
+      import. `requirements-dev.txt` drops black and flake8 and adds jupytext.
+- [x] Makefile: environment targets as in EDS (`create_environment`,
+      `update_environment`, `delete_environment`, with `CONDA = mamba`),
+      plus the uncommitted edits it had. Dropped `lint` and `format` (they
+      pointed at a `pacs/` directory and a `pyproject.toml` that don't exist)
+      and `add_notebooks` (it called the deleted `scrub_code.py`; `build.sh`
+      does that job now).
+- [ ] Not done: EDS split build from publish (`build.sh`/`publish.sh`,
+      `make notebooks`/`make publish`). Here `build.sh` and `jb/build.sh`
+      still build and publish in one step. Worth doing before EDS v2 work.
 
 ## Task 9: Reconcile the README with `jb/index.md`
 
