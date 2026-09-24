@@ -48,8 +48,9 @@ Same cleanup as EDS `v1`, before PACS is reworked for EDS v2.
       matching the EDS tag.
 - [x] Checked: the eight printed `blob/master/` links for notebooks 1–4 and
       `raw/v1/gss_pacs_resampled.hdf` all return 200.
-- [ ] After Task 3, fast-forward `master` again (`git push origin v1:master`)
-      so the printed links get the pandas 3 fixes.
+- [x] After Task 3, fast-forwarded `master` again to `1e5a15e`, so the
+      printed links get the pandas 3 fixes. Repeat
+      (`git push origin v1:master`) after later fixes worth printing.
 
 Background, as written before the decision:
 
