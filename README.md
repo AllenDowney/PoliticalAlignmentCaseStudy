@@ -1,5 +1,9 @@
 # Political Alignment Case Study
 
+
+This is one of [my workshops and tutorials](https://allendowney.github.io/#workshops).
+
+
 This data science case study explores the relationship between political alignment (conservative, moderate, or liberal) and other attitudes and beliefs.  It is meant primarily for teaching and learning about data science, but we might do some research along the way.
 
 If you are working through [the *Elements of Data Science* curriculum](https://allendowney.github.io/ElementsOfDataScience/), you should be ready to start this case study when you have completed Notebook 7, which covers basic Pandas.
