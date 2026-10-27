@@ -25,10 +25,11 @@ dependencies:
   - pytables          # read_hdf and to_hdf
   - empiricaldist     # Pmf and Cdf
 
-  # make tests, and the jupytext round trip in CLAUDE.md
+  # make tests, make format, and the jupytext round trip in CLAUDE.md
   - pytest
   - nbmake
   - jupytext
+  - ruff
 
   # the website: jb/build.sh uses the Jupyter Book 1 CLI (jb build, _toc.yml)
   - jupyter-book<2

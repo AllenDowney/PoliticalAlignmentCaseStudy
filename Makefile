@@ -5,7 +5,7 @@ PYTHON_INTERPRETER = python
 ## what you have
 CONDA = mamba
 
-.PHONY: default create_environment update_environment delete_environment requirements clean tests tests-clean
+.PHONY: default create_environment update_environment delete_environment requirements clean tests tests-clean format
 
 default:
 	@echo "No command specified. Please specify a target."
@@ -40,3 +40,11 @@ tests-clean:
 	python -c "import os, shutil; os.makedirs('build/clean', exist_ok=True); shutil.copy('01_clean.ipynb', 'build/clean')"
 	cd build/clean && pytest --nbmake 01_clean.ipynb
 	python -c "import pandas as pd; [pd.testing.assert_frame_equal(pd.read_hdf('build/clean/' + f, k), pd.read_hdf(f, k)) for f, ks in [('gss_pacs_clean.hdf', ['gss']), ('gss_pacs_resampled.hdf', ['gss0', 'gss1', 'gss2'])] for k in ks]; print('rebuilt data match the committed files')"
+
+## Format the notebooks listed in ruff.toml, then list lines still over the
+## limit (strings and comments, which the formatter doesn't wrap). Afterwards,
+## regenerate 02_polviews.ipynb: cp 02_polviews_soln.ipynb 02_polviews.ipynb
+## && python remove_soln.py (build.sh does that too, but also pushes).
+format:
+	ruff format
+	ruff check --select E501 --output-format concise || true

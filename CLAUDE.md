@@ -50,6 +50,8 @@ jupyter nbconvert --to notebook --execute --inplace X.ipynb
 
 Edit `02_polviews_soln.ipynb`, not `02_polviews.ipynb`; `build.sh` regenerates the latter.
 
+After changing code in a notebook, run `make format`: Ruff's style at 60 columns (`ruff.toml`), the same as ElementsOfDataScience, where `02_polviews_soln` and `03_outlook` are chapters 14 and 15 and 60 columns is what fits in the PDF. Ruff doesn't wrap strings or comments; split long comments by hand. Then regenerate `02_polviews.ipynb` (see the `format` target).
+
 ## Traps
 
 pandas 3 (copy-on-write) makes chained in-place calls silent no-ops. That includes the attribute form: `df.age.replace([98, 99], np.nan, inplace=True)` leaves `df` unchanged, exactly like `df['age'].replace(..., inplace=True)`. Nothing raises, so tests don't catch it. Task 3 removed them all; don't add new ones. Assign instead: `df['age'] = df['age'].replace(...)`.

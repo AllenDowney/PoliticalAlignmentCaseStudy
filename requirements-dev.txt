@@ -2,3 +2,4 @@
 jupytext
 nbmake
 pytest
+ruff

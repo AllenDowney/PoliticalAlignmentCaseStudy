@@ -1,0 +1,18 @@
+# Code style for the notebooks: `make format`. Same settings as
+# ElementsOfDataScience, where chapters 14 and 15 come from 02_polviews_soln
+# and 03_outlook: 60 columns fit a code block in the book's PDF.
+# Strings and comments aren't wrapped; `make format` lists any still too long.
+
+# The maintained notebooks. 02_polviews.ipynb is generated from
+# 02_polviews_soln by build.sh; utils.py is downloaded by URL.
+include = [
+    "01_clean.ipynb",
+    "02_polviews_soln.ipynb",
+    "03_outlook.ipynb",
+    "04_worldview.ipynb",
+    "05_alignment.ipynb",
+]
+line-length = 60
+
+[format]
+quote-style = "preserve"
